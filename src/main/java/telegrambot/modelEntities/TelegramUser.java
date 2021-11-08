@@ -13,7 +13,8 @@ import javax.validation.constraints.NotBlank;
 
 @Component
 @Entity
-//Примечание: если вы не используете @Table, тогда hibernate считает, что @Entity является вашим именем таблицы по умолчанию
+//Примечание: если вы не используете @Table, тогда hibernate считает, что @Entity является вашим именем таблицы
+// по умолчанию
 @Table(name = "gift_owner")
 @Getter
 @Setter

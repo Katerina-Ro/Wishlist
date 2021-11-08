@@ -1,4 +1,4 @@
-package telegrambot.service.service;
+package telegrambot.service.service_needdelete;
 
 /**
  * Сервис для отправки сообщений через телеграм-бот

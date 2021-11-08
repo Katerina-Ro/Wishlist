@@ -4,6 +4,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.sql.SQLException;
+
 /**
  * Command interface для обработки команд телеграм-бота
  */
@@ -16,5 +18,5 @@ public interface Command {
      *
      * @param update provided {@link Update} object with all the needed data for command.
      */
-    SendMessage execute(Update update) throws TelegramApiException;
+    SendMessage execute(Update update) throws TelegramApiException, SQLException;
 }

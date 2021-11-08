@@ -1,9 +1,8 @@
-package telegrambot.service.service;
+package telegrambot.service.service_needdelete;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.service.BotConnect;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 

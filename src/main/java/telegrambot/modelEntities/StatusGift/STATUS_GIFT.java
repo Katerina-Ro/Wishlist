@@ -1,12 +1,12 @@
 package telegrambot.modelEntities.StatusGift;
 
 //@Component
-public enum StatusGift {
-    NOT_ACTIVE ("Неактивно"), ACTIVE ("Активно");
+public enum STATUS_GIFT {
+    NOT_ACTIVE (" "), ACTIVE ("U+2713");
 
     private final String statusGift;
 
-    StatusGift(String statusGift) {
+    STATUS_GIFT(String statusGift) {
         this.statusGift = statusGift;
     }
 

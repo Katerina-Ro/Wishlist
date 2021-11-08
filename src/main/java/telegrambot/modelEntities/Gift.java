@@ -3,7 +3,7 @@ package telegrambot.modelEntities;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import telegrambot.modelEntities.StatusGift.MappedEnum;
-import telegrambot.modelEntities.StatusGift.StatusGift;
+import telegrambot.modelEntities.StatusGift.STATUS_GIFT;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Component //("gift")
 @Entity
 @Table(name = "gift")
-@MappedEnum(enumClass =  StatusGift.class)
+@MappedEnum(enumClass =  STATUS_GIFT.class)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Gift extends AbstractIdGifPhoneNumberEntity {
@@ -20,17 +20,17 @@ public class Gift extends AbstractIdGifPhoneNumberEntity {
     @Column(name = "Gift_status_admin", nullable = false)
     @NotBlank
     @Enumerated(EnumType.STRING)
-    private StatusGift statusGiftAdmin;
+    private STATUS_GIFT statusGiftAdmin;
 
     @Column (name = "Gift_status_gift_owner", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotBlank
-    private StatusGift statusGiftOwn;
+    private STATUS_GIFT statusGiftOwn;
 
     @Column(name = "Gift_status_giving", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotBlank
-    private StatusGift statusGiftAnother;
+    private STATUS_GIFT statusGiftAnother;
 
     @Column (name = "Name_gift", nullable = false)
     @NotBlank
@@ -44,8 +44,8 @@ public class Gift extends AbstractIdGifPhoneNumberEntity {
     @NotBlank
     private String numberPhoneGiftOwner; */
 
-    @Column (name = "Phone_number_presenter")
-    private String numberPhonePresenter;
+    @Column (name = "chat_id_presenter")
+    private String chatIdPresenter;
 
     /*
      {
@@ -54,27 +54,27 @@ public class Gift extends AbstractIdGifPhoneNumberEntity {
         statusGiftAnother = StatusGift.ACTIVE;
     } */
 
-    public StatusGift getStatusGiftAdmin() {
+    public STATUS_GIFT getStatusGiftAdmin() {
         return statusGiftAdmin;
     }
 
-    public void setStatusGiftAdmin(StatusGift statusGiftAdmin) {
+    public void setStatusGiftAdmin(STATUS_GIFT statusGiftAdmin) {
         this.statusGiftAdmin = statusGiftAdmin;
     }
 
-    public StatusGift getStatusGiftOwn() {
+    public STATUS_GIFT getStatusGiftOwn() {
         return statusGiftOwn;
     }
 
-    public void setStatusGiftOwn(StatusGift statusGiftOwn) {
+    public void setStatusGiftOwn(STATUS_GIFT statusGiftOwn) {
         this.statusGiftOwn = statusGiftOwn;
     }
 
-    public StatusGift getStatusGiftAnother() {
+    public STATUS_GIFT getStatusGiftAnother(STATUS_GIFT notActive) {
         return statusGiftAnother;
     }
 
-    public void setStatusGiftAnother(StatusGift statusGiftAnother) {
+    public void setStatusGiftAnother(STATUS_GIFT statusGiftAnother) {
         this.statusGiftAnother = statusGiftAnother;
     }
 
@@ -103,11 +103,12 @@ public class Gift extends AbstractIdGifPhoneNumberEntity {
         this.numberPhoneGiftOwner = numberPhoneGiftOwner;
     } */
 
-    public String getNumberPhonePresenter() {
-        return numberPhonePresenter;
+    public String getChatIdPresenter() {
+        return chatIdPresenter;
     }
 
-    public void setNumberPhonePresenter(String numberPhonePresenter) {
-        this.numberPhonePresenter = numberPhonePresenter;
+    public void setChatIdPresenter(String chatIdPresenter) {
+        this.chatIdPresenter = chatIdPresenter;
     }
 }
+

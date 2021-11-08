@@ -6,10 +6,10 @@ public interface ChangeStatusGift {
     default void setStatusGiftAdmin () {
         Gift gift = new Gift();
         //нажимает на кнопку ("сделать неактивным" или что-то наподобие - функция Hundler, вроде бы, нужно ее реализовтаь отдельно)
-        if (gift.getStatusGiftAdmin()== StatusGift.ACTIVE) {
-            gift.setStatusGiftAdmin(StatusGift.NOT_ACTIVE);
+        if (gift.getStatusGiftAdmin()== STATUS_GIFT.ACTIVE) {
+            gift.setStatusGiftAdmin(STATUS_GIFT.NOT_ACTIVE);
             //    gift.setStatusGiftOwn(StatusGift.NOT_ACTIVE);
-            System.out.println("Статус подарка " + StatusGift.NOT_ACTIVE.getStatusGift());
+            System.out.println("Статус подарка " + STATUS_GIFT.NOT_ACTIVE.getStatusGift());
         }
     }
 

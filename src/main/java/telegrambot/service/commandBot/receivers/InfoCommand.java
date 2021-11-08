@@ -6,12 +6,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.service.BotConnect;
-import telegrambot.service.service.SendBotMessageService;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.utils.CommandUtils;
-import telegrambot.service.utils.KeyboardMenu;
-
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import telegrambot.service.commandBot.utils.CommandUtils;
+import telegrambot.service.commandBot.receivers.keyboard.KeyboardMenu;
 
 /**
  * Класс-Receiver команды "/info" {@link Command}
@@ -20,12 +17,10 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class InfoCommand implements Command{
 
     private final BotConnect botConnect;
-    private final SendBotMessageService sendBotMessageService;
-    private String INFO_MESSAGE = "Это инструкция INFO " + new String(Character.toChars(0x1F4D7));
+    private final String INFO_MESSAGE = "Это инструкция INFO " + new String(Character.toChars(0x1F4D7));
 
     @Autowired
-    public InfoCommand(SendBotMessageService sendBotMessageService, BotConnect botConnect) {
-        this.sendBotMessageService = sendBotMessageService;
+    public InfoCommand(BotConnect botConnect) {
         this.botConnect = botConnect;
     }
 
@@ -40,14 +35,14 @@ public class InfoCommand implements Command{
             StringUtils.isBlank(" ") = true
             StringUtils.isEmpty(" ") = false
          */
-        if (isBlank(update.getMessage().getText())) return null;
+        //if (isBlank(update.getMessage().getText())) return null;
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId.toString());
         sendMessage.enableHtml(true);
         sendMessage.setText(INFO_MESSAGE);
         sendMessage.setReplyMarkup(KeyboardMenu.getKeyBoardMenu());
-        botConnect.execute(sendMessage);
+        //botConnect.execute(sendMessage);
         return sendMessage;
     }
 }

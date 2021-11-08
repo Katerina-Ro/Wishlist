@@ -3,23 +3,29 @@ package telegrambot.service;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
 
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import telegrambot.service.commandBot.receivers.BotCommandReceiver;
+import telegrambot.service.commandBot.Command;
 
 /**
  * Класс для соединения с ботом
  */
-@Component
+@Service
 @PropertySource(value = "classpath:botsecret.properties")
 @Getter
 @Setter
 public class BotConnect extends TelegramLongPollingBot {
+
+    @Autowired
+    @Qualifier("startCommand")
+    private final Command action;
 
     @Value("${bot.name}")
     private String botUsername;
@@ -27,13 +33,20 @@ public class BotConnect extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String botToken;
 
+    public BotConnect(Command action) {
+        this.action = action;
+    }
+
     /*
-    Аннотация @SneakyThrows может быть использована для бросания проверяемых исключений без их объявления в throws метода.
+    Аннотация @SneakyThrows может быть использована для бросания проверяемых исключений без их объявления
+    в throws метода.
      */
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        new BotCommandReceiver().getCommandResponse(update);
+        action.execute(update);
+
+        //new BotCommandReceiver().getCommandResponse(update);
 
         /*получаем какое-то обновление из телеграммбота. Если это обновление является сообщением и является текстовым
          сообщением, то получаем этот текст и получаем идентификатор чата

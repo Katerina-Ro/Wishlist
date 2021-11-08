@@ -1,4 +1,4 @@
-package telegrambot.service.utils;
+package telegrambot.service.commandBot.utils;
 
 public enum COMMANDS {
     INFO("/info"),
@@ -12,6 +12,7 @@ public enum COMMANDS {
     MORE_DETAILS ("/Подробнее"),
     BACK ("/Назад"),
     CHOOSE ("/Выбрать"),
+    DELETE ("/Удалить");
 
 
     private String command;

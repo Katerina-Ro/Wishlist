@@ -6,10 +6,17 @@ import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import telegrambot.modelEntities.Gift;
 import telegrambot.modelEntities.StatusGift.ChangeGiftStatus;
+import telegrambot.modelEntities.StatusGift.STATUS_GIFT;
 import telegrambot.repository.util.TelegramRepositoryUtil;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@Repository
 @Getter
 public class GiftRepositoryImpl implements GiftRepository{
 
@@ -38,9 +45,9 @@ public class GiftRepositoryImpl implements GiftRepository{
     }
 
     @Override
-    public void createGift(String name, String nameGift, long chat_id, String webLink, String comment, String giftStatus) {
+    public void createGift(String name, String nameGift, long chat_id, String webLink, String comment, boolean giftStatus) {
         String sqlInsertGift = "INSERT into gift (Gift_status_gift_owner, Name_gift, Product_description, " +
-                "Phone_number_owner) VALUES ('" + giftStatus.trim() + "','" + nameGift.trim() + "','" + comment.trim()
+                "Phone_number_owner) VALUES ('" + giftStatus + "','" + nameGift.trim() + "','" + comment.trim()
                 + "','" + chat_id + "')";
         if (!telegramRepositoryUtil.checkChat_id(chat_id)) {
             telegramUserRepository.createPerson(name.trim(), chat_id);
@@ -70,26 +77,36 @@ public class GiftRepositoryImpl implements GiftRepository{
     }
 
     @Override
-    public void updateStatusGift(long chat_idPresenter, int idGift, long chat_idGigtOwner){
+    public String updateStatusAnotherGift(long chat_idPresenter, int idGift, long chat_idGigtOwner){
+        String statusGift = STATUS_GIFT.NOT_ACTIVE.getStatusGift();
         giftCurrent.setId(idGift);
-        new ChangeGiftStatus().setStatusGiftAnother(giftCurrent);
+        statusGift = new ChangeGiftStatus().setStatusGiftAnother(giftCurrent);
 
         String sqlUpdateStatusGift = "UPDATE gift SET Gift_status_giving = '" +
-                giftCurrent.getStatusGiftAnother().getStatusGift() + "', chat_id_presenter = '"
+                giftCurrent.getStatusGiftAnother(STATUS_GIFT.NOT_ACTIVE).getStatusGift() + "', chat_id_presenter = '"
                 + chat_idPresenter +"' WHERE Number = '" + idGift + "' AND chat_id_owner = '"
                 + chat_idGigtOwner + "'";
         session.createSQLQuery(sqlUpdateStatusGift);
 
+        return statusGift;
     // Для меня: Внести метод на изменение статуса своего подарка
     }
 
     @Override
-    public void getInfoGift(long chat_id) {
+    public Collection<Gift> getInfoGift(long chat_id) {
+        List<Gift> giftList = new ArrayList<>();
+        Gift gift = new Gift();
         String sqlSelectGifts = "SELECT Name_gift FROM gift WHERE chat_id_owner = '" + chat_id + "'";
         ScrollableResults resultSelectGifts = session.createSQLQuery(sqlSelectGifts).scroll();
         while (resultSelectGifts.next()){
-            System.out.println(resultSelectGifts.getString(5));
+            gift.setNameGift(resultSelectGifts.getString(5));
+            gift.setCommentGift(resultSelectGifts.getString(6));
+            gift.setStatusGiftOwn(STATUS_GIFT.valueOf(resultSelectGifts.getString(3)));
+            gift.setStatusGiftAnother(STATUS_GIFT.valueOf(resultSelectGifts.getString(4)));
+            giftList.add(gift);
+            //System.out.println(resultSelectGifts.getString(5));
         }
+        return giftList;
     }
 
     @Override
