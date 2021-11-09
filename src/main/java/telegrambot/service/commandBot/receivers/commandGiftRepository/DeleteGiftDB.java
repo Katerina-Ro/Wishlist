@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.repository.GiftRepository;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.utils.CommandUtils;
+import telegrambot.service.commandBot.receivers.utils.CommandUtils;
 
 import java.sql.SQLException;
 

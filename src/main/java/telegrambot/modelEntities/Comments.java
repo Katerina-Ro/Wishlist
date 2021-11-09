@@ -5,16 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "comments")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries(
+        @NamedQuery(name = " ", query = "INSERT into comments (Comments, idGift, chat_id_commentator) " +
+                "VALUES (:Comments, :idGift, :chat_id_commentator)")
+)
 public class Comments extends AbstractIdGifPhoneNumberEntity{
 
     @Id
@@ -24,4 +25,14 @@ public class Comments extends AbstractIdGifPhoneNumberEntity{
     @Column (name = "Comments")
     @Setter
     private String comment;
+
+    @Column (name = "idGift")
+    @Setter
+    @OneToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name="Number")
+    private Gift gift;
+
+    @Column (name = "chat_id_commentator")
+    @Setter
+    private String commentatorName;
 }

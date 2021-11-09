@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import telegrambot.modelEntities.StatusGift.StatusGift;
+import telegrambot.modelEntities.StatusGift.STATUS_GIFT;
 import telegrambot.repository.GiftRepository;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.utils.CommandUtils;
+import telegrambot.service.commandBot.receivers.utils.CommandUtils;
 
 import java.sql.SQLException;
 
@@ -22,7 +22,7 @@ public class UpdateStatusGift implements Command {
     private long chat_idPresenter;
     private int idGift;
     private long chat_idGigtOwner;
-    private StatusGift statusGift;
+    private STATUS_GIFT statusGift;
     private String nameWish;
 
     @Autowired
@@ -54,7 +54,7 @@ public class UpdateStatusGift implements Command {
         sendMessage.setChatId(chatId.toString());
         sendMessage.enableHtml(true);
 
-        statusGift = giftRepository.updateStatusAnotherGift(chatId,idGift,chat_idGigtOwner);
+        //statusGift = giftRepository.updateStatusAnotherGift(chatId,idGift,chat_idGigtOwner);
         sendMessage.setText(UPDATE_STATUS_GIFT);
         return sendMessage;
     }

@@ -1,28 +1,39 @@
 package telegrambot.repository;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import telegrambot.modelEntities.WebLinks;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * {@link Repository} для работы с сущностью {@link telegrambot.modelEntities.WebLinks}
  */
 @Repository
-public interface WebLinksRepository {
+public interface WebLinksRepository extends CrudRepository<WebLinks, Integer> {
 
-    /**
-     * Получаем конкретную веб-ссылку
-     * @idLinks номер ссылки, которую нужно получить
-     * @return веб-ссылку
-     */
-    String getWeblink(int idLinks);
+    <S extends WebLinks> S save(S s);
 
-    /**
-     * Получаем список всех веб-ссылок, привязанных к конкретному пожеланию
-     * @nameGift наименование подарка, к которому нужно получить список веб-ссылок
-     * @nameGiftOwner имя владельца подарка
-     *@return список веб-ссылок
-     */
-    List<WebLinks> getListWeblinks(String nameGift, String nameGiftOwner);
+    <S extends WebLinks> Iterable<S> saveAll(Iterable<S> iterable);
+
+    @Query(name = "findLinksWithId")
+    Optional<WebLinks> findById(Integer integer);
+
+    boolean existsById(Integer integer);
+
+    @Query(name = "findAllLinks")
+    Iterable<WebLinks> findAll();
+
+    Iterable<WebLinks> findAllById(Iterable<Integer> iterable);
+
+    long count();
+
+    void deleteById(Integer integer);
+
+    void delete(WebLinks webLinks);
+
+    void deleteAll(Iterable<? extends WebLinks> iterable);
+
+    void deleteAll();
 }

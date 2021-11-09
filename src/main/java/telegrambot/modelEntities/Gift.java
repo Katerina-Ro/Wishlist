@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 
 @Component //("gift")
 @Entity
@@ -46,6 +47,13 @@ public class Gift extends AbstractIdGifPhoneNumberEntity {
 
     @Column (name = "chat_id_presenter")
     private String chatIdPresenter;
+
+    @ManyToMany
+    @JoinTable(name="gift_links",
+            joinColumns = @JoinColumn(name="gift_id", referencedColumnName="number"),
+            inverseJoinColumns = @JoinColumn(name="links_id", referencedColumnName="idLinks")
+    )
+    private Collection<WebLinks> linksList;
 
     /*
      {

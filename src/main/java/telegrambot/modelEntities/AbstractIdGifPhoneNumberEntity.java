@@ -36,10 +36,11 @@ public abstract class AbstractIdGifPhoneNumberEntity implements Serializable {
                   // (например, MySQL), поскольку он отключает пакетное обновление JDBC.
     protected Integer id; // аналог giftId и number
 
+    /*
     @Column(name = "chat_id", unique = true, nullable = false)
     @NotBlank // @NotBlank применяется только к строкам и проверяет, что строка не пуста.
     //@NotNull применяется к CharSequence, Collection, Map или Array и проверяет, что объект не равен null. Но при этом он может быть пуст.
     //@NotEmpty применяется к CharSequence, Collection, Map или Array и проверяет, что он не null имеет размер больше 0.
     //Аннотация @Size(min=6) пропустит строку состоящую из 6 пробелов и/или символов переноса строки, а @NotBlank не пропустит.
-    protected String chatId;
+    protected long chatId; */
 }

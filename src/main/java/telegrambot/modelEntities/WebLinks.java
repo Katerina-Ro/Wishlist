@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /*
 @Entity c Hibernate 4+ устарела. Вместо этого вы должны использовать @DynamicUpdate, но здесь возникают сложности с
@@ -18,6 +19,11 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "findAllLinks", query = "SELECT w FROM WebLinks w"),
+        @NamedQuery(name = "findLinksWithName", query = "SELECT w FROM WebLinks w WHERE w.web_link = :web_link"),
+        @NamedQuery(name = "findLinksWithId", query = "SELECT w FROM WebLinks w WHERE w.idLinks = :idLinks")
+})
 public class WebLinks extends AbstractIdGifPhoneNumberEntity {
 
     @Id
@@ -32,9 +38,15 @@ public class WebLinks extends AbstractIdGifPhoneNumberEntity {
 
     @Column (name = "Weblink")
     @Setter
-    private String uri_link;
+    private String web_link;
 
     @Column (name = "chat_id_owner")
     @Setter
-    private String chat_id_owner;
+    @ManyToMany (fetch = FetchType.LAZY, mappedBy = "links")
+    private Collection<TelegramUser> telegramUser;
+
+    @Column (name = "idGift")
+    @Setter
+    @ManyToMany (fetch = FetchType.LAZY, mappedBy = "links")
+    private Collection<Gift> gift;
 }

@@ -6,8 +6,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.utils.CommandUtils;
-import telegrambot.service.commandBot.receivers.keyboard.KeyboardMenu;
+import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
+import telegrambot.service.commandBot.receivers.utils.CommandUtils;
 
 /**
  * Класс-Receiver команды "/start" {@link Command}
@@ -24,24 +24,14 @@ public class StartCommand implements Command{
             "Нажимай кнопку 'Добавить пожелание', чтобы написать свое пожелание, " +
            "либо через 'Список подарков' выбери подарок для конкретного человека.";
 
-    /*
-   @Autowired
-    public StartCommand(SendBotMessageService sendBotMessageService, BotConnect botConnect) {
-       this.sendBotMessageService = sendBotMessageService;
-       this.botConnect = botConnect;
-    } */
-
     @Override
     public SendMessage execute(Update update) throws TelegramApiException {
         Long chatId = CommandUtils.getChatId(update);
-
-        //if (isBlank(update.getMessage().getText())) return null;
-
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId.toString());
         sendMessage.enableHtml(true);
         sendMessage.setText(START_MESSAGE);
-        sendMessage.setReplyMarkup(KeyboardMenu.getKeyBoardMenu());
+        sendMessage.setReplyMarkup(Buttons.getKeyBoardStartMenu());
         //botConnect.execute(sendMessage);
         return sendMessage;
     }

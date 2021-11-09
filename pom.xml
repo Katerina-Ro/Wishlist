@@ -48,11 +48,7 @@
             <version>2.2.4.RELEASE</version>
         </dependency>
 
-        <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-core</artifactId>
-        <version>5.5.7.Final</version> <!--3.6.10.Final -->
-        </dependency>
+
 
         <dependency>
             <groupId>commons-dbcp</groupId>

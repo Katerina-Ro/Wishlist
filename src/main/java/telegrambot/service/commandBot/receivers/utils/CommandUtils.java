@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.utils;
+package telegrambot.service.commandBot.receivers.utils;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 

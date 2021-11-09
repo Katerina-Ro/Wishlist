@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Getter
 public class CommentsRepositoryImpl implements CommentsRepository{
 
+
+
+    /*
     private Session session;
 
     @Autowired
@@ -41,5 +44,5 @@ public class CommentsRepositoryImpl implements CommentsRepository{
         //Для меня: Заменить парамет if на кнопку "Да" из бота
         session.createSQLQuery(sqlDeleteOwnComment);
         System.out.println("Ваш комментарий удален");
-    }
+    } */
 }

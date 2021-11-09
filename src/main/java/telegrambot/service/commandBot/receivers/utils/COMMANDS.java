@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.utils;
+package telegrambot.service.commandBot.receivers.utils;
 
 public enum COMMANDS {
     INFO("/info"),
@@ -12,10 +12,12 @@ public enum COMMANDS {
     MORE_DETAILS ("/Подробнее"),
     BACK ("/Назад"),
     CHOOSE ("/Выбрать"),
-    DELETE ("/Удалить");
+    DELETE ("/Удалить"),
+    NAME_GIFT("/ "),
+    STATE (" "),
+    STATE_DB ("/Активно");
 
-
-    private String command;
+    private final String command;
 
     COMMANDS (String command) {
         this.command = command;

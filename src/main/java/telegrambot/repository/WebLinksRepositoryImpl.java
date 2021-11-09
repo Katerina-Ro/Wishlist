@@ -7,26 +7,75 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import telegrambot.modelEntities.WebLinks;
 import telegrambot.repository.util.TelegramRepositoryUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
-public class WebLinksRepositoryImpl implements WebLinksRepository{
-
-    @Autowired
-    @Setter
-    private TelegramRepositoryUtil telegramRepositoryUtil;
-
-    private Session session;
-
-    @Autowired
-    public Session setSession (SessionFactory sessionFactory) {
-        assert sessionFactory != null;
-        return this.session = sessionFactory.getCurrentSession();
+public class WebLinksRepositoryImpl implements WebLinksRepository {
+    @Override
+    public <S extends WebLinks> S save(S s) {
+        return null;
     }
+
+    @Override
+    public <S extends WebLinks> Iterable<S> saveAll(Iterable<S> iterable) {
+        return null;
+    }
+
+    @Override
+    public Optional<WebLinks> findById(Integer integer) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsById(Integer integer) {
+        return false;
+    }
+
+    @Override
+    public Iterable<WebLinks> findAll() {
+        return null;
+    }
+
+    @Override
+    public Iterable<WebLinks> findAllById(Iterable<Integer> iterable) {
+        return null;
+    }
+
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    @Override
+    public void deleteById(Integer integer) {
+
+    }
+
+    @Override
+    public void delete(WebLinks webLinks) {
+
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends WebLinks> iterable) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+
+    /*
+
 
     @Override
     public String getWeblink(int idLinks) {
@@ -52,5 +101,5 @@ public class WebLinksRepositoryImpl implements WebLinksRepository{
             listWebLinks.add(weblink);
         }
         return listWebLinks;
-    }
+    } */
 }

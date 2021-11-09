@@ -12,6 +12,7 @@ import telegrambot.modelEntities.StatusGift.ChangeGiftStatus;
 import telegrambot.modelEntities.StatusGift.STATUS_GIFT;
 import telegrambot.repository.util.TelegramRepositoryUtil;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,12 +21,7 @@ import java.util.List;
 @Getter
 public class GiftRepositoryImpl implements GiftRepository{
 
-    @Autowired
-    @Setter
-    private TelegramUserRepositoryImpl telegramUserRepository;
-
-    @Autowired
-    @Setter
+    private TelegramUserRepository telegramUserRepository;
     private TelegramRepositoryUtil telegramRepositoryUtil;
 
     @Autowired
@@ -36,16 +32,32 @@ public class GiftRepositoryImpl implements GiftRepository{
     @Setter
     private ChangeGiftStatus changeGiftStatus;
 
-    private Session session;
+    private final Session session;
 
     @Autowired
+    public GiftRepositoryImpl(SessionFactory sessionFactory) {
+        this.session = sessionFactory.getCurrentSession();
+    }
+
+    /*
+    @Autowired
     public Session setSession (SessionFactory sessionFactory) {
-        assert sessionFactory != null;
+        //assert sessionFactory != null;
         return this.session = sessionFactory.getCurrentSession();
+    } */
+
+    @Autowired
+    public void setTelegramUserRepository(TelegramUserRepository telegramUserRepository) {
+        this.telegramUserRepository = telegramUserRepository;
+    }
+
+    @Autowired
+    public void setTelegramRepositoryUtil(TelegramRepositoryUtil telegramRepositoryUtil) {
+        this.telegramRepositoryUtil = telegramRepositoryUtil;
     }
 
     @Override
-    public void createGift(String name, String nameGift, long chat_id, String webLink, String comment, boolean giftStatus) {
+    public void createGift(String name, String nameGift, long chat_id, String webLink, String comment, boolean giftStatus) throws SQLException {
         String sqlInsertGift = "INSERT into gift (Gift_status_gift_owner, Name_gift, Product_description, " +
                 "Phone_number_owner) VALUES ('" + giftStatus + "','" + nameGift.trim() + "','" + comment.trim()
                 + "','" + chat_id + "')";
@@ -78,9 +90,9 @@ public class GiftRepositoryImpl implements GiftRepository{
 
     @Override
     public String updateStatusAnotherGift(long chat_idPresenter, int idGift, long chat_idGigtOwner){
-        String statusGift = STATUS_GIFT.NOT_ACTIVE.getStatusGift();
+        String statusGift;
         giftCurrent.setId(idGift);
-        statusGift = new ChangeGiftStatus().setStatusGiftAnother(giftCurrent);
+        statusGift = new ChangeGiftStatus().changeStatusGiftAnother(giftCurrent);
 
         String sqlUpdateStatusGift = "UPDATE gift SET Gift_status_giving = '" +
                 giftCurrent.getStatusGiftAnother(STATUS_GIFT.NOT_ACTIVE).getStatusGift() + "', chat_id_presenter = '"
