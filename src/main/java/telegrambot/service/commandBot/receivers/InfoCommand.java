@@ -1,11 +1,11 @@
 package telegrambot.service.commandBot.receivers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import telegrambot.service.BotConnect;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
 import telegrambot.service.commandBot.receivers.utils.CommandUtils;
@@ -14,32 +14,19 @@ import telegrambot.service.commandBot.receivers.utils.CommandUtils;
  * Класс-Receiver команды "/info" {@link Command}
  */
 @Service
-public class InfoCommand implements Command{
+@Getter
+public class InfoCommand{
 
-    private final BotConnect botConnect;
     private final String INFO_MESSAGE = "Это инструкция INFO " + new String(Character.toChars(0x1F4D7));
 
-    @Autowired
-    public InfoCommand(BotConnect botConnect) {
-        this.botConnect = botConnect;
-    }
 
-    @Override
-    public SendMessage execute(Update update) throws TelegramApiException {
-        /* https://ru.stackoverflow.com/questions/712136/%D0%92-%D1%87%D1%91%D0%BC-%D0%BE%D1%82%D0%BB%D0%B8%D1%87%D0%B8%D0%B5-isblank-vs-isempty
-        В чём отличие isBlank vs isEmpty?
-        Т.е. разница в проверке пробела:
-            StringUtils.isBlank(" ") = true
-            StringUtils.isEmpty(" ") = false
-         */
-        //if (isBlank(update.getMessage().getText())) return null;
-
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(CommandUtils.getChatId(update).toString());
-        sendMessage.enableHtml(true);
-        sendMessage.setText(INFO_MESSAGE);
-        sendMessage.setReplyMarkup(Buttons.getKeyBoardStartMenu());
-        //botConnect.execute(sendMessage);
-        return sendMessage;
+    public EditMessageText execute(long chat_id, long message_id) throws TelegramApiException {
+        EditMessageText new_message = new EditMessageText()
+                .setChatId(chat_id)
+                .setMessageId((int) message_id)
+                .setText(INFO_MESSAGE);
+        new_message.enableHtml(true);
+        new_message.setReplyMarkup(Buttons.getKeyBoardStartMenu());
+        return new_message;
     }
 }

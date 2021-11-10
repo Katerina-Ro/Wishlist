@@ -1,38 +1,12 @@
 package telegrambot.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.sql.SQLException;
+import telegrambot.entities.Comments;
 
 /**
- * {@link Repository} для работы с сущностью {@link telegrambot.modelEntities.Comments}
+ * {@link Repository} для работы с сущностью {@link telegrambot.entities.Comments}
  */
 @Repository
-public interface CommentsRepository {
-
-    /**
-     * Вносим комментарий к подарку
-     * @param chat_id - номер chat_id комментатора
-     * @param comment - комментарий
-     * @param idGift - номер подарка, который комментируем
-     * @throws SQLException - если нет соединения с БД, то будет выброшено исключение
-     */
-    void createComment (long chat_id, String comment, int idGift) throws SQLException;
-
-    /**
-     * Изменяем (обновляем) комментарий к подарку
-     * @param chat_id - номер chat_id комментатора
-     * @param comment - комментарий
-     * @param idGift - номер подарка, который комментируем
-     * @throws SQLException - если нет соединения с БД, то будет выброшено исключение
-     */
-    void upDateComment (long chat_id, String comment, int idGift) throws SQLException;
-
-    /**
-     * Владелец подарка может удалить свой комментарий к нему
-     * @param chat_id - номер chat_id владельца подарка
-     * @param idGift - номер подарка
-     * @throws SQLException - если нет соединения с БД, то будет выброшено исключение
-     */
-    void deleteComment (long chat_id, int idGift) throws SQLException;
+public interface CommentsRepository extends JpaRepository<Comments,Integer > {
 }

@@ -1,4 +1,4 @@
-package telegrambot.modelEntities.StatusGift;
+package telegrambot.entities.StatusGift;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

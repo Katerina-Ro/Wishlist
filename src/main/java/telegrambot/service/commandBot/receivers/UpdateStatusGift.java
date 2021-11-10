@@ -1,17 +1,16 @@
-package telegrambot.service.commandBot.receivers.commandGiftRepository;
+package telegrambot.service.commandBot.receivers;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import telegrambot.modelEntities.StatusGift.STATUS_GIFT;
+import telegrambot.entities.StatusGift.STATUS_GIFT;
 import telegrambot.repository.GiftRepository;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CommandUtils;
-
-import java.sql.SQLException;
 
 @Service
 @Getter
@@ -47,15 +46,9 @@ public class UpdateStatusGift implements Command {
         this.nameWish = nameWish;
     }
 
-    @Override
-    public SendMessage execute(Update update) throws TelegramApiException, SQLException {
-        Long chatId = CommandUtils.getChatId(update);
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId.toString());
-        sendMessage.enableHtml(true);
 
-        //statusGift = giftRepository.updateStatusAnotherGift(chatId,idGift,chat_idGigtOwner);
-        sendMessage.setText(UPDATE_STATUS_GIFT);
-        return sendMessage;
+    @Override
+    public EditMessageText execute(long chat_id, long message_id) throws TelegramApiException {
+        return null;
     }
 }

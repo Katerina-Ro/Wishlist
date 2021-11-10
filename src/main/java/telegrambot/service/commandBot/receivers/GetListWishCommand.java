@@ -2,6 +2,7 @@ package telegrambot.service.commandBot.receivers;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
@@ -13,19 +14,18 @@ public class GetListWishCommand implements Command {
             "человека?";
 
     @Override
-    public SendMessage execute(Update update) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(CommandUtils.getChatId(update).toString());
-        sendMessage.enableHtml(true);
-        sendMessage.setText(MESSAGE_GET_LIST_WISH);
-        sendMessage.setReplyMarkup(Buttons.getKeyBoardStartMenu());
-        //botConnect.execute(sendMessage);
+    public EditMessageText execute(long chat_id, long message_id) {
+        return null;
+    }
+
+
+
 
         /* тут кнопки
         Выдает 5 столбец построчно (каждое ФИ как отдельная кнопка для выбора либо выделить ФИ)
         Здесть кнокпи: Выбрать , Назад
          */
 
-        return sendMessage;
-    }
+
+
 }

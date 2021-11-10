@@ -1,7 +1,7 @@
 package telegrambot.service.commandBot.receivers.utils;
 
 public enum COMMANDS {
-    INFO("/info"),
+    INFO("О чем канал?"),
     START("/start"),
     ADD_WISH ("/Добавить пожелание"),
     WISHLIST ("/Список подарков"),

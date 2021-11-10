@@ -11,11 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BotWishList {
     public static void main(String[] args) {
 
-/*
+
         ApiContextInitializer.init();
-        SpringApplication.run(BotWishList.class, args);*/
-        ApplicationContext context =
+        SpringApplication.run(BotWishList.class, args);
+
+        /*ApplicationContext context =
                 new AnnotationConfigApplicationContext("telegrambot");
-        System.out.println(context.getBean("dataSource"));
+        System.out.println(context.getBean("dataSource"));*/
     }
 }

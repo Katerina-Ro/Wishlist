@@ -18,10 +18,17 @@ public class MakerInlineKeyboardMarkup {
      */
     public static InlineKeyboardMarkup get2x1InlineKeyboardMarkup(InlineKeyboardButton keyboardButtonRow1,
                                                            InlineKeyboardButton keyboardButtonRow2) {
+        return getInlineKeyboardMarkup(keyboardButtonRow1, keyboardButtonRow2,
+                makeListInlineKeyboardButton(keyboardButtonRow1, keyboardButtonRow2));
+    }
+
+    private static InlineKeyboardMarkup getInlineKeyboardMarkup(InlineKeyboardButton keyboardButtonRow1,
+                                                                InlineKeyboardButton keyboardButtonRow2,
+                                                                List<InlineKeyboardButton> inlineKeyboardButtons) {
         InlineKeyboardMarkup inlineKeyboardMarkup1 = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         keyboardButtons.add(makeListInlineKeyboardButton(keyboardButtonRow1, keyboardButtonRow2));
-        keyboardButtons.add(makeListInlineKeyboardButton(keyboardButtonRow1, keyboardButtonRow2));
+        keyboardButtons.add(inlineKeyboardButtons);
         inlineKeyboardMarkup1.setKeyboard(keyboardButtons);
         return inlineKeyboardMarkup1;
     }
@@ -36,12 +43,8 @@ public class MakerInlineKeyboardMarkup {
                                                            InlineKeyboardButton keyboardButtonRow2,
                                                            InlineKeyboardButton keyboardButtonRow3,
                                                            InlineKeyboardButton keyboardButtonRow4) {
-        InlineKeyboardMarkup inlineKeyboardMarkup2 = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
-        keyboardButtons.add(makeListInlineKeyboardButton(keyboardButtonRow1, keyboardButtonRow2));
-        keyboardButtons.add(makeListInlineKeyboardButton(keyboardButtonRow3, keyboardButtonRow4));
-        inlineKeyboardMarkup2.setKeyboard(keyboardButtons);
-        return inlineKeyboardMarkup2;
+        return getInlineKeyboardMarkup(keyboardButtonRow1, keyboardButtonRow2,
+                makeListInlineKeyboardButton(keyboardButtonRow3, keyboardButtonRow4));
     }
 
     /**
@@ -69,8 +72,9 @@ public class MakerInlineKeyboardMarkup {
      * @param keyboardButtonRow2 - ряд кнопок, подгружаемый из БД
      * @return возвращается клавиатура кнопок, размер которой зависит от количества подарков
      */
-    public static InlineKeyboardMarkup get2x2InlineKeyboardMarkup(Collection<InlineKeyboardButton> keyboardButtonRow1,
-                                                           Collection<InlineKeyboardButton> keyboardButtonRow2) {
+    public static InlineKeyboardMarkup get2x2InlineKeyboardMarkup(Collection<InlineKeyboardButton>
+                                                                          keyboardButtonRow1,
+                                                           Collection<InlineKeyboardButton> keyboardButtonRow2){
         InlineKeyboardMarkup inlineKeyboardMarkup4 = new InlineKeyboardMarkup();
         List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         for(InlineKeyboardButton buttonRow1: keyboardButtonRow1){
@@ -89,7 +93,8 @@ public class MakerInlineKeyboardMarkup {
      * @param keyboardButtonRow3 - кнопка 3 тип 1 ряд
      * @return - клавиатура в 2 ряда, кнопки 3х типов
      */
-    public static InlineKeyboardMarkup get2x2x3InlineKeyboardMarkup(Collection<InlineKeyboardButton> keyboardButtonRow1,
+    public static InlineKeyboardMarkup get2x2x3InlineKeyboardMarkup(Collection<InlineKeyboardButton>
+                                                                            keyboardButtonRow1,
                                                            Collection<InlineKeyboardButton> keyboardButtonRow2,
                                                              InlineKeyboardButton keyboardButtonRow3) {
         InlineKeyboardMarkup inlineKeyboardMarkup5 = new InlineKeyboardMarkup();

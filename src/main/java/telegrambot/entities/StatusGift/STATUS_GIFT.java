@@ -1,4 +1,4 @@
-package telegrambot.modelEntities.StatusGift;
+package telegrambot.entities.StatusGift;
 
 //@Component
 public enum STATUS_GIFT {

@@ -2,51 +2,40 @@ package telegrambot.service.commandBot.receivers;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.COMMANDS;
 
 /**
  * Класс - стартовое меню
  */
+/*
 @Service
 @Getter
 public class BotCommandReceiver {
 
-    private InfoCommand infoCommand;
-    private StartCommand startCommand;
-    private AddCommand addCommand;
-    private ChangeWishCommand changeWishCommand;
-    private GetListWishCommand getWishList;
+    private final Command infoCommand;
+    private final Command startCommand;
+    private final Command addCommand;
+    private final Command changeWishCommand;
+    private final Command getWishList;
 
     @Autowired
-    public void setInfoCommand(InfoCommand infoCommand) {
+    public BotCommandReceiver(@Qualifier ("infoCommand") Command infoCommand, @Qualifier("startCommand")
+            Command startCommand, @Qualifier("addCommand")Command addCommand, @Qualifier("changeWishCommand")
+                              Command changeWishCommand, @Qualifier("getListWishCommand")Command getWishList) {
         this.infoCommand = infoCommand;
-    }
-
-    @Autowired
-    public void setStartCommand(StartCommand startCommand) {
         this.startCommand = startCommand;
-    }
-
-    @Autowired
-    public void setAddCommand(AddCommand addCommand) {
         this.addCommand = addCommand;
-    }
-
-    @Autowired
-    public void setChangeWishCommand(ChangeWishCommand changeWishCommand) {
         this.changeWishCommand = changeWishCommand;
-    }
-
-    @Autowired
-    public void setGetWishList(GetListWishCommand getWishList) {
         this.getWishList = getWishList;
     }
 
-    public SendMessage getCommandResponse (Update update) throws TelegramApiException {
+    public SendMessage getCommandResponse (Update update, long chat_id, long message_id, String answer) throws TelegramApiException {
         if (update.getMessage().getText().equals(COMMANDS.INFO.getCommand())) {
             return infoCommand.execute(update);
         }
@@ -62,4 +51,4 @@ public class BotCommandReceiver {
         return getWishList.execute(update);
     }
 }
-
+*/

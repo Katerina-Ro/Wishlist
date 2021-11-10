@@ -1,10 +1,10 @@
-package telegrambot.modelEntities;
+package telegrambot.entities;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @MappedSuperclass /*Аннотация @MappedSuperclass позволяет включать класс и его jpa аннотации в производный класс,
@@ -23,7 +23,6 @@ import java.io.Serializable;
                     -Он должен определять методы equals () и hashCode () .
                     -Он должен быть Serializable.
                     */
-@Table(name = "gift_owner")
 @Getter
 @Setter
 public abstract class AbstractIdGifPhoneNumberEntity implements Serializable {
@@ -34,13 +33,11 @@ public abstract class AbstractIdGifPhoneNumberEntity implements Serializable {
                   // или int.
                   //IDENTITY является хорошим выбором только в том случае, если вы не можете использовать SEQUENCE
                   // (например, MySQL), поскольку он отключает пакетное обновление JDBC.
+    @Column(name ="numberId", unique = true, nullable = false)
     protected Integer id; // аналог giftId и number
 
-    /*
-    @Column(name = "chat_id", unique = true, nullable = false)
-    @NotBlank // @NotBlank применяется только к строкам и проверяет, что строка не пуста.
-    //@NotNull применяется к CharSequence, Collection, Map или Array и проверяет, что объект не равен null. Но при этом он может быть пуст.
-    //@NotEmpty применяется к CharSequence, Collection, Map или Array и проверяет, что он не null имеет размер больше 0.
-    //Аннотация @Size(min=6) пропустит строку состоящую из 6 пробелов и/или символов переноса строки, а @NotBlank не пропустит.
-    protected long chatId; */
+
+    @Column(name = "chat_id", nullable = false)
+    @NotNull
+    protected Integer chatId;
 }

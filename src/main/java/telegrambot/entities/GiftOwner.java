@@ -1,4 +1,4 @@
-package telegrambot.modelEntities;
+package telegrambot.entities;
 
 import lombok.*;
 import org.springframework.stereotype.Component;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.List;
 
 /*Пакеты javax.* определяются JSRs (запросы спецификации java). Как и интерфейс, пакеты javax определяют контракты.
     Поставщики, такие как hibernate, обеспечивают реализацию. Используя импорт javax, вы отделяете себя от конкретного
@@ -21,14 +22,17 @@ import java.util.Collection;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TelegramUser extends AbstractIdGifPhoneNumberEntity{
+public class GiftOwner extends AbstractIdGifPhoneNumberEntity{
 
     @Column(name = "Name", nullable = false)
     @NotBlank
     private String Name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "links")
+    @OneToMany(fetch = FetchType.EAGER)
     private Collection<WebLinks> listLinks;
+
+    @OneToMany
+    private List<Comments> listComments;
 
     @Column(name = "Active")
     private boolean active;

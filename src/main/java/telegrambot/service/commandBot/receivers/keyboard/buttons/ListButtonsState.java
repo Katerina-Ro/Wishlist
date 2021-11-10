@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import telegrambot.repository.GiftRepository;
 import telegrambot.service.commandBot.receivers.utils.COMMANDS;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,10 +20,9 @@ public class ListButtonsState {
         this.giftRepository = giftRepository;
     }
 
-    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Update update)
-            throws SQLException {
+    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Update update) {
         List<InlineKeyboardButton> keyboardButtonRow = new ArrayList<>();
-        for(int i = 1; i == giftRepository.getInfoGift(update.getUpdateId()).size(); i++) {
+        for(int i = 1; i == giftRepository.findAllByChatId(update.getUpdateId()).size(); i++) {
             keyboardButtonRow.add(ButtonState.getKeyBoardButtonState());
         }
         return keyboardButtonRow;

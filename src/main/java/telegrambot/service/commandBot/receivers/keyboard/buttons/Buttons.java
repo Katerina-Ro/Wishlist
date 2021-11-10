@@ -1,9 +1,14 @@
 package telegrambot.service.commandBot.receivers.keyboard.buttons;
 
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.keyboard.MakerInlineKeyboardMarkup;
 import telegrambot.service.commandBot.receivers.utils.COMMANDS;
+
+import java.sql.SQLException;
 
 public class Buttons {
     private static final String BUTTON_ADD_WISH = "Добавить пожелание";
@@ -102,6 +107,6 @@ public class Buttons {
     public static InlineKeyboardMarkup getKeyBoardStartMenu(){
         return MakerInlineKeyboardMarkup.get2x2InlineKeyboardMarkup(getKeyBoardButtonInfo(),
                 getKeyBoardButtonAddWish(), getKeyBoardButtonGetWishList(),
-                getKeyBoardButtonBack());
+                getKeyBoardButtonChangeWish());
     }
 }

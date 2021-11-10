@@ -1,10 +1,10 @@
-package telegrambot.modelEntities.StatusGift;
+package telegrambot.entities.StatusGift;
 
-import telegrambot.modelEntities.Gift;
+import telegrambot.entities.Gift;
 
 public interface ChangeStatusGift {
     default String changeStatusGiftAdmin (Gift gift) {
-        String statusGiftAnother = gift.getStatusGiftAnother(STATUS_GIFT.ACTIVE).getStatusGift();
+        String statusGiftAnother = gift.getStatusGiftAnother().getStatusGift();
         //нажимает на кнопку ("сделать неактивным" или что-то наподобие - функция Hundler, вроде бы, нужно ее реализовтаь отдельно)
         if (gift.getStatusGiftAdmin()== STATUS_GIFT.ACTIVE) {
             gift.setStatusGiftAdmin(STATUS_GIFT.NOT_ACTIVE);
