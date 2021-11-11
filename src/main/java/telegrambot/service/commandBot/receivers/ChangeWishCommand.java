@@ -22,7 +22,7 @@ public class ChangeWishCommand implements Command {
 
 
     @Override
-    public EditMessageText execute(long chat_id, long message_id) throws TelegramApiException {
+    public SendMessage execute(long chat_id) throws TelegramApiException {
         return null;
     }
 }

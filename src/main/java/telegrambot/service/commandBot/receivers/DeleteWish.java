@@ -39,9 +39,9 @@ public class DeleteWish implements Command {
         this.listButtonsState = listButtonsState;
     }
 
+
     @Override
-    public EditMessageText execute(long chat_id, long message_id) {
+    public SendMessage execute(long chat_id) throws TelegramApiException {
         return null;
     }
-
 }

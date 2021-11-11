@@ -1,8 +1,7 @@
 package telegrambot.service.commandBot.receivers.keyboard.buttons;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import telegrambot.repository.GiftRepository;
 import telegrambot.service.commandBot.receivers.utils.COMMANDS;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Repository
+@Service
 public class ListButtonsState {
     private final GiftRepository giftRepository;
 
@@ -20,9 +19,9 @@ public class ListButtonsState {
         this.giftRepository = giftRepository;
     }
 
-    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Update update) {
+    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Integer chat_id) {
         List<InlineKeyboardButton> keyboardButtonRow = new ArrayList<>();
-        for(int i = 1; i == giftRepository.findAllByChatId(update.getUpdateId()).size(); i++) {
+        for(int i = 1; i == giftRepository.findAllByChatId(chat_id).size(); i++) {
             keyboardButtonRow.add(ButtonState.getKeyBoardButtonState());
         }
         return keyboardButtonRow;

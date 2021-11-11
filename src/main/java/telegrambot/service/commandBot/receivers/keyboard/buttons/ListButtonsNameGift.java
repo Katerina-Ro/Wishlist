@@ -2,7 +2,6 @@ package telegrambot.service.commandBot.receivers.keyboard.buttons;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import telegrambot.entities.Gift;
 import telegrambot.repository.GiftRepository;
@@ -21,10 +20,9 @@ public class ListButtonsNameGift {
         this.giftRepository = giftRepository;
     }
 
-    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Update update){
+    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Integer chat_id){
         List<InlineKeyboardButton> keyboardButtonRow1 = new ArrayList<>();
-        List<Gift> listGift = giftRepository.findAllByChatId(update.getUpdateId());
-        for(Gift g: listGift){
+        for(Gift g: giftRepository.findAllByChatId(chat_id)){
             keyboardButtonRow1.add(ButtonNameGift.getKeyBoardButtonNameGift(g.getNameGift()));
         }
         return keyboardButtonRow1;

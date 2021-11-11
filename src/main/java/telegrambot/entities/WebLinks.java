@@ -22,7 +22,7 @@ public class WebLinks {
 
     @Id // обязательно
     //@GeneratedValue (strategy =  GenerationType.IDENTITY)
-    @Column(name = "idLinks", unique = true, nullable = false)
+    @Column(name = "id_Links", unique = true, nullable = false)
     private Integer idLinks;
 
     @Column (name = "Weblink") // необязательно

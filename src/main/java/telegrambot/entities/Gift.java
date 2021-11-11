@@ -20,39 +20,39 @@ import java.util.Collection;
 @Getter
 @Setter
 @NamedQueries({
-        @NamedQuery(name = "findAllByChatId", query = "SELECT g FROM Gift g WHERE " +
-                "g.chatIdOwnerGiftOwner like :chatIdOwnerGiftOwner")
+        @NamedQuery(name = "findAllByChatId", query = "SELECT g FROM Gift g WHERE g.chatId like :chatId")
 })
-public class Gift extends AbstractIdGifPhoneNumberEntity {
+public class Gift {
 
-    @Column(name = "Gift_status_admin", nullable = false)
+    @Id
+    @GeneratedValue (strategy =  GenerationType.IDENTITY)
+    @Column(name ="numberId", unique = true, nullable = false)
+    private Integer giftId;
+
+    @Column(name = "gift_status_admin", nullable = false)
     @NotBlank
     @Enumerated(EnumType.STRING)
     private STATUS_GIFT statusGiftAdmin;
 
-    @Column (name = "Gift_status_gift_owner", nullable = false)
+    @Column (name = "gift_status_gift_owner", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotBlank
     private STATUS_GIFT statusGiftOwn;
 
-    @Column(name = "Gift_status_giving", nullable = false)
+    @Column(name = "gift_status_giving", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotBlank
     private STATUS_GIFT statusGiftAnother;
 
-    @Column (name = "Name_gift", nullable = false)
+    @Column (name = "name_gift", nullable = false)
     @NotBlank
     private String nameGift;
 
-    @Column (name = "Product_description")
+    @Column (name = "product_description")
     private String descriptionGift;
 
-    @Column (name = "chat_id_owner", nullable = false)
-    @NotBlank
-    private String chatIdOwnerGiftOwner;
-
     @Column (name = "chat_id_presenter")
-    private String chatIdPresenter;
+    private Integer chatIdPresenter;
 
     @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name="gift_weblinks",

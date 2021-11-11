@@ -1,7 +1,10 @@
 package telegrambot.service.commandBot.receivers.keyboard;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -107,6 +110,41 @@ public class MakerInlineKeyboardMarkup {
         }
         inlineKeyboardMarkup5.setKeyboard(keyboardButtons);
         return inlineKeyboardMarkup5;
+    }
+
+    public static ReplyKeyboardMarkup makeListReplyKeyboardButtonAfterInlineButton(){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+
+        /* selective Этот параметр нужен, чтобы показывать клавиатуру только определённым пользователям.
+        Цели: 1) пользователи, которые были @упомянуты в поле text объекта Message; 2) если сообщения бота
+        является ответом (содержит поле reply_to_message_id), авторы этого сообщения.
+        Пример: Пользователь отправляет запрос на смену языка бота. Бот отправляет клавиатуру со списком
+        языков, видимую только этому пользователю.
+         */
+        replyKeyboardMarkup.setSelective(true);
+
+        /* one_time_keyboard Указывает клиенту скрыть клавиатуру после использования (после нажатия на кнопку).
+         Её по-прежнему можно будет открыть через иконку в поле ввода сообщения. По умолчанию False.
+         */
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+
+        /* resize_keyboard Указывает клиенту подогнать высоту клавиатуры под количество кнопок (сделать её
+        меньше, если кнопок мало). По умолчанию False, то есть клавиатура всегда такого же размера, как и
+        стандартная клавиатура устройства.
+        */
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow row = new KeyboardRow();
+        row.add("Test button");
+        keyboard.add(row);
+        return replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
+    public static ReplyKeyboardMarkup makeListReplyKeyboardButton() {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true); //
+        replyKeyboardMarkup.setOneTimeKeyboard(true); //
+        return replyKeyboardMarkup;
     }
 
     /**

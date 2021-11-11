@@ -5,12 +5,8 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
+import javax.validation.constraints.NotNull;
 import java.util.List;
-
-/*Пакеты javax.* определяются JSRs (запросы спецификации java). Как и интерфейс, пакеты javax определяют контракты.
-    Поставщики, такие как hibernate, обеспечивают реализацию. Используя импорт javax, вы отделяете себя от конкретного
-    поставщика и сохраняете возможность переключиться на другую реализацию в будущем */
 
 @Component
 @Entity
@@ -22,18 +18,28 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class GiftOwner extends AbstractIdGifPhoneNumberEntity{
+public class GiftOwner{
 
-    @Column(name = "Name", nullable = false)
+    @Id
+    @Column(name = "chat_id", nullable = false)
+    @NotNull
+    private Integer chatId;
+
+    @Column(name = "name", nullable = false)
     @NotBlank
     private String Name;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Collection<WebLinks> listLinks;
+    @JoinColumn(name = "giftId")
+    private List<Gift> listGifts;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_Links")
+    private List<WebLinks> listLinks;
 
     @OneToMany
     private List<Comments> listComments;
 
-    @Column(name = "Active")
-    private boolean active;
+    @Column(name = "active")
+    private boolean activeUser = true;
 }

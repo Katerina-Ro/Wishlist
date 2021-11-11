@@ -14,7 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import telegrambot.service.commandBot.receivers.ButtonClick;
-import telegrambot.service.commandBot.receivers.InfoCommand;
 import telegrambot.service.commandBot.receivers.StartCommand;
 
 /**
@@ -23,35 +22,22 @@ import telegrambot.service.commandBot.receivers.StartCommand;
 @Service
 @PropertySource(value = "classpath:botsecret.properties")
 @Getter
-@Setter
 public class BotConnect extends TelegramLongPollingBot {
-
-  //  private final BotCommandReceiver botCommandReceiver;
-
-
-ButtonClick buttonClick;
+    private final ButtonClick buttonClick;
     private final StartCommand startCommand;
 
-
-
+    @Setter
     @Value("${bot.name}")
     private String botUsername;
-
+    @Setter
     @Value("${bot.token}")
     private String botToken;
 
     @Autowired
-    public BotConnect(StartCommand startCommand) {
-
-        this.startCommand = startCommand;
-
-    }
-
-    @Autowired
-    public void setButtonClick(ButtonClick buttonClick) {
+    public BotConnect(ButtonClick buttonClick, StartCommand startCommand) {
         this.buttonClick = buttonClick;
+        this.startCommand = startCommand;
     }
-
     /*
         Аннотация @SneakyThrows может быть использована для бросания проверяемых исключений без их объявления
         в throws метода.
@@ -59,21 +45,18 @@ ButtonClick buttonClick;
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-
         if (update.getMessage()!= null && update.getMessage().hasText()) {
             execute(startCommand.execute(update));
         }
         else if (update.hasCallbackQuery()) {
-            String message_call_data = update.getCallbackQuery().getData();
-            long message_id = update.getCallbackQuery().getMessage().getMessageId();
-            long chat_id = update.getCallbackQuery().getMessage().getChatId();
+            String messageCallbackQuery = update.getCallbackQuery().getData();
+            long messageId = update.getCallbackQuery().getMessage().getMessageId();
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
 
             try {
-                execute(buttonClick.getCommandResponse(message_call_data,chat_id,message_id));
-
+                execute(buttonClick.getCommandResponse(messageCallbackQuery,chatId));
             } catch (TelegramApiException e) {
                 e.printStackTrace();
-
             }
         }
     }
