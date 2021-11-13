@@ -4,6 +4,7 @@ public enum COMMANDS {
     INFO("О чем канал?"),
     START("/start"),
     ADD_WISH ("/Добавить пожелание"),
+    ADD_NAME_USER_TO_DB ("Добавить имя"),
     WISHLIST ("/Список подарков"),
     CHANGE_WISH ("/Изменить пожелание"),
     YES ("/Да"),

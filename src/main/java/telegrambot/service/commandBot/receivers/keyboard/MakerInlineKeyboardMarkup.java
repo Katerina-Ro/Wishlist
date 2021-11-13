@@ -135,7 +135,7 @@ public class MakerInlineKeyboardMarkup {
         replyKeyboardMarkup.setResizeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
-        row.add("Test button");
+        row.add("Добавить имя");
         keyboard.add(row);
         return replyKeyboardMarkup.setKeyboard(keyboard);
     }
@@ -146,6 +146,9 @@ public class MakerInlineKeyboardMarkup {
         replyKeyboardMarkup.setOneTimeKeyboard(true); //
         return replyKeyboardMarkup;
     }
+
+
+
 
     /**
      * Вспомогательный метод для получаения списка кнопок типа InlineKeyboardButton с 2 элементами

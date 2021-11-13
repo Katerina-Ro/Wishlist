@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.keyboard.MakerInlineKeyboardMarkup;
@@ -36,9 +37,9 @@ public class InfoCommand implements Command{
         this.buttons = buttons;
     }
 
-    public SendMessage execute(long chat_id) throws TelegramApiException {
+    public SendMessage execute(Update update) {
         SendMessage messageInfo = new SendMessage()
-                .setChatId(chat_id)
+                .setChatId(update.getCallbackQuery().getMessage().getChatId())
                 .setText(INFO_MESSAGE);
         messageInfo.enableHtml(true);
         messageInfo.setReplyMarkup(MakerInlineKeyboardMarkup.get2x2x3InlineKeyboardMarkup(

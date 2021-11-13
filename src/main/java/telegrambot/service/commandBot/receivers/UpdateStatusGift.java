@@ -10,7 +10,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.entities.StatusGift.STATUS_GIFT;
 import telegrambot.repository.GiftRepository;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.receivers.utils.CommandUtils;
 
 @Service
 @Getter
@@ -48,7 +47,7 @@ public class UpdateStatusGift implements Command {
 
 
     @Override
-    public SendMessage execute(long chat_id) throws TelegramApiException {
+    public SendMessage execute(Update update) {
         return null;
     }
 }

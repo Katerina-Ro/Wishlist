@@ -20,7 +20,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @NamedQueries({
-        @NamedQuery(name = "findAllByChatId", query = "SELECT g FROM Gift g WHERE g.chatId like :chatId")
+        @NamedQuery(name = "findAllByChatId", query = "SELECT g FROM Gift g WHERE g.chatIdGiftOwner like :chatId")
 })
 public class Gift {
 
@@ -50,6 +50,9 @@ public class Gift {
 
     @Column (name = "product_description")
     private String descriptionGift;
+
+    @Column(name = "chat_id_gift_owner")
+    private Integer chatIdGiftOwner;
 
     @Column (name = "chat_id_presenter")
     private Integer chatIdPresenter;

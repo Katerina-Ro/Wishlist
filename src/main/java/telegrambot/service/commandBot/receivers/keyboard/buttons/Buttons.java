@@ -11,6 +11,7 @@ import telegrambot.service.commandBot.receivers.utils.COMMANDS;
 @Getter
 public class Buttons {
     private final String BUTTON_ADD_WISH = "Добавить пожелание";
+    private final String BUTTON_ADD_NAME_USER_TO_DB = "Добавить имя";
     private static final String BUTTON_BACK = "Назад";
     private static final String BUTTON_CHANGE_WISH = "Изменить желание";
     private static final String BUTTON_CHOOSE_THIS = "Выбрать";
@@ -100,6 +101,13 @@ public class Buttons {
         InlineKeyboardButton inlineKeyboardButtonButtonBack = new InlineKeyboardButton();
         inlineKeyboardButtonButtonBack.setText(BUTTON_ADD_WISH);
         inlineKeyboardButtonButtonBack.setCallbackData(COMMANDS.ADD_WISH.getCommand());
+        return inlineKeyboardButtonButtonBack;
+    }
+
+    public  InlineKeyboardButton getKeyBoardButtonAdd(){
+        InlineKeyboardButton inlineKeyboardButtonButtonBack = new InlineKeyboardButton();
+        inlineKeyboardButtonButtonBack.setText(BUTTON_ADD_NAME_USER_TO_DB);
+        inlineKeyboardButtonButtonBack.setCallbackData(COMMANDS.ADD_NAME_USER_TO_DB.getCommand());
         return inlineKeyboardButtonButtonBack;
     }
 

@@ -25,16 +25,16 @@ public class GiftOwner{
     @NotNull
     private Integer chatId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name_user")
     @NotBlank
     private String Name;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "giftId")
+    @OneToMany
+    //@JoinColumn(name = "gift_id")
     private List<Gift> listGifts;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_Links")
+    @OneToMany
+    //@JoinColumn(name = "id_links")
     private List<WebLinks> listLinks;
 
     @OneToMany

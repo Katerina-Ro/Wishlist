@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.keyboard.MakerInlineKeyboardMarkup;
 import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
-import telegrambot.service.commandBot.receivers.utils.CommandUtils;
 
 /**
  * Класс-Receiver команды "/changeWish" {@link Command}
@@ -22,7 +21,7 @@ public class ChangeWishCommand implements Command {
 
 
     @Override
-    public SendMessage execute(long chat_id) throws TelegramApiException {
+    public SendMessage execute(Update update)  {
         return null;
     }
 }

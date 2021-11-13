@@ -11,7 +11,6 @@ import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
 import telegrambot.service.commandBot.receivers.keyboard.buttons.ListButtonsNameGift;
 import telegrambot.service.commandBot.receivers.keyboard.buttons.ListButtonsState;
-import telegrambot.service.commandBot.receivers.utils.CommandUtils;
 import telegrambot.service.commandBot.receivers.keyboard.MakerInlineKeyboardMarkup;
 
 @Service
@@ -41,7 +40,7 @@ public class DeleteWish implements Command {
 
 
     @Override
-    public SendMessage execute(long chat_id) throws TelegramApiException {
+    public SendMessage execute(Update update) {
         return null;
     }
 }

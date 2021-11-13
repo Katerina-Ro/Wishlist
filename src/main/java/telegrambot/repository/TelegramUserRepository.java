@@ -11,11 +11,17 @@ import telegrambot.entities.GiftOwner;
 @Repository
 public interface TelegramUserRepository extends JpaRepository<GiftOwner, Long> {
 
-    @Query(value = "INSERT into gift_owner (name, chat_id) VALUES(:Name, :chatId)", nativeQuery = true)
-    default void saveNameAndId(String name, int chatId) {
+    default void saveIdUser(long chat_id) {
         GiftOwner giftOwner = new GiftOwner();
-        giftOwner.setName(name);
-        giftOwner.setChatId(chatId);
+        giftOwner.setChatId((int) chat_id);
+        save(giftOwner);
+    }
+
+    @Query(value = "UPDATE gift_owner SET name_user = :name_user WHERE chat_id = :chat_id", nativeQuery = true)
+    default void saveNameUser(String name_user, int chat_id) {
+        GiftOwner giftOwner = new GiftOwner();
+        giftOwner.setName(name_user);
+        giftOwner.setChatId(chat_id);
         save(giftOwner);
     }
 }

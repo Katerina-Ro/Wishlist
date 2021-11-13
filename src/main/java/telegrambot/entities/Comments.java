@@ -15,6 +15,7 @@ import javax.persistence.*;
 public class Comments {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_comments", unique = true, nullable = false)
     private Integer idComment;
 

@@ -11,10 +11,9 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import telegrambot.service.commandBot.receivers.ButtonClick;
-import telegrambot.service.commandBot.receivers.StartCommand;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
+import telegrambot.service.commandBot.receivers.*;
 
 /**
  * Класс для соединения с ботом
@@ -23,8 +22,9 @@ import telegrambot.service.commandBot.receivers.StartCommand;
 @PropertySource(value = "classpath:botsecret.properties")
 @Getter
 public class BotConnect extends TelegramLongPollingBot {
-    private final ButtonClick buttonClick;
-    private final StartCommand startCommand;
+    private final BotCommandSendMessage botCommandSendMessage;
+    private final BotCommandCallbackQuery botCommandCallbackQuery;
+    private final BotCommandForceReply botCommandForceReply;
 
     @Setter
     @Value("${bot.name}")
@@ -34,9 +34,12 @@ public class BotConnect extends TelegramLongPollingBot {
     private String botToken;
 
     @Autowired
-    public BotConnect(ButtonClick buttonClick, StartCommand startCommand) {
-        this.buttonClick = buttonClick;
-        this.startCommand = startCommand;
+    public BotConnect(BotCommandSendMessage botCommandSendMessage,
+                      BotCommandCallbackQuery botCommandCallbackQuery,
+                      BotCommandForceReply botCommandForceReply) {
+        this.botCommandSendMessage = botCommandSendMessage;
+        this.botCommandCallbackQuery = botCommandCallbackQuery;
+        this.botCommandForceReply = botCommandForceReply;
     }
     /*
         Аннотация @SneakyThrows может быть использована для бросания проверяемых исключений без их объявления
@@ -45,20 +48,28 @@ public class BotConnect extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.getMessage()!= null && update.getMessage().hasText()) {
-            execute(startCommand.execute(update));
-        }
-        else if (update.hasCallbackQuery()) {
-            String messageCallbackQuery = update.getCallbackQuery().getData();
-            long messageId = update.getCallbackQuery().getMessage().getMessageId();
-            long chatId = update.getCallbackQuery().getMessage().getChatId();
-
-            try {
-                execute(buttonClick.getCommandResponse(messageCallbackQuery,chatId));
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+        if (update.getMessage()!= null && update.hasMessage()) {
+            if (update.getMessage().isReply()){
+                /*
+                if(update.getMessage().getReplyToMessage().getText().equals(AddCommand.getMESSAGE_ADD())) {
+                    telegramUserService.createNameGiftOwner(update.getMessage().getText(),
+                            Math.toIntExact(update.getMessage().getChatId()));
+                } */
+                String s = update.getMessage().getReplyToMessage().getText();
+                String g =InsertNameUserToDB.getINPUT_ERROR_MESSAGE();
+                System.out.println("update.getMessage().getReplyToMessage().getText() " + update.getMessage().getReplyToMessage().getText());
+                System.out.println("InsertNameUserToDB.getINPUT_ERROR_MESSAGE() " + InsertNameUserToDB.getINPUT_ERROR_MESSAGE());
+                System.out.println(s.equalsIgnoreCase(g));
+                execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
+                        update));
+            } else {
+                execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
             }
-        }
+        } else if (update.hasCallbackQuery()) {
+            execute(botCommandCallbackQuery.findCommand(update.getCallbackQuery().getData(), update));
+        } else {
+               System.out.println("Нажмите на любую из предложенных кнопок");
+           }
     }
 }
 

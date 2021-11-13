@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
-import telegrambot.service.commandBot.receivers.utils.CommandUtils;
 
 @Service
 public class GetListWishCommand implements Command {
@@ -15,7 +14,7 @@ public class GetListWishCommand implements Command {
             "человека?";
 
     @Override
-    public SendMessage execute(long chat_id) throws TelegramApiException {
+    public SendMessage execute(Update update) {
         return null;
     }
 

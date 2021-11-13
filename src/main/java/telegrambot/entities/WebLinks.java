@@ -21,7 +21,7 @@ import java.util.Collection;
 public class WebLinks {
 
     @Id // обязательно
-    //@GeneratedValue (strategy =  GenerationType.IDENTITY)
+    @GeneratedValue (strategy =  GenerationType.IDENTITY)
     @Column(name = "id_Links", unique = true, nullable = false)
     private Integer idLinks;
 
