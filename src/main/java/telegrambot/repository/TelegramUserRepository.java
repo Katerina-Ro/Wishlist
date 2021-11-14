@@ -13,12 +13,12 @@ public interface TelegramUserRepository extends JpaRepository<GiftOwner, Long> {
 
     default void saveIdUser(long chat_id) {
         GiftOwner giftOwner = new GiftOwner();
-        giftOwner.setChatId((int) chat_id);
+        giftOwner.setChatId(chat_id);
         save(giftOwner);
     }
 
-    @Query(value = "UPDATE gift_owner SET name_user = :name_user WHERE chat_id = :chat_id", nativeQuery = true)
-    default void saveNameUser(String name_user, int chat_id) {
+    //@Query(value = "UPDATE gift_owner SET name_user = :name_user WHERE chat_id = :chat_id", nativeQuery = true)
+    default void saveNameUser(String name_user, long chat_id) {
         GiftOwner giftOwner = new GiftOwner();
         giftOwner.setName(name_user);
         giftOwner.setChatId(chat_id);

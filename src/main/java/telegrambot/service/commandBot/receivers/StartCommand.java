@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import telegrambot.entities.GiftOwner;
 import telegrambot.service.TelegramUserService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
@@ -23,7 +24,8 @@ public class StartCommand implements Command {
             "желаний " + imageGiftBox;
 
     private long numberUser;
-    private int phone;
+    @Getter
+    private final GiftOwner newGiftOwner;
 
     private final TelegramUserService telegramUserService;
 
@@ -31,12 +33,14 @@ public class StartCommand implements Command {
     public StartCommand(Buttons buttons, TelegramUserService telegramUserService) {
         this.buttons = buttons;
         this.telegramUserService = telegramUserService;
+        this.newGiftOwner = new GiftOwner();
     }
 
     @Override
     public SendMessage execute(Update update)  {
         numberUser = update.getMessage().getChatId();
         telegramUserService.createIdUserToDB(numberUser);
+        newGiftOwner.setChatId(numberUser);
         return new SendMessage()
         .setChatId(numberUser)
         .enableHtml(true)

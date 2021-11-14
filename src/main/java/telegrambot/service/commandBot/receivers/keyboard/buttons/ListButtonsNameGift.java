@@ -20,9 +20,9 @@ public class ListButtonsNameGift {
         this.giftRepository = giftRepository;
     }
 
-    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Integer chat_id){
+    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Long chat_id){
         List<InlineKeyboardButton> keyboardButtonRow1 = new ArrayList<>();
-        for(Gift g: giftRepository.findAllByChatId(chat_id)){
+        for(Gift g: giftRepository.findAllWishesChatIdUser(chat_id)){
             keyboardButtonRow1.add(ButtonNameGift.getKeyBoardButtonNameGift(g.getNameGift()));
         }
         return keyboardButtonRow1;

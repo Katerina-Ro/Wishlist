@@ -17,15 +17,26 @@ import telegrambot.service.commandBot.Command;
 public class BotCommandForceReply {
     private final ImmutableMap<String, Command> commandMapForceReply;
     private final Command insertNameUserToDB;
+    private final Command insertNameGiftToDB;
+    private final Command insertProductDescriptionToDB;
 
     @Autowired
-    public BotCommandForceReply(@Qualifier("insertNameUserToDB") Command insertNameUserToDB) {
+    public BotCommandForceReply(@Qualifier("insertNameUserToDB") Command insertNameUserToDB,
+                                @Qualifier("insertNameGiftToDB") Command insertNameGiftToDB,
+                                @Qualifier("insertProductDescriptionToDB")Command insertProductDescriptionToDB) {
         this.insertNameUserToDB = insertNameUserToDB;
+        this.insertNameGiftToDB = insertNameGiftToDB;
+        this.insertProductDescriptionToDB = insertProductDescriptionToDB;
 
         this.commandMapForceReply = ImmutableMap.<String, Command>builder()
-                .put(AddCommand.getMESSAGE_ADD(), insertNameUserToDB)
-                .put(InsertNameUserToDB.getINPUT_ERROR_MESSAGE(), insertNameUserToDB)
+                .put(AddCommand.getMESSAGE_ADD(), this.insertNameUserToDB)
+                .put(InsertNameUserToDB.getNAME_WISH(), this.insertNameGiftToDB)
+                .put(InsertNameUserToDB.getINPUT_ERROR_MESSAGE(), this.insertNameUserToDB)
+                .put(InsertNameGiftToDB.getINPUT_ERROR_MESSAGE(), this.insertNameGiftToDB)
+                .put(InsertNameGiftToDB.getPRODUCT_DESCRIPTION(), this.insertProductDescriptionToDB)
+
                 .build();
+
     }
     public SendMessage findCommand(String commandIdentifier, Update update) {
         return (commandMapForceReply.get(commandIdentifier).execute(update));

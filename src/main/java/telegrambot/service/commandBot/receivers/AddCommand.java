@@ -23,8 +23,6 @@ public class AddCommand implements Command{
 
     @Override
     public SendMessage execute(Update update) {
-        //int messageId = update.getCallbackQuery().getMessage().getMessageId();
-       // System.out.println("номер сообщения, на который должен прийти ответ - имя " + messageId);
         ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
         SendMessage messageAddCommand = new SendMessage()
                 .setReplyToMessageId(update.getCallbackQuery().getMessage().getMessageId())

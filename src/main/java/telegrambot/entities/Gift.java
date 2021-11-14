@@ -6,43 +6,37 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import telegrambot.entities.StatusGift.MappedEnum;
 import telegrambot.entities.StatusGift.STATUS_GIFT;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 
-@Component
 @Entity
 @MappedEnum(enumClass =  STATUS_GIFT.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@NamedQueries({
-        @NamedQuery(name = "findAllByChatId", query = "SELECT g FROM Gift g WHERE g.chatIdGiftOwner like :chatId")
-})
 public class Gift {
-
     @Id
     @GeneratedValue (strategy =  GenerationType.IDENTITY)
-    @Column(name ="numberId", unique = true, nullable = false)
+    @Column(name ="number_id", unique = true)
     private Integer giftId;
 
     @Column(name = "gift_status_admin", nullable = false)
     @NotBlank
     @Enumerated(EnumType.STRING)
-    private STATUS_GIFT statusGiftAdmin;
+    private STATUS_GIFT statusGiftAdmin = STATUS_GIFT.ACTIVE;
 
     @Column (name = "gift_status_gift_owner", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotBlank
-    private STATUS_GIFT statusGiftOwn;
+    private STATUS_GIFT statusGiftOwn = STATUS_GIFT.ACTIVE;
 
     @Column(name = "gift_status_giving", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotBlank
-    private STATUS_GIFT statusGiftAnother;
+    private STATUS_GIFT statusGiftAnother = STATUS_GIFT.NOT_ACTIVE;
 
     @Column (name = "name_gift", nullable = false)
     @NotBlank
@@ -51,17 +45,20 @@ public class Gift {
     @Column (name = "product_description")
     private String descriptionGift;
 
-    @Column(name = "chat_id_gift_owner")
-    private Integer chatIdGiftOwner;
+    //@Column(name = "chat_id_gift_owner")
+    @ManyToOne //(fetch = FetchType.EAGER)
+    @JoinColumn(name = "gift_owner_id", referencedColumnName="chat_id", insertable=false, updatable=false)
+    private GiftOwner giftOwner;
 
-    @Column (name = "chat_id_presenter")
-    private Integer chatIdPresenter;
+    //@Column (name = "chat_id_presenter")
+    @ManyToOne //(fetch = FetchType.EAGER)
+    @JoinColumn(name = "gift_presenter_id", referencedColumnName="chat_id", insertable=false, updatable=false)
+    private GiftOwner giftPresenter;
 
-    @ManyToMany (fetch = FetchType.EAGER)
+    @ManyToMany //(fetch = FetchType.EAGER)
     @JoinTable(name="gift_weblinks",
             joinColumns = @JoinColumn(name="gift_id"),
-            inverseJoinColumns = @JoinColumn(name="weblinks_id")
-    )
+            inverseJoinColumns = @JoinColumn(name="weblinks_id"))
     private Collection<WebLinks> linksList;
 
     @OneToMany

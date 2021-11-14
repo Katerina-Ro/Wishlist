@@ -13,11 +13,12 @@ import java.util.Collection;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+/*
 @NamedQueries({
         @NamedQuery(name = "findAllLinks", query = "SELECT w FROM WebLinks w"),
         @NamedQuery(name = "findLinksWithName", query = "SELECT w FROM WebLinks w WHERE w.web_link = :web_link"),
         @NamedQuery(name = "findLinksWithId", query = "SELECT w FROM WebLinks w WHERE w.idLinks = :idLinks")
-})
+}) */
 public class WebLinks {
 
     @Id // обязательно
@@ -29,12 +30,10 @@ public class WebLinks {
     @Setter
     private String web_link;
 
-    @Column (name = "chat_id_owner")
     @Setter
     @ManyToMany (fetch = FetchType.LAZY)
     private Collection<GiftOwner> telegramUser;
 
-    @Column (name = "idGift")
     @Setter
     @ManyToMany
     @JoinTable(name="gift_weblinks",

@@ -6,13 +6,9 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-
 import org.telegram.telegrambots.meta.api.objects.Update;
-
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import telegrambot.service.commandBot.receivers.*;
 
 /**
@@ -50,16 +46,6 @@ public class BotConnect extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.getMessage()!= null && update.hasMessage()) {
             if (update.getMessage().isReply()){
-                /*
-                if(update.getMessage().getReplyToMessage().getText().equals(AddCommand.getMESSAGE_ADD())) {
-                    telegramUserService.createNameGiftOwner(update.getMessage().getText(),
-                            Math.toIntExact(update.getMessage().getChatId()));
-                } */
-                String s = update.getMessage().getReplyToMessage().getText();
-                String g =InsertNameUserToDB.getINPUT_ERROR_MESSAGE();
-                System.out.println("update.getMessage().getReplyToMessage().getText() " + update.getMessage().getReplyToMessage().getText());
-                System.out.println("InsertNameUserToDB.getINPUT_ERROR_MESSAGE() " + InsertNameUserToDB.getINPUT_ERROR_MESSAGE());
-                System.out.println(s.equalsIgnoreCase(g));
                 execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
                         update));
             } else {

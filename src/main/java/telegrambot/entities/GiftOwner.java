@@ -23,14 +23,14 @@ public class GiftOwner{
     @Id
     @Column(name = "chat_id", nullable = false)
     @NotNull
-    private Integer chatId;
+    private Long chatId;
 
     @Column(name = "name_user")
     @NotBlank
-    private String Name;
+    private String name;
 
     @OneToMany
-    //@JoinColumn(name = "gift_id")
+    @JoinColumn(name = "number_id") // referencedColumnName="id_customer", insertable=false, updatable=false)
     private List<Gift> listGifts;
 
     @OneToMany

@@ -3,6 +3,7 @@ package telegrambot.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telegrambot.entities.Gift;
+import telegrambot.entities.GiftOwner;
 import telegrambot.repository.GiftRepository;
 
 import java.util.List;
@@ -18,12 +19,17 @@ public class WishService {
         this.giftRepository = giftRepository;
     }
 
-    public void createWish(Gift gift){
+    public void createNameGift(String nameGift, GiftOwner giftOwner){
+        giftRepository.saveNameGift(nameGift, giftOwner);
+    }
+
+    public void createWish(String giftDescription, Gift gift){
+        gift.setDescriptionGift(giftDescription);
         giftRepository.save(gift);
     }
 
-    public List<Gift> getInfoGifts(Integer userId){
-        return giftRepository.findAllByChatId(userId);
+    public List<Gift> getInfoGifts(Long userId){
+        return giftRepository.findAllWishesChatIdUser(userId);
     }
 
     public void deleteAllWish(Set<Integer> giftsId){
@@ -31,7 +37,4 @@ public class WishService {
             giftRepository.deleteById(i);
         }
     }
-
-
-
 }
