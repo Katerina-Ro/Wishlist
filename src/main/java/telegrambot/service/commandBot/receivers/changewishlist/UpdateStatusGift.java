@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.receivers;
+package telegrambot.service.commandBot.receivers.changewishlist;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;

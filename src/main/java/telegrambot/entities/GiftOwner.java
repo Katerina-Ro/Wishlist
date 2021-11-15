@@ -21,16 +21,20 @@ import java.util.List;
 public class GiftOwner{
 
     @Id
-    @Column(name = "chat_id", nullable = false)
+    @Column(name = "chat_id", nullable = false, unique = true)
     @NotNull
     private Long chatId;
 
-    @Column(name = "name_user")
+    @Column(name = "name_user", unique = true)
     @NotBlank
     private String name;
 
     @OneToMany
-    @JoinColumn(name = "number_id") // referencedColumnName="id_customer", insertable=false, updatable=false)
+    @JoinTable(name="gift_owner_gifts",
+            joinColumns = @JoinColumn(name="gift_owner_id"),
+            inverseJoinColumns = @JoinColumn(name="gifts_id")
+    )
+    //@JoinColumn(name = "number_id") // referencedColumnName="id_customer", insertable=false, updatable=false)
     private List<Gift> listGifts;
 
     @OneToMany

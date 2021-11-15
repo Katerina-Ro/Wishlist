@@ -20,6 +20,7 @@ import telegrambot.service.commandBot.receivers.*;
 public class BotConnect extends TelegramLongPollingBot {
     private final BotCommandSendMessage botCommandSendMessage;
     private final BotCommandCallbackQuery botCommandCallbackQuery;
+    private final BotCommandCallBackQueryEdit botCommandCallbackQueryEdit;
     private final BotCommandForceReply botCommandForceReply;
 
     @Setter
@@ -32,9 +33,11 @@ public class BotConnect extends TelegramLongPollingBot {
     @Autowired
     public BotConnect(BotCommandSendMessage botCommandSendMessage,
                       BotCommandCallbackQuery botCommandCallbackQuery,
+                      BotCommandCallBackQueryEdit botCommandCallbackQueryEdit,
                       BotCommandForceReply botCommandForceReply) {
         this.botCommandSendMessage = botCommandSendMessage;
         this.botCommandCallbackQuery = botCommandCallbackQuery;
+        this.botCommandCallbackQueryEdit = botCommandCallbackQueryEdit;
         this.botCommandForceReply = botCommandForceReply;
     }
     /*
@@ -52,7 +55,12 @@ public class BotConnect extends TelegramLongPollingBot {
                 execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
             }
         } else if (update.hasCallbackQuery()) {
-            execute(botCommandCallbackQuery.findCommand(update.getCallbackQuery().getData(), update));
+            String commandIdentifier = update.getCallbackQuery().getData();
+            if (botCommandCallbackQuery.getCommandMapCommand().containsKey(commandIdentifier)){
+                execute(botCommandCallbackQuery.findCommand(update.getCallbackQuery().getData(), update));
+            } else {
+                execute(botCommandCallbackQueryEdit.findCommand(commandIdentifier,update));
+            }
         } else {
                System.out.println("Нажмите на любую из предложенных кнопок");
            }

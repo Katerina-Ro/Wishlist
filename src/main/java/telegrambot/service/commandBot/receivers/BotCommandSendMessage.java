@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.receivers.utils.COMMANDS;
+import telegrambot.service.commandBot.COMMANDS;
 
 /**
  * Класс - стартовое меню для обработки Message, возвращает ответ типа SendMessage

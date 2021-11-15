@@ -1,5 +1,7 @@
 package telegrambot.entities.StatusGift;
 
+import org.springframework.stereotype.Component;
+
 //@Component
 public enum STATUS_GIFT {
     NOT_ACTIVE (" "), ACTIVE ("U+2713");

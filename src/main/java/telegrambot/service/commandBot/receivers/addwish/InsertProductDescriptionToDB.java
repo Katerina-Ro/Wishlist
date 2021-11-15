@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.receivers;
+package telegrambot.service.commandBot.receivers.addwish;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
-import telegrambot.entities.Gift;
-import telegrambot.service.WishService;
+import telegrambot.service.entityservice.WishService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLines;
 
 @Service
-public class InsertNameGiftToDB implements Command {
+public class InsertProductDescriptionToDB implements Command {
     @Getter
     private static final String HEAVY_EXCLAMATION_MARK_SYMBOL =
             String.valueOf(Character.toChars(0x2757));
@@ -21,46 +20,43 @@ public class InsertNameGiftToDB implements Command {
     private static final String INPUT_ERROR_MESSAGE =
             HEAVY_EXCLAMATION_MARK_SYMBOL + " Наименование подарка должно быть текстовым";
     @Getter
-    private static final String PRODUCT_DESCRIPTION = "'Описание подарка' \n" +
+    private static final String WEB_LINK = "'Ссылка на сайт' \n" +
             "(поле может быть пустым, можете поставить любой символ)";
     @Getter
     private final WishService wishService;
     @Getter
-    private final InsertNameUserToDB insertNameUserToDB;
-    @Getter
-    private final Gift gift;
+    private final InsertNameGiftToDB insertNameGiftToDB;
 
     @Autowired
-    public InsertNameGiftToDB(WishService wishService, InsertNameUserToDB insertNameUserToDB) {
+    public InsertProductDescriptionToDB(WishService wishService, InsertNameGiftToDB insertNameGiftToDB) {
         this.wishService = wishService;
-        this.insertNameUserToDB = insertNameUserToDB;
-        this.gift = new Gift();
+        this.insertNameGiftToDB = insertNameGiftToDB;
     }
 
     @Override
     @Transactional
     public SendMessage execute(Update update)  {
-        SendMessage messageProductDescription = new SendMessage();
-        String nameGift = update.getMessage().getText();
-        if(CheckingInputLines.checkEmptyString(nameGift)) {
+        SendMessage messageWebLink = new SendMessage();
+        String giftDescription = update.getMessage().getText();
+        if(CheckingInputLines.checkEmptyString(giftDescription)) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-            wishService.createNameGift(nameGift, insertNameUserToDB.getStartCommand().getNewGiftOwner());
-            gift.setNameGift(nameGift);
-            messageProductDescription.setChatId(update.getMessage().getChatId())
-                    .setText(PRODUCT_DESCRIPTION);
-            messageProductDescription.setReplyMarkup(forceReplyKeyboard.setSelective(true));
+            wishService.createDescriptionWish(giftDescription, insertNameGiftToDB.getGift());
+            insertNameGiftToDB.getGift().setDescriptionGift(giftDescription);
+            messageWebLink.setChatId(update.getMessage().getChatId())
+                    .setText(WEB_LINK);
+            messageWebLink.setReplyMarkup(forceReplyKeyboard.setSelective(true));
         } else {
-            messageProductDescription = messageError(update);
+            messageWebLink = messageError(update);
         }
-        return messageProductDescription;
+        return messageWebLink;
     }
 
     private SendMessage messageError(Update update){
         ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-        SendMessage messageProductDescriptionError = new SendMessage()
+        SendMessage messageWebLinkError = new SendMessage()
                 .setChatId(update.getMessage().getChatId())
                 .setText(INPUT_ERROR_MESSAGE);
-        messageProductDescriptionError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        return messageProductDescriptionError;
+        messageWebLinkError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
+        return messageWebLinkError;
     }
 }

@@ -1,21 +1,21 @@
-package telegrambot.service.commandBot.receivers;
+package telegrambot.service.commandBot.receivers.start;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.receivers.keyboard.MakerInlineKeyboardMarkup;
-import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
+import telegrambot.service.commandBot.CommandEditSendMessage;
+import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
+import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
 /**
  * Класс-Receiver команды "/info" {@link Command}
  */
 @Service
 @Getter
-public class InfoCommand implements Command{
+public class InfoCommand implements CommandEditSendMessage {
     private final Buttons buttons;
     private final String imageGreenBook = String.valueOf(Character.toChars(0x1F4D7));
     private final String imageWinkingFace = String.valueOf(Character.toChars(0x1F609));
@@ -37,14 +37,12 @@ public class InfoCommand implements Command{
         this.buttons = buttons;
     }
 
-    public SendMessage execute(Update update) {
-        SendMessage messageInfo = new SendMessage()
+    public EditMessageText execute(Update update) {
+        return new EditMessageText()
                 .setChatId(update.getCallbackQuery().getMessage().getChatId())
-                .setText(INFO_MESSAGE);
-        messageInfo.enableHtml(true);
-        messageInfo.setReplyMarkup(MakerInlineKeyboardMarkup.get2x2x3InlineKeyboardMarkup(
+                .setText(INFO_MESSAGE)
+                .setReplyMarkup(MakerInlineKeyboardMarkup.get2x2x3InlineKeyboardMarkup(
                 buttons.getKeyBoardButtonAddWish(), buttons.getKeyBoardButtonGetWishList(),
                 buttons.getKeyBoardButtonChangeWish()));
-        return messageInfo;
     }
 }

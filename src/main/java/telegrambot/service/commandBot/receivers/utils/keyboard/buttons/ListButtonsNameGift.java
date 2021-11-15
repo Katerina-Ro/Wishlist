@@ -1,31 +1,31 @@
-package telegrambot.service.commandBot.receivers.keyboard.buttons;
+package telegrambot.service.commandBot.receivers.utils.keyboard.buttons;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import telegrambot.entities.Gift;
-import telegrambot.repository.GiftRepository;
-import telegrambot.service.commandBot.receivers.utils.COMMANDS;
+import telegrambot.service.commandBot.COMMANDS;
+import telegrambot.service.entityservice.WishService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
 public class ListButtonsNameGift {
-    private final GiftRepository giftRepository;
+    private final WishService wishService;
 
     @Autowired
-    public ListButtonsNameGift(GiftRepository giftRepository) {
-        this.giftRepository = giftRepository;
+    public ListButtonsNameGift(WishService wishService) {
+        this.wishService = wishService;
     }
-
-    public Collection<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Long chat_id){
+// giftRepository.findAllWishesChatIdUser(chat_id)
+    public List<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Long chat_id){
         List<InlineKeyboardButton> keyboardButtonRow1 = new ArrayList<>();
-        for(Gift g: giftRepository.findAllWishesChatIdUser(chat_id)){
+        for(Gift g: wishService.getGiftRepository().findAllWishesChatIdUser(chat_id).values()){
             keyboardButtonRow1.add(ButtonNameGift.getKeyBoardButtonNameGift(g.getNameGift()));
         }
         return keyboardButtonRow1;
+
     }
 
     static class ButtonNameGift {

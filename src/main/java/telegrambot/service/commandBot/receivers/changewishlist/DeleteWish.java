@@ -1,17 +1,13 @@
-package telegrambot.service.commandBot.receivers;
+package telegrambot.service.commandBot.receivers.changewishlist;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import telegrambot.service.BotConnect;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
-import telegrambot.service.commandBot.receivers.keyboard.buttons.ListButtonsNameGift;
-import telegrambot.service.commandBot.receivers.keyboard.buttons.ListButtonsState;
-import telegrambot.service.commandBot.receivers.keyboard.MakerInlineKeyboardMarkup;
+import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.ListButtonsNameGift;
+import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.ListButtonsState;
 
 @Service
 public class DeleteWish implements Command {

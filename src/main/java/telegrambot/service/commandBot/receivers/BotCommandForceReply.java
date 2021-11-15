@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.Command;
+import telegrambot.service.commandBot.receivers.addwish.AddCommand;
+import telegrambot.service.commandBot.receivers.addwish.InsertNameGiftToDB;
+import telegrambot.service.commandBot.receivers.addwish.InsertNameUserToDB;
+import telegrambot.service.commandBot.receivers.addwish.InsertProductDescriptionToDB;
 
 /**
  * Класс для обработки ForceReplyMessage, возвращает ответ типа SendMessage
@@ -19,14 +23,17 @@ public class BotCommandForceReply {
     private final Command insertNameUserToDB;
     private final Command insertNameGiftToDB;
     private final Command insertProductDescriptionToDB;
+    private final Command insertWebLink;
 
     @Autowired
     public BotCommandForceReply(@Qualifier("insertNameUserToDB") Command insertNameUserToDB,
                                 @Qualifier("insertNameGiftToDB") Command insertNameGiftToDB,
-                                @Qualifier("insertProductDescriptionToDB")Command insertProductDescriptionToDB) {
+                                @Qualifier("insertProductDescriptionToDB") Command insertProductDescriptionToDB,
+                                @Qualifier("insertWebLink") Command insertWebLink) {
         this.insertNameUserToDB = insertNameUserToDB;
         this.insertNameGiftToDB = insertNameGiftToDB;
         this.insertProductDescriptionToDB = insertProductDescriptionToDB;
+        this.insertWebLink = insertWebLink;
 
         this.commandMapForceReply = ImmutableMap.<String, Command>builder()
                 .put(AddCommand.getMESSAGE_ADD(), this.insertNameUserToDB)
@@ -34,7 +41,7 @@ public class BotCommandForceReply {
                 .put(InsertNameUserToDB.getINPUT_ERROR_MESSAGE(), this.insertNameUserToDB)
                 .put(InsertNameGiftToDB.getINPUT_ERROR_MESSAGE(), this.insertNameGiftToDB)
                 .put(InsertNameGiftToDB.getPRODUCT_DESCRIPTION(), this.insertProductDescriptionToDB)
-
+                .put(InsertProductDescriptionToDB.getWEB_LINK(), this.insertWebLink)
                 .build();
 
     }

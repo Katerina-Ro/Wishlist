@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.receivers;
+package telegrambot.service.commandBot.receivers.start;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.GiftOwner;
-import telegrambot.service.TelegramUserService;
+import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.receivers.keyboard.buttons.Buttons;
+import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
 
 /**
@@ -39,12 +39,14 @@ public class StartCommand implements Command {
     @Override
     public SendMessage execute(Update update)  {
         numberUser = update.getMessage().getChatId();
-        telegramUserService.createIdUserToDB(numberUser);
+        if(!telegramUserService.getTelegramUserRepository().existsById(numberUser)){
+            telegramUserService.createIdUserToDB(numberUser);
+        }
         newGiftOwner.setChatId(numberUser);
         return new SendMessage()
-        .setChatId(numberUser)
-        .enableHtml(true)
-        .setText(START_MESSAGE)
-        .setReplyMarkup(buttons.getKeyBoardStartMenu());
+                .setChatId(numberUser)
+                .enableHtml(true)
+                .setText(START_MESSAGE)
+                .setReplyMarkup(buttons.getKeyBoardStartMenu());
     }
 }

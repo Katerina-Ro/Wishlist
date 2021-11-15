@@ -1,11 +1,11 @@
-package telegrambot.service.commandBot.receivers.keyboard.buttons;
+package telegrambot.service.commandBot.receivers.utils.keyboard.buttons;
 
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import telegrambot.service.commandBot.receivers.keyboard.MakerInlineKeyboardMarkup;
-import telegrambot.service.commandBot.receivers.utils.COMMANDS;
+import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
+import telegrambot.service.commandBot.COMMANDS;
 
 @Service
 @Getter
@@ -16,29 +16,31 @@ public class Buttons {
     private static final String BUTTON_CHANGE_WISH = "Изменить желание";
     private static final String BUTTON_CHOOSE_THIS = "Выбрать";
     private static final String BUTTON_DELETE = "Удалить";
-    private static final String BUTTON_GET_WISHList = "Посмотреть список желаний";
+    private static final String BUTTON_GET_WISHLIST = "Посмотреть список желаний";
     private static final String BUTTON_INFO = "О чем канал?";
-    private static final String MORE_DETAILS = "Подробнее";
-    private static final String BUTTON_SEND = "Отправить";
-    private static final String YES_LABEL = "Да";
+    private static final String BUTTON_MORE_DETAILS = "Подробнее";
+    private static final String BUTTON_BUTTON_SEND = "Отправить";
+    private static final String BUTTON_YES_LABEL = "Да";
+    private static final String BUTTON_FOR_YOURESELF = "Свой список пожеланий";
+    private static final String BUTTON_FOR_ANOTHER = "Для другого человека";
 
     public InlineKeyboardButton getKeyBoardYes(boolean activeState){
         InlineKeyboardButton inlineKeyboardButtonYes = new InlineKeyboardButton();
-        inlineKeyboardButtonYes.setText(YES_LABEL);
+        inlineKeyboardButtonYes.setText(BUTTON_YES_LABEL);
         inlineKeyboardButtonYes.setCallbackData(COMMANDS.YES.getCommand());
         return inlineKeyboardButtonYes;
     }
 
     public InlineKeyboardButton getKeyBoardButtonSend(){
         InlineKeyboardButton inlineKeyboardButtonButtonSend = new InlineKeyboardButton();
-        inlineKeyboardButtonButtonSend.setText(BUTTON_SEND);
+        inlineKeyboardButtonButtonSend.setText(BUTTON_BUTTON_SEND);
         inlineKeyboardButtonButtonSend.setCallbackData(COMMANDS.SEND.getCommand());
         return inlineKeyboardButtonButtonSend;
     }
 
     public InlineKeyboardButton getKeyBoardMoreDetails(){
         InlineKeyboardButton inlineKeyboardButtonMoreDetails = new InlineKeyboardButton();
-        inlineKeyboardButtonMoreDetails.setText(MORE_DETAILS);
+        inlineKeyboardButtonMoreDetails.setText(BUTTON_MORE_DETAILS);
         inlineKeyboardButtonMoreDetails.setCallbackData(COMMANDS.MORE_DETAILS.getCommand());
         return inlineKeyboardButtonMoreDetails;
     }
@@ -52,7 +54,7 @@ public class Buttons {
 
     public InlineKeyboardButton getKeyBoardButtonGetWishList (){
         InlineKeyboardButton inlineKeyboardButtonButtonBack = new InlineKeyboardButton();
-        inlineKeyboardButtonButtonBack.setText(BUTTON_GET_WISHList);
+        inlineKeyboardButtonButtonBack.setText(BUTTON_GET_WISHLIST);
         inlineKeyboardButtonButtonBack.setCallbackData(COMMANDS.WISHLIST.getCommand());
         return inlineKeyboardButtonButtonBack;
     }
@@ -108,6 +110,20 @@ public class Buttons {
         InlineKeyboardButton inlineKeyboardButtonButtonBack = new InlineKeyboardButton();
         inlineKeyboardButtonButtonBack.setText(BUTTON_ADD_NAME_USER_TO_DB);
         inlineKeyboardButtonButtonBack.setCallbackData(COMMANDS.ADD_NAME_USER_TO_DB.getCommand());
+        return inlineKeyboardButtonButtonBack;
+    }
+
+    public InlineKeyboardButton getKeyBoardButtonForYoureself(){
+        InlineKeyboardButton inlineKeyboardButtonButtonBack = new InlineKeyboardButton();
+        inlineKeyboardButtonButtonBack.setText(BUTTON_FOR_YOURESELF);
+        inlineKeyboardButtonButtonBack.setCallbackData(COMMANDS.FOR_YOURESELF.getCommand());
+        return inlineKeyboardButtonButtonBack;
+    }
+
+    public InlineKeyboardButton getKeyBoardButtonForAnother(){
+        InlineKeyboardButton inlineKeyboardButtonButtonBack = new InlineKeyboardButton();
+        inlineKeyboardButtonButtonBack.setText(BUTTON_FOR_ANOTHER);
+        inlineKeyboardButtonButtonBack.setCallbackData(COMMANDS.FOR_ANOTHER.getCommand());
         return inlineKeyboardButtonButtonBack;
     }
 

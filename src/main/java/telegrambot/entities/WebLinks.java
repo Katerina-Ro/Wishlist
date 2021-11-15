@@ -28,7 +28,7 @@ public class WebLinks {
 
     @Column (name = "Weblink") // необязательно
     @Setter
-    private String web_link;
+    private String webLink;
 
     @Setter
     @ManyToMany (fetch = FetchType.LAZY)
@@ -38,7 +38,6 @@ public class WebLinks {
     @ManyToMany
     @JoinTable(name="gift_weblinks",
             joinColumns = @JoinColumn(name="weblinks_id"),
-            inverseJoinColumns = @JoinColumn(name="gift_id")
-    )
+            inverseJoinColumns = @JoinColumn(name="gift_id"))
     private Collection<Gift> gift;
 }

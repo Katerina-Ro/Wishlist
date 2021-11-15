@@ -46,13 +46,14 @@ public class Gift {
     private String descriptionGift;
 
     //@Column(name = "chat_id_gift_owner")
-    @ManyToOne //(fetch = FetchType.EAGER)
-    @JoinColumn(name = "gift_owner_id", referencedColumnName="chat_id", insertable=false, updatable=false)
+    @ManyToOne (fetch = FetchType.EAGER)
+    @JoinColumn(name = "gift_owner_id")//, referencedColumnName="chat_id", insertable=false, updatable=false)
     private GiftOwner giftOwner;
 
     //@Column (name = "chat_id_presenter")
-    @ManyToOne //(fetch = FetchType.EAGER)
-    @JoinColumn(name = "gift_presenter_id", referencedColumnName="chat_id", insertable=false, updatable=false)
+    @ManyToOne (fetch = FetchType.EAGER)
+    //Если будет падать ошибка, связанная с этим полем, то во владельце нужно создать еще одно поле без колонки, аналогичное владельцу подарка только для дарящего. Связи те же
+    @JoinColumn(name = "gift_presenter_id")//, referencedColumnName="chat_id", insertable=false, updatable=false)
     private GiftOwner giftPresenter;
 
     @ManyToMany //(fetch = FetchType.EAGER)
@@ -67,5 +68,19 @@ public class Gift {
             inverseJoinColumns = @JoinColumn(name="comments_id")
     )
     private Collection<Comments> comments;
-}
 
+    @Override
+    public String toString() {
+        return "Пожелание:" +
+                "Номер подарка: " + giftId +
+                ", statusGiftAdmin=" + statusGiftAdmin +
+                ", Статус подарка: " + statusGiftOwn +
+                ", Его кто-то выбрал, чтобы подарить? " + statusGiftAnother +
+                ", Наименование пожелания: " + nameGift + '\'' +
+                ", Описание пожелания " + descriptionGift + '\'' +
+                ", Чье пожелание: " + giftOwner +
+                ", giftPresenter " + giftPresenter +
+                ", Web- ссылки на подарок: " + linksList +
+                ", Комментарии: " + comments;
+    }
+}

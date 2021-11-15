@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.receivers;
+package telegrambot.service.commandBot.receivers.utils;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

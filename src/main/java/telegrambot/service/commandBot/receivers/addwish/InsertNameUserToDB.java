@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.receivers;
+package telegrambot.service.commandBot.receivers.addwish;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
-import telegrambot.service.TelegramUserService;
+import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
+import telegrambot.service.commandBot.receivers.start.StartCommand;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLines;
 
 @Service
@@ -38,10 +39,8 @@ public class InsertNameUserToDB implements Command {
     @Override
     @Transactional
     public SendMessage execute(Update update)  {
-        SendMessage messageAddCommand = new SendMessage();
-         /* Math.toIntExact() Новый метод был добавлен с Java 8 для безопасного приведения к int.
-           Выкинет ArithmeticException в случае переполнения.
-         */
+        SendMessage messageInsertNameUserToDBCommand = new SendMessage();
+        long chatIdUser = update.getMessage().getChatId();
         if(CheckingInputLines.checkEmptyString(update.getMessage().getText()) &&
                 CheckingInputLines.isLetters(update.getMessage().getText())) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
@@ -50,23 +49,28 @@ public class InsertNameUserToDB implements Command {
              изменения и откатит операцию назад
              */
             telegramUserService.createNameGiftOwner(update.getMessage().getText(),
-                    Math.toIntExact(update.getMessage().getChatId()));
-            startCommand.getNewGiftOwner().setName(update.getMessage().getText());
-            messageAddCommand.setChatId(update.getMessage().getChatId())
+                    chatIdUser);
+            if(telegramUserService.getTelegramUserRepository().existsById(chatIdUser)) {
+                startCommand.getNewGiftOwner().setName(telegramUserService
+                        .getGiftOwner(chatIdUser).getName());
+            } else {
+                startCommand.getNewGiftOwner().setName(update.getMessage().getText());
+            }
+            messageInsertNameUserToDBCommand.setChatId(update.getMessage().getChatId())
                              .setText(NAME_WISH);
-            messageAddCommand.setReplyMarkup(forceReplyKeyboard.setSelective(true));
+            messageInsertNameUserToDBCommand.setReplyMarkup(forceReplyKeyboard.setSelective(true));
         } else {
-            messageAddCommand = messageError(update);
+            messageInsertNameUserToDBCommand = messageError(update);
         }
-        return messageAddCommand;
+        return messageInsertNameUserToDBCommand;
     }
 
     private SendMessage messageError(Update update){
         ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-        SendMessage messageAddCommandError = new SendMessage()
+        SendMessage messageInsertNameUserToDBCommandError = new SendMessage()
                 .setChatId(update.getMessage().getChatId())
                 .setText(INPUT_ERROR_MESSAGE);
-        messageAddCommandError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        return messageAddCommandError;
+        messageInsertNameUserToDBCommandError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
+        return messageInsertNameUserToDBCommandError;
     }
 }
