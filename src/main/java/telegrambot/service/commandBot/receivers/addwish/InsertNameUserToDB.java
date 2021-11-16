@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboa
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.start.StartCommand;
-import telegrambot.service.commandBot.receivers.utils.CheckingInputLines;
+import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 @Service
 public class InsertNameUserToDB implements Command {
@@ -41,8 +41,8 @@ public class InsertNameUserToDB implements Command {
     public SendMessage execute(Update update)  {
         SendMessage messageInsertNameUserToDBCommand = new SendMessage();
         long chatIdUser = update.getMessage().getChatId();
-        if(CheckingInputLines.checkEmptyString(update.getMessage().getText()) &&
-                CheckingInputLines.isLetters(update.getMessage().getText())) {
+        if(CheckingInputLinesUtil.checkEmptyString(update.getMessage().getText()) &&
+                CheckingInputLinesUtil.isLetters(update.getMessage().getText())) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
             /*заносим пользователя в базу данных и отправляем ему новое поле для заполнения.
              Если какая-либо из операций не будет выполнена корректно, то @Transactional не даст внести

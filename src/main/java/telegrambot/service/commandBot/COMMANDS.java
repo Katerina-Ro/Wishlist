@@ -1,5 +1,7 @@
 package telegrambot.service.commandBot;
 
+import telegrambot.entities.Gift;
+
 public enum COMMANDS {
     INFO("О чем канал?"),
     START("/start"),
@@ -20,7 +22,7 @@ public enum COMMANDS {
     FOR_YOURESELF ("Свой список пожеланий"),
     FOR_ANOTHER ("Для другого человека");
 
-    private final String command;
+    private String command;
 
     COMMANDS (String command) {
         this.command = command;
@@ -28,6 +30,10 @@ public enum COMMANDS {
 
     public String getCommand() {
         return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
     }
 }
 

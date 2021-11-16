@@ -10,12 +10,23 @@ import telegrambot.service.commandBot.COMMANDS;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Вспомогательный класс для формирования клавиатуры типа InlineKeyboardMarkup
  */
 public class MakerInlineKeyboardMarkup {
+    /** Получаем клавиатуру на 1 ряд в одну кнопку
+     * @param keyboardButtonRow - 1 ряд
+     * @return - клавиатура типа: |кнопка|
+     */
+    public static InlineKeyboardMarkup get1InlineKeyboardMarkup(InlineKeyboardButton keyboardButtonRow) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> list = new ArrayList<>();
+        list.add(makeListInlineKeyboardButton(keyboardButtonRow));
+        inlineKeyboardMarkup.setKeyboard(list);
+        return inlineKeyboardMarkup;
+    }
+
     /** Получаем клавиатуру на 2 ряда, 1 строку
      * @param keyboardButtonRow1 - 1 ряд
      * @param keyboardButtonRow2 - 2 ряд
@@ -107,29 +118,48 @@ public class MakerInlineKeyboardMarkup {
     /**
      * Получаем список кнопок в 2 ряда и меняющееся количество строк (количество строк зависит от размера
      * второго параметра)
-     * @param mapGifts - ряд кнопок, от которого зависит количество строк
-     * @param  - ряд кнопок, количество которых зависит от первого параметра
+     * @param  - ряд кнопок, от которого зависит количество строк
      * @return возвращается клавиатура типа: |кнопка| - |кнопка|
      *                                       |кнопка| - |кнопка| и т.д.
      */
-    public static InlineKeyboardMarkup get2x2InlineKeyboardMarkup(Map<Integer, Gift> mapGifts){
+/*
+    public static InlineKeyboardMarkup get2x2InlineKeyboardMarkup(List<? extends Object> listObjects){
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
+        InlineKeyboardButton keyboardButtonRow1;
+        InlineKeyboardButton keyboardButtonRow2;
+        for(Object g: listObjects){
+            List<InlineKeyboardButton> keyboardButtonList = new ArrayList<>(); // 1 строка
+            keyboardButtonRow1 = getKeyBoard(g.toString(),g.toString());
+            keyboardButtonList.add(keyboardButtonRow1);
+            keyboardButtonRow2 = getKeyBoard(g.toString(),g.toString());
+            keyboardButtonList.add(keyboardButtonRow2);
+            keyboardButtons.add(keyboardButtonList);
+        }
+        inlineKeyboardMarkup.setKeyboard(keyboardButtons);
+        return inlineKeyboardMarkup;
+    } */
 
+
+    public static InlineKeyboardMarkup get2x2InlineKeyboardMarkup(List<Gift> listGifts){
         InlineKeyboardMarkup inlineKeyboardMarkup4 = new InlineKeyboardMarkup();
         List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
-        List<InlineKeyboardButton> keyboardButton1List = new ArrayList<>();
-        List<InlineKeyboardButton> keyboardButton2List = new ArrayList<>();
-        InlineKeyboardButton keyboardButtonRow1 ;
-        InlineKeyboardButton keyboardButtonRow2 ;
+        InlineKeyboardButton keyboardButtonRow1;
+        InlineKeyboardButton keyboardButtonRow2;
+        InlineKeyboardButton keyboardButtonRow3;
+        InlineKeyboardButton keyboardButtonRow4;
 
-        for(Gift gift: mapGifts.values()){
-            keyboardButtonRow1 = getKeyBoard(gift.getNameGift(),COMMANDS.NAME_GIFT.getCommand());
-            keyboardButtonRow2 = getKeyBoard(gift.getStatusGiftOwn().getStatusGift(),
-                    COMMANDS.STATE_DB.getCommand());
+        for(Gift g: listGifts){
+            List<InlineKeyboardButton> keyboardButton1List = new ArrayList<>(); // 1 строка
+            COMMANDS.NAME_GIFT.setCommand(g.getNameGift());
+            keyboardButtonRow1 = getKeyBoard(g.getNameGift(),  COMMANDS.NAME_GIFT.getCommand());
             keyboardButton1List.add(keyboardButtonRow1);
-            keyboardButton2List.add(keyboardButtonRow2);
+            keyboardButtonRow2 = getKeyBoard(g.getStatusGiftOwn().getStatusGift(),
+                        COMMANDS.STATE_DB.getCommand());
+            keyboardButton1List.add(keyboardButtonRow2);
+            //keyboardButtonRow3 = getKeyBoard(g.get
+            keyboardButtons.add(keyboardButton1List);
         }
-        keyboardButtons.add(keyboardButton1List);
-        keyboardButtons.add(keyboardButton2List);
         inlineKeyboardMarkup4.setKeyboard(keyboardButtons);
         return inlineKeyboardMarkup4;
     }

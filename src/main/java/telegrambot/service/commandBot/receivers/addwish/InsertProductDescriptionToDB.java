@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import telegrambot.service.entityservice.WishService;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.receivers.utils.CheckingInputLines;
+import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 @Service
 public class InsertProductDescriptionToDB implements Command {
@@ -38,7 +38,7 @@ public class InsertProductDescriptionToDB implements Command {
     public SendMessage execute(Update update)  {
         SendMessage messageWebLink = new SendMessage();
         String giftDescription = update.getMessage().getText();
-        if(CheckingInputLines.checkEmptyString(giftDescription)) {
+        if(CheckingInputLinesUtil.checkEmptyString(giftDescription)) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
             wishService.createDescriptionWish(giftDescription, insertNameGiftToDB.getGift());
             insertNameGiftToDB.getGift().setDescriptionGift(giftDescription);

@@ -21,7 +21,7 @@ public class ListButtonsNameGift {
 // giftRepository.findAllWishesChatIdUser(chat_id)
     public List<InlineKeyboardButton> getKeyBoardListButtonsNameGift(Long chat_id){
         List<InlineKeyboardButton> keyboardButtonRow1 = new ArrayList<>();
-        for(Gift g: wishService.getGiftRepository().findAllWishesChatIdUser(chat_id).values()){
+        for(Gift g: wishService.getGiftRepository().findAllByGiftOwnerChatId(chat_id)){
             keyboardButtonRow1.add(ButtonNameGift.getKeyBoardButtonNameGift(g.getNameGift()));
         }
         return keyboardButtonRow1;

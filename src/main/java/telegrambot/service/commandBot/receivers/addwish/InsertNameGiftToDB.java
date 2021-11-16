@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboa
 import telegrambot.entities.Gift;
 import telegrambot.service.entityservice.WishService;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.receivers.utils.CheckingInputLines;
+import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 @Service
 public class InsertNameGiftToDB implements Command {
@@ -42,7 +42,7 @@ public class InsertNameGiftToDB implements Command {
         SendMessage messageProductDescription = new SendMessage();
         String nameGift = update.getMessage().getText();
         long chatIdGiftOwner = update.getMessage().getChatId();
-        if(CheckingInputLines.checkEmptyString(nameGift)) {
+        if(CheckingInputLinesUtil.checkEmptyString(nameGift)) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
             gift = wishService.createNameGift(nameGift, insertNameUserToDB.getStartCommand().getNewGiftOwner());
             messageProductDescription.setChatId(chatIdGiftOwner)

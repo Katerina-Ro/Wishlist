@@ -17,10 +17,9 @@ import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 @Service
 @Getter
 public class StartCommand implements Command {
-    private final Buttons buttons;
     private final String imageGiftBox = String.valueOf(Character.toChars(0x1F381));
     private final String imageWavingHand = String.valueOf(Character.toChars(0x1F44B));
-    private final String START_MESSAGE = "Привет " + imageWavingHand + " \nЭто канал для составления списка " +
+    private final String START_MESSAGE = "Привет " + imageWavingHand + " \nЭто бот для составления списка " +
             "желаний " + imageGiftBox;
 
     private long numberUser;
@@ -30,8 +29,7 @@ public class StartCommand implements Command {
     private final TelegramUserService telegramUserService;
 
     @Autowired
-    public StartCommand(Buttons buttons, TelegramUserService telegramUserService) {
-        this.buttons = buttons;
+    public StartCommand(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
         this.newGiftOwner = new GiftOwner();
     }
@@ -47,6 +45,6 @@ public class StartCommand implements Command {
                 .setChatId(numberUser)
                 .enableHtml(true)
                 .setText(START_MESSAGE)
-                .setReplyMarkup(buttons.getKeyBoardStartMenu());
+                .setReplyMarkup(Buttons.getKeyBoardStartMenu());
     }
 }

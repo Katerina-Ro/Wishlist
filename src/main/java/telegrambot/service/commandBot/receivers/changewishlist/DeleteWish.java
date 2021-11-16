@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.BotConnect;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.ListButtonsNameGift;
-import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.ListButtonsState;
 
 @Service
 public class DeleteWish implements Command {
@@ -17,7 +16,7 @@ public class DeleteWish implements Command {
     private boolean chooseField = false;
 
     private ListButtonsNameGift listButtonsNameGift;
-    private ListButtonsState listButtonsState;
+
 
     @Autowired
     public DeleteWish(BotConnect botConnect) {
@@ -27,11 +26,6 @@ public class DeleteWish implements Command {
     @Autowired
     public void setListButtonsNameGift(ListButtonsNameGift listButtonsNameGift) {
         this.listButtonsNameGift = listButtonsNameGift;
-    }
-
-    @Autowired
-    public void setListButtonsState(ListButtonsState listButtonsState) {
-        this.listButtonsState = listButtonsState;
     }
 
 

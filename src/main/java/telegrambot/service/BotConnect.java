@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.receivers.*;
+import telegrambot.service.commandBot.receivers.addwish.AddCommand;
 
 /**
  * Класс для соединения с ботом
@@ -48,6 +49,7 @@ public class BotConnect extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.getMessage()!= null && update.hasMessage()) {
+
             if (update.getMessage().isReply()){
                 execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
                         update));

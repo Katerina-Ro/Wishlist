@@ -29,20 +29,14 @@ public class GiftOwner{
     @NotBlank
     private String name;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
+   /*
     @JoinTable(name="gift_owner_gifts",
             joinColumns = @JoinColumn(name="gift_owner_id"),
             inverseJoinColumns = @JoinColumn(name="gifts_id")
-    )
+    ) */
     //@JoinColumn(name = "number_id") // referencedColumnName="id_customer", insertable=false, updatable=false)
     private List<Gift> listGifts;
-
-    @OneToMany
-    //@JoinColumn(name = "id_links")
-    private List<WebLinks> listLinks;
-
-    @OneToMany
-    private List<Comments> listComments;
 
     @Column(name = "active")
     private boolean activeUser = true;

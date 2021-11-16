@@ -1,7 +1,6 @@
 package telegrambot.service.commandBot.receivers.getwishlist;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -15,22 +14,17 @@ import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 public class GetListWishCommand implements CommandEditSendMessage {
     private final String MESSAGE_GET_LIST_WISH = "Вы хотите получить свой список подарков или для другого " +
             "человека?";
-    private final Buttons buttons;
-
-    @Autowired
-    public GetListWishCommand(Buttons buttons) {
-        this.buttons = buttons;
-    }
 
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
+        System.out.println("");
         return new EditMessageText()
                 .setMessageId(update.getCallbackQuery().getMessage().getMessageId())
                 .setText(MESSAGE_GET_LIST_WISH)
                 .setChatId( update.getCallbackQuery().getMessage().getChatId())
                 .setReplyMarkup(MakerInlineKeyboardMarkup.get2x1InlineKeyboardMarkup
-                (buttons.getKeyBoardButtonForYoureself(),buttons.getKeyBoardButtonForAnother()));
+                (Buttons.getKeyBoardButtonForYoureself(),Buttons.getKeyBoardButtonForAnother()));
     }
 }
 

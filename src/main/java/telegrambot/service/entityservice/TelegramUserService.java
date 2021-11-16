@@ -32,4 +32,12 @@ public class TelegramUserService {
     public GiftOwner getGiftOwner (long chatIdUser){
         return telegramUserRepository.findById(chatIdUser).get();
     }
+
+    public boolean containsNameUserInDB(long chatIdUser){
+        boolean containsNameUserInDB = false;
+        if(telegramUserRepository.findById(chatIdUser).get().getName() != null){
+            containsNameUserInDB = true;
+        }
+        return containsNameUserInDB;
+    }
 }

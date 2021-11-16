@@ -3,7 +3,7 @@ package telegrambot.service.commandBot.receivers.utils;
 /**
  * Вспомогательный класс для проверки введенных пользователем строк на пустоту, null, символы
  */
-public class CheckingInputLines {
+public class CheckingInputLinesUtil {
     /**
      * Проверяем, введена ли строка и нет ли пробелов
      * @param string - строка, введенная пользователем

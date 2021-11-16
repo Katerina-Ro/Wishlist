@@ -41,8 +41,9 @@ public class AddCommand implements Command{
         long chatIdUser = update.getCallbackQuery().getMessage().getChatId();
         SendMessage messageAddCommand = new SendMessage()
                 .setReplyToMessageId(update.getCallbackQuery().getMessage().getMessageId())
+                .enableHtml(true)
                 .setChatId(chatIdUser);
-        if(telegramUserService.getTelegramUserRepository().existsById(chatIdUser)){
+        if(telegramUserService.containsNameUserInDB(chatIdUser)){
             messageAddCommand.setText(NAME_WISH);
         } else {
             messageAddCommand.setText(MESSAGE_ADD);

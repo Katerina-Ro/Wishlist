@@ -8,8 +8,7 @@ import telegrambot.entities.GiftOwner;
 import telegrambot.entities.StatusGift.STATUS_GIFT;
 import telegrambot.repository.GiftRepository;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class WishService {
@@ -22,7 +21,10 @@ public class WishService {
     }
 
     public Gift createNameGift(String nameGift, GiftOwner giftOwner){
-        return giftRepository.saveNameGift(nameGift, giftOwner);
+            Gift gift = new Gift();
+            gift.setNameGift(nameGift);
+            gift.setGiftOwner(giftOwner);
+            return giftRepository.save(gift);
     }
 
     public void createDescriptionWish(String giftDescription, Gift gift){
@@ -30,8 +32,31 @@ public class WishService {
         giftRepository.save(gift);
     }
 
-    public Map<Integer,Gift> getInfoGifts(Long userId){
-        return giftRepository.findAllWishesChatIdUser(userId);
+    public List<Gift> getInfoGifts(Long userId){
+        return giftRepository.findAllByGiftOwnerChatId(userId);
+    }
+
+    public Set<Integer> getIdGift(List<Gift> listGift){
+        Set<Integer> setIdGift = new HashSet<>();
+        for (Gift g: listGift){
+            setIdGift.add(g.getGiftId());
+        }
+        return setIdGift;
+    }
+
+    public Gift getGift (String name, List<Gift> listGifts){
+        Gift gift = new Gift();
+        for (Gift g: listGifts){
+            if(g.getNameGift().equalsIgnoreCase(name)) {
+                gift.setGiftId(g.getGiftId());
+                gift.setNameGift(g.getNameGift());
+                gift.setDescriptionGift(g.getDescriptionGift());
+                gift.setStatusGiftOwn(g.getStatusGiftOwn());
+                gift.setStatusGiftAnother(g.getStatusGiftAnother());
+                gift.setLinksList(g.getLinksList());
+            }
+        }
+        return gift;
     }
 
     public STATUS_GIFT getGiftStatusOwner(Map<Integer, Gift> gifts, int idGift){

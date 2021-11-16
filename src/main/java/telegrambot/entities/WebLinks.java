@@ -31,11 +31,7 @@ public class WebLinks {
     private String webLink;
 
     @Setter
-    @ManyToMany (fetch = FetchType.LAZY)
-    private Collection<GiftOwner> telegramUser;
-
-    @Setter
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="gift_weblinks",
             joinColumns = @JoinColumn(name="weblinks_id"),
             inverseJoinColumns = @JoinColumn(name="gift_id"))

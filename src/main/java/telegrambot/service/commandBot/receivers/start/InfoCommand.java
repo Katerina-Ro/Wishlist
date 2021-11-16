@@ -16,7 +16,6 @@ import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 @Service
 @Getter
 public class InfoCommand implements CommandEditSendMessage {
-    private final Buttons buttons;
     private final String imageGreenBook = String.valueOf(Character.toChars(0x1F4D7));
     private final String imageWinkingFace = String.valueOf(Character.toChars(0x1F609));
     private final String imageMemo = String.valueOf(Character.toChars(0x1F4DD));
@@ -25,24 +24,21 @@ public class InfoCommand implements CommandEditSendMessage {
     private final String INFO_MESSAGE = "Что значат эти кнопки? " + imageGreenBook +
             "\nВсе, кто подключен к этому каналу, видят твия пожелания и смогут их исполнить, либо ты сам " +
             imageWinkingFace + " можешь исполнить чью-то мечту." +
-            "\nНажимай " + "<b>" + "'Добавить пожелание'" + "</b>" + imageMemo + ", чтобы другие" +
+            "\nНажимай 'Добавить пожелание'" + imageMemo + ", чтобы другие" +
             " увидели твои желания." +
-            "\nНажимай " + "<b>" + "'Посмотреть список желаний'" + "</b>" + ", чтобы выбрать " + imageMagicWand
+            "\nНажимай 'Посмотреть список желаний', чтобы выбрать " + imageMagicWand
             + " чье-то желание либо посмотреть список своих желаний." +
-            "\nНажимай " + "<b>" + "'Изменить желание'" + "</b>" + ", если хочешь внести в него корректировки " +
+            "\nНажимай 'Изменить желание', если хочешь внести в него корректировки " +
             "либо удалить";
-
-    @Autowired
-    public InfoCommand(Buttons buttons) {
-        this.buttons = buttons;
-    }
 
     public EditMessageText execute(Update update) {
         return new EditMessageText()
+                .setMessageId(update.getCallbackQuery().getMessage().getMessageId())
                 .setChatId(update.getCallbackQuery().getMessage().getChatId())
                 .setText(INFO_MESSAGE)
+                .enableHtml(true)
                 .setReplyMarkup(MakerInlineKeyboardMarkup.get2x2x3InlineKeyboardMarkup(
-                buttons.getKeyBoardButtonAddWish(), buttons.getKeyBoardButtonGetWishList(),
-                buttons.getKeyBoardButtonChangeWish()));
+                Buttons.getKeyBoardButtonAddWish(), Buttons.getKeyBoardButtonGetWishList(),
+                Buttons.getKeyBoardButtonChangeWish()));
     }
 }
