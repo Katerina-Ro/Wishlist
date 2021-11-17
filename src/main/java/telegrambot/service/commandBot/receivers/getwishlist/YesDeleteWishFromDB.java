@@ -1,3 +1,4 @@
+
 package telegrambot.service.commandBot.receivers.getwishlist;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +13,30 @@ import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 import telegrambot.service.entityservice.WishService;
 
 @Service
-public class MoreDetailsCommand implements CommandEditSendMessage {
+public class YesDeleteWishFromDB implements CommandEditSendMessage {
     private final WishService wishService;
 
+    private static final String MESSAGE_YES_DELETE_WISH_COMMAND = "Ваше пожелание удалено";
+
     @Autowired
-    public MoreDetailsCommand(WishService wishService) {
+    public YesDeleteWishFromDB(WishService wishService) {
         this.wishService = wishService;
     }
 
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
+        System.out.println("внутри да, удалить");
+
         String incomingMessage = update.getCallbackQuery().getData();
-        String messageMoreDetailsCommand = wishService.getInfoGiftById(Integer.parseInt(incomingMessage
-                .substring((incomingMessage.indexOf(" "))+1))).toString();
-        return SendMessageUtils.sendEditMessage(update, messageMoreDetailsCommand,
-                MakerInlineKeyboardMarkup.get1InlineKeyboardMarkup(Buttons.getKeyBoardButtonBack()));
+        int idGift = Integer.parseInt(incomingMessage.substring((incomingMessage.indexOf(" "))+1));
+
+        System.out.println("idGift " + idGift);
+
+
+        wishService.deleteWishById(idGift);
+        return SendMessageUtils.sendEditMessage(update, MESSAGE_YES_DELETE_WISH_COMMAND,
+                MakerInlineKeyboardMarkup.get2x1InlineKeyboardMarkup
+                        (Buttons.getKeyBoardButtonForYoureself(),Buttons.getKeyBoardBackToStart()));
     }
 }

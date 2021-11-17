@@ -4,8 +4,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import telegrambot.entities.Gift;
-import telegrambot.service.commandBot.COMMANDS;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +13,7 @@ import java.util.List;
  * Вспомогательный класс для формирования клавиатуры типа InlineKeyboardMarkup
  */
 public class MakerInlineKeyboardMarkup {
-    /** Получаем клавиатуру на 1 ряд в одну кнопку
+    /** Получаем клавиатуру на 1 ряд 1 строку в одну кнопку
      * @param keyboardButtonRow - 1 ряд
      * @return - клавиатура типа: |кнопка|
      */
@@ -118,50 +116,48 @@ public class MakerInlineKeyboardMarkup {
     /**
      * Получаем список кнопок в 2 ряда и меняющееся количество строк (количество строк зависит от размера
      * второго параметра)
-     * @param  - ряд кнопок, от которого зависит количество строк
-     * @return возвращается клавиатура типа: |кнопка| - |кнопка|
-     *                                       |кнопка| - |кнопка| и т.д.
+     * @param  listObjects - список объектов, который необходимо перевсти в кнопки
+     * @return возвращается клавиатура типа: |кнопка 1| - |кнопка 2 связана с кнопкой 1|
+     *                                       |кнопка 3| - |кнопка 4 связана с кнопкой 3| и т.д.
      */
-/*
-    public static InlineKeyboardMarkup get2x2InlineKeyboardMarkup(List<? extends Object> listObjects){
+    public static InlineKeyboardMarkup get2xNInlineKeyboardMarkup(List<Object> listObjects){
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
-        InlineKeyboardButton keyboardButtonRow1;
-        InlineKeyboardButton keyboardButtonRow2;
         for(Object g: listObjects){
             List<InlineKeyboardButton> keyboardButtonList = new ArrayList<>(); // 1 строка
-            keyboardButtonRow1 = getKeyBoard(g.toString(),g.toString());
-            keyboardButtonList.add(keyboardButtonRow1);
-            keyboardButtonRow2 = getKeyBoard(g.toString(),g.toString());
-            keyboardButtonList.add(keyboardButtonRow2);
+            keyboardButtonList.add(getKeyBoard(g.toString(),g.toString()));
+            keyboardButtonList.add(getKeyBoard(g.toString(),g.toString()));
             keyboardButtons.add(keyboardButtonList);
         }
         inlineKeyboardMarkup.setKeyboard(keyboardButtons);
         return inlineKeyboardMarkup;
-    } */
+    }
 
-
-    public static InlineKeyboardMarkup get2x2InlineKeyboardMarkup(List<Gift> listGifts){
-        InlineKeyboardMarkup inlineKeyboardMarkup4 = new InlineKeyboardMarkup();
+    /**
+     * Получаем список кнопок в 2 ряда и меняющееся количество строк (количество строк зависит от размера
+     * второго параметра)
+     * @param  listObjects - список объектов, который необходимо перевсти в кнопки
+     * @param inlineKeyboardButtonList - название последней кнопки (например, 'Назад') в формате
+     *                                 List<InlineKeyboardButton>
+     * @return возвращается клавиатура типа: |кнопка 1| - |кнопка 2 связана с кнопкой 1|
+     *                                       |кнопка 3| - |кнопка 4 связана с кнопкой 3|
+     *                                       и т.д.
+     *                                       |кнопка|
+     */
+    public static InlineKeyboardMarkup get2xNx1InlineKeyboardMarkup(List<Object> listObjects,
+                                                                    List<InlineKeyboardButton>
+                                                                            inlineKeyboardButtonList){
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
-        InlineKeyboardButton keyboardButtonRow1;
-        InlineKeyboardButton keyboardButtonRow2;
-        InlineKeyboardButton keyboardButtonRow3;
-        InlineKeyboardButton keyboardButtonRow4;
-
-        for(Gift g: listGifts){
-            List<InlineKeyboardButton> keyboardButton1List = new ArrayList<>(); // 1 строка
-            COMMANDS.NAME_GIFT.setCommand(g.getNameGift());
-            keyboardButtonRow1 = getKeyBoard(g.getNameGift(),  COMMANDS.NAME_GIFT.getCommand());
-            keyboardButton1List.add(keyboardButtonRow1);
-            keyboardButtonRow2 = getKeyBoard(g.getStatusGiftOwn().getStatusGift(),
-                        COMMANDS.STATE_DB.getCommand());
-            keyboardButton1List.add(keyboardButtonRow2);
-            //keyboardButtonRow3 = getKeyBoard(g.get
-            keyboardButtons.add(keyboardButton1List);
+        List<InlineKeyboardButton> keyboardButtonList = new ArrayList<>(); // 1 строка
+        for(Object g: listObjects){
+            keyboardButtonList.add(getKeyBoard(g.toString(),g.toString()));
+            keyboardButtonList.add(getKeyBoard(g.toString(),g.toString()));
+            keyboardButtons.add(keyboardButtonList);
         }
-        inlineKeyboardMarkup4.setKeyboard(keyboardButtons);
-        return inlineKeyboardMarkup4;
+        keyboardButtons.add(inlineKeyboardButtonList);
+        inlineKeyboardMarkup.setKeyboard(keyboardButtons);
+        return inlineKeyboardMarkup;
     }
 
     /**
@@ -236,6 +232,17 @@ public class MakerInlineKeyboardMarkup {
     }
 
     /**
+     * Вспомогательный метод для получаения списка кнопок типа InlineKeyboardButton с одним элементом
+     * @param keyboardButton - кнопка 1
+     * @return - список кнопок с 1 элементом
+     */
+    public static List<InlineKeyboardButton> makeListInlineKeyboardButton (InlineKeyboardButton keyboardButton){
+        List<InlineKeyboardButton> inlineKeyboardButtons = new ArrayList<>();
+        inlineKeyboardButtons.add(keyboardButton);
+        return  inlineKeyboardButtons;
+    }
+
+    /**
      * Вспомогательный метод для получаения списка кнопок типа InlineKeyboardButton с 2 элементами
      * @param keyboardButton1 - кнопка 1
      * @param keyboardButton2 - кнопка 2
@@ -246,17 +253,6 @@ public class MakerInlineKeyboardMarkup {
         List<InlineKeyboardButton> inlineKeyboardButtons = new ArrayList<>();
         inlineKeyboardButtons.add(keyboardButton1);
         inlineKeyboardButtons.add(keyboardButton2);
-        return  inlineKeyboardButtons;
-    }
-
-    /**
-     * Вспомогательный метод для получаения списка кнопок типа InlineKeyboardButton с одним элементом
-     * @param keyboardButton - кнопка 1
-     * @return - список кнопок с 1 элементом
-     */
-    private static List<InlineKeyboardButton> makeListInlineKeyboardButton (InlineKeyboardButton keyboardButton){
-        List<InlineKeyboardButton> inlineKeyboardButtons = new ArrayList<>();
-        inlineKeyboardButtons.add(keyboardButton);
         return  inlineKeyboardButtons;
     }
 }

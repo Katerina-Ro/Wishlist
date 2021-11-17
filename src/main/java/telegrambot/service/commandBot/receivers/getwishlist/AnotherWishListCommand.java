@@ -18,16 +18,17 @@ import java.util.List;
 
 @Service
 @Getter
-public class OwnWishListCommand implements CommandEditSendMessage {
+public class AnotherWishListCommand implements CommandEditSendMessage {
+    private static final String IMAGE_CONFETTI_BALL = String.valueOf(Character.toChars(0x1F38A));
     private static final String IMAGE_CONFUSED_FACE = String.valueOf(Character.toChars(0x1F615));
-    private static final String MESSAGE_OWN_WISHLIST = "Ваш список пожеланий ";
-    private static final String MESSAGE_OWN_WISHLIST_IS_EMPTY = "Ваш список желаний пуст " +
-            IMAGE_CONFUSED_FACE + ". Добавьте свои желания через кнопку 'Добавить пожелание'";
+    private static final String MESSAGE_ANOTHER_WISHLIST = "Выбранные Вами пожелания " + IMAGE_CONFETTI_BALL;
+    private static final String MESSAGE_ANOTHER_WISHLIST_IS_EMPTY = "Вы еще не выбрали ни одного пожелания " +
+            "для исполнения " + IMAGE_CONFUSED_FACE;
     private final WishService wishService;
     private List<Gift> listGifts = new ArrayList<>();
 
     @Autowired
-    public OwnWishListCommand(WishService wishService) {
+    public AnotherWishListCommand(WishService wishService) {
         this.wishService = wishService;
     }
 
@@ -36,16 +37,15 @@ public class OwnWishListCommand implements CommandEditSendMessage {
     public EditMessageText execute(Update update) {
         EditMessageText editMessageOwnWishListCommand;
         long chatIdUser = update.getCallbackQuery().getMessage().getChatId();
-        listGifts = wishService.getInfoGifts(chatIdUser);
+        listGifts = wishService.getListWishAnother(chatIdUser);
 
-        if(wishService.getInfoGifts(update.getCallbackQuery().getMessage().getChatId()).isEmpty()) {
+        if(wishService.getListWishAnother(chatIdUser).isEmpty()) {
             editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update,
-                    MESSAGE_OWN_WISHLIST_IS_EMPTY, Buttons.getKeyBoardStartMenu());
+                    MESSAGE_ANOTHER_WISHLIST_IS_EMPTY, Buttons.getKeyBoardStartMenu());
         }  else{
-            editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update, MESSAGE_OWN_WISHLIST,
-                    MakerInlineKeyboardMarkupUtils.get4RowsInlineKeyboardMarkup(listGifts));
+            editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update,MESSAGE_ANOTHER_WISHLIST,
+                    MakerInlineKeyboardMarkupUtils.get2RowsInlineKeyboardMarkup(listGifts));
         }
         return editMessageOwnWishListCommand;
     }
 }
-

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.receivers.*;
-import telegrambot.service.commandBot.receivers.addwish.AddCommand;
+import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 /**
  * Класс для соединения с ботом
@@ -48,24 +48,36 @@ public class BotConnect extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.getMessage()!= null && update.hasMessage()) {
+        try {
+            if (update.getMessage() != null && update.hasMessage()) {
+                if (update.getMessage().isReply()) {
+                    execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
+                            update));
+                } else {
+                    execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
+                }
+            } else if (update.hasCallbackQuery()) {
+                String commandIdentifier = update.getCallbackQuery().getData();
+                if (botCommandCallbackQuery.getCommandMapCommand().containsKey(commandIdentifier)) {
+                    execute(botCommandCallbackQuery.findCommand(update.getCallbackQuery().getData(), update));
+                } else {
 
-            if (update.getMessage().isReply()){
-                execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
-                        update));
-            } else {
-                execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
+                    System.out.println("приходит update.getCallbackQuery() это " + update.getCallbackQuery().getData());
+
+                    if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)) {
+                        commandIdentifier = CheckingInputLinesUtil.whichCommand(update);
+                        if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)) {
+                            execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
+                        }
+                    }
+                    execute(botCommandCallbackQueryEdit.findCommand(commandIdentifier, update));
+                }
             }
-        } else if (update.hasCallbackQuery()) {
-            String commandIdentifier = update.getCallbackQuery().getData();
-            if (botCommandCallbackQuery.getCommandMapCommand().containsKey(commandIdentifier)){
-                execute(botCommandCallbackQuery.findCommand(update.getCallbackQuery().getData(), update));
-            } else {
-                execute(botCommandCallbackQueryEdit.findCommand(commandIdentifier,update));
-            }
-        } else {
-               System.out.println("Нажмите на любую из предложенных кнопок");
-           }
+        } catch (NullPointerException ex) {
+
+
+
+        }
     }
 }
 

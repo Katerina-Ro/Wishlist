@@ -18,7 +18,6 @@ public class GetListWishCommand implements CommandEditSendMessage {
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
-        System.out.println("");
         return new EditMessageText()
                 .setMessageId(update.getCallbackQuery().getMessage().getMessageId())
                 .setText(MESSAGE_GET_LIST_WISH)

@@ -36,4 +36,9 @@ public class WebLinks {
             joinColumns = @JoinColumn(name="weblinks_id"),
             inverseJoinColumns = @JoinColumn(name="gift_id"))
     private Collection<Gift> gift;
+
+    @Override
+    public String toString() {
+        return webLink;
+    }
 }

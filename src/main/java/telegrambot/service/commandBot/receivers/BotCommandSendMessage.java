@@ -36,6 +36,6 @@ public class BotCommandSendMessage {
     }
 
     public SendMessage findCommand(String commandIdentifier, Update update) {
-        return (commandMapSendMessage.get(commandIdentifier).execute(update));
+        return (commandMapSendMessage.getOrDefault(commandIdentifier, startCommand).execute(update));
     }
 }

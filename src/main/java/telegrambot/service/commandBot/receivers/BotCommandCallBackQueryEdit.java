@@ -18,28 +18,43 @@ public class BotCommandCallBackQueryEdit {
     private final CommandEditSendMessage getWishList;
     private final CommandEditSendMessage ownWishList;
     private final CommandEditSendMessage moreDetailsCommand;
+    private final CommandEditSendMessage deleteWishCommand;
+    private final CommandEditSendMessage yesDeleteWishFromDB;
+    private final CommandEditSendMessage changeStatusGiftOwn;
+    private final CommandEditSendMessage anotherWishListCommand;
 
     @Autowired
     public BotCommandCallBackQueryEdit(@Qualifier("infoCommand") CommandEditSendMessage infoCommand,
                                        @Qualifier("getListWishCommand") CommandEditSendMessage getWishList,
                                        @Qualifier("ownWishListCommand") CommandEditSendMessage ownWishList,
-                                       @Qualifier("moreDetailsCommand") CommandEditSendMessage moreDetailsCommand) {
+                                       @Qualifier("moreDetailsCommand") CommandEditSendMessage moreDetailsCommand,
+                                       @Qualifier("deleteWishCommand") CommandEditSendMessage deleteWishCommand,
+                                       @Qualifier("yesDeleteWishFromDB") CommandEditSendMessage yesDeleteWishFromDB,
+                                       @Qualifier("changeStatusGiftOwn") CommandEditSendMessage changeStatusGiftOwn,
+                                       @Qualifier("anotherWishListCommand") CommandEditSendMessage anotherWishListCommand) {
         this.infoCommand = infoCommand;
         this.getWishList = getWishList;
         this.ownWishList = ownWishList;
         this.moreDetailsCommand = moreDetailsCommand;
+        this.deleteWishCommand = deleteWishCommand;
+        this.yesDeleteWishFromDB = yesDeleteWishFromDB;
+        this.changeStatusGiftOwn = changeStatusGiftOwn;
+        this.anotherWishListCommand = anotherWishListCommand;
 
         this.commandMapCommandEdit = ImmutableMap.<String, CommandEditSendMessage>builder()
                 .put(COMMANDS.INFO.getCommand(), this.infoCommand)
                 .put(COMMANDS.WISHLIST.getCommand(), this.getWishList)
                 .put(COMMANDS.FOR_YOURESELF.getCommand(), this.ownWishList)
-                //.put(serchUtils.getCommands(name), this.moreDetailsCommand)
+                .put(COMMANDS.FOR_ANOTHER.getCommand(), this.anotherWishListCommand)
+                .put(COMMANDS.BACK.getCommand(), this.getWishList)
+                .put(COMMANDS.DELETE.getCommand(), this.deleteWishCommand)
+                .put(COMMANDS.YES.getCommand(), this.yesDeleteWishFromDB)
+                .put(COMMANDS.NO.getCommand(), this.ownWishList)
+                .put(COMMANDS.STATE_DB.getCommand(), this.changeStatusGiftOwn)
+                .put(COMMANDS.STATE_DB_NOT_ACTIVE.getCommand(), this.changeStatusGiftOwn)
                 .build();
     }
     public EditMessageText findCommand(String commandIdentifier, Update update) {
         return (commandMapCommandEdit.getOrDefault(commandIdentifier, moreDetailsCommand).execute(update));
     }
-
-
-
 }

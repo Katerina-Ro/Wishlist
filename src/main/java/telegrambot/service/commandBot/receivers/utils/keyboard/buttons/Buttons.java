@@ -10,7 +10,7 @@ import telegrambot.service.commandBot.COMMANDS;
 public class Buttons {
     private static final String BUTTON_ADD_WISH = "Добавить пожелание";
     private static final String BUTTON_ADD_NAME_USER_TO_DB = "Добавить имя";
-    private static final String BUTTON_BACK = "Назад";
+    private static final String BUTTON_BACK = "Назад к выбору списка желаний";
     private static final String BUTTON_CHANGE_WISH = "Изменить желание";
     private static final String BUTTON_CHOOSE_THIS = "Выбрать";
     private static final String BUTTON_DELETE = "Удалить";
@@ -18,17 +18,22 @@ public class Buttons {
     private static final String BUTTON_INFO = "О чем канал?";
     private static final String BUTTON_MORE_DETAILS = "Подробнее";
     private static final String BUTTON_BUTTON_SEND = "Отправить";
-    private static final String BUTTON_YES_LABEL = "Да";
+    private static final String BUTTON_YES_LABEL = "Да,удалить";
+    private static final String BUTTON_NO_LABEL = "Нет,не удалять";
     private static final String BUTTON_FOR_YOURESELF = "Свой список пожеланий";
-    private static final String BUTTON_FOR_ANOTHER = "Для другого человека";
-    private static String BUTTON_statusGift;
+    private static final String BUTTON_FOR_ANOTHER = "Дарю другим";
+    private static final String BUTTON_BACK_TO_START = "Назад, в главное меню";
 
-    public static InlineKeyboardButton getKeyBoardButtonState(String statusGift) {
-        return MakerInlineKeyboardMarkup.getKeyBoard(BUTTON_statusGift, COMMANDS.STATE_DB.getCommand());
+    public static InlineKeyboardButton getKeyBoardBackToStart() {
+        return MakerInlineKeyboardMarkup.getKeyBoard(BUTTON_BACK_TO_START, COMMANDS.BUTTON_BACK_TO_START.getCommand());
     }
 
-    public static InlineKeyboardButton getKeyBoardYes(boolean activeState){
+    public static InlineKeyboardButton getKeyBoardYes(){
         return MakerInlineKeyboardMarkup.getKeyBoard(BUTTON_YES_LABEL, COMMANDS.YES.getCommand());
+    }
+
+    public static InlineKeyboardButton getKeyBoardNO(){
+        return MakerInlineKeyboardMarkup.getKeyBoard(BUTTON_NO_LABEL, COMMANDS.NO.getCommand());
     }
 
     public static InlineKeyboardButton getKeyBoardButtonSend(){

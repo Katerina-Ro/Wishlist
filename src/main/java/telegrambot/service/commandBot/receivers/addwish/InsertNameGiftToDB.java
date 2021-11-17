@@ -13,6 +13,7 @@ import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 @Service
+
 public class InsertNameGiftToDB implements Command {
     @Getter
     private static final String HEAVY_EXCLAMATION_MARK_SYMBOL =

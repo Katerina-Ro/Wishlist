@@ -58,8 +58,7 @@ public class Gift {
 
     @Override
     public String toString() {
-        return "Пожелание: " +
-                "Наименование пожелания: " + nameGift + ", \n" +
+        return "Наименование пожелания: " + nameGift + ", \n" +
                 "Описание пожелания: " + descriptionGift +  ", \n" +
                 "Статус подарка: " + statusGiftOwn.getStatusGift() + ", \n" +
                 "Его кто-то выбрал, чтобы подарить? " + statusGiftAnother.getStatusGift() +  ", \n" +

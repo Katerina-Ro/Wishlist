@@ -32,9 +32,31 @@ public class WishService {
         giftRepository.save(gift);
     }
 
+    /*
+    public void updateStatusGiftOwn(int idGift, STATUS_GIFT statusGiftOwn){
+        Gift gift = new Gift();
+        gift.setGiftId(idGift);
+        gift.setStatusGiftOwn(statusGiftOwn);
+        giftRepository.save(gift);
+    } */
+
+    public void updateStatusGift(Gift gift){
+        giftRepository.save(gift);
+    }
+
     public List<Gift> getInfoGifts(Long userId){
         return giftRepository.findAllByGiftOwnerChatId(userId);
     }
+
+    public List<Gift> getListWishAnother(long iDGiftPresenter){
+        return giftRepository.findAllByGiftAnotherChatId(iDGiftPresenter);
+    }
+
+    public Gift getInfoGiftById(int idGift) {
+        return giftRepository.findByGiftId(idGift);
+    }
+
+
 
     public Set<Integer> getIdGift(List<Gift> listGift){
         Set<Integer> setIdGift = new HashSet<>();
@@ -59,17 +81,16 @@ public class WishService {
         return gift;
     }
 
-    public STATUS_GIFT getGiftStatusOwner(Map<Integer, Gift> gifts, int idGift){
-        return gifts.get(idGift).getStatusGiftOwn();
-    }
-
-    public STATUS_GIFT getGiftStatusAnother(Map<Integer, Gift> gifts, int idGift){
-        return gifts.get(idGift).getStatusGiftAnother();
-    }
-
-    public void deleteAllWish(Set<Integer> giftsId){
-        for(Integer i: giftsId) {
-            giftRepository.deleteById(i);
+    public boolean checkingGiftGivingStatus(int idGift) {
+        boolean checkingGiftGivingStatus = false;
+        if(getInfoGiftById(idGift).getStatusGiftAnother().getStatusGift()
+                .equalsIgnoreCase(STATUS_GIFT.ACTIVE.getStatusGift())){
+            checkingGiftGivingStatus = true;
         }
+        return checkingGiftGivingStatus;
+    }
+
+    public void deleteWishById(int idGift){
+        giftRepository.deleteById(idGift);
     }
 }
