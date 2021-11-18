@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity // обязательно
 @Table(name = "links") //необязательная, по умолчанию - название класса
@@ -26,7 +27,7 @@ public class WebLinks {
     @Column(name = "id_Links", unique = true, nullable = false)
     private Integer idLinks;
 
-    @Column (name = "Weblink") // необязательно
+    @Column (name = "weblink") // необязательно
     @Setter
     private String webLink;
 
@@ -35,7 +36,7 @@ public class WebLinks {
     @JoinTable(name="gift_weblinks",
             joinColumns = @JoinColumn(name="weblinks_id"),
             inverseJoinColumns = @JoinColumn(name="gift_id"))
-    private Collection<Gift> gift;
+    private List<Gift> gift;
 
     @Override
     public String toString() {

@@ -10,6 +10,7 @@ import telegrambot.entities.StatusGift.STATUS_GIFT;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @MappedEnum(enumClass =  STATUS_GIFT.class)
@@ -54,7 +55,7 @@ public class Gift {
     @JoinTable(name="gift_weblinks",
             joinColumns = @JoinColumn(name="gift_id"),
             inverseJoinColumns = @JoinColumn(name="weblinks_id"))
-    private Collection<WebLinks> linksList;
+    private List<WebLinks> linksList;
 
     @Override
     public String toString() {

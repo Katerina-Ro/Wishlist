@@ -44,7 +44,7 @@ public class AnotherWishListCommand implements CommandEditSendMessage {
                     MESSAGE_ANOTHER_WISHLIST_IS_EMPTY, Buttons.getKeyBoardStartMenu());
         }  else{
             editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update,MESSAGE_ANOTHER_WISHLIST,
-                    MakerInlineKeyboardMarkupUtils.get2RowsInlineKeyboardMarkup(listGifts));
+                    MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(listGifts));
         }
         return editMessageOwnWishListCommand;
     }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.receivers.*;
-import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
+import telegrambot.service.commandBot.receivers.utils.CommandCheckUtil;
 
 /**
  * Класс для соединения с ботом
@@ -50,24 +50,54 @@ public class BotConnect extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         try {
             if (update.getMessage() != null && update.hasMessage()) {
-                if (update.getMessage().isReply()) {
+                if (update.getMessage().isReply() && !CommandCheckUtil.checkCommandReplyBackToMainMenu(update)) {
+                    System.out.println("это Реплай ");
                     execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
                             update));
                 } else {
+                    System.out.println("это Обычный сенд ");
                     execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
                 }
             } else if (update.hasCallbackQuery()) {
                 String commandIdentifier = update.getCallbackQuery().getData();
                 if (botCommandCallbackQuery.getCommandMapCommand().containsKey(commandIdentifier)) {
-                    execute(botCommandCallbackQuery.findCommand(update.getCallbackQuery().getData(), update));
+                    execute(botCommandCallbackQuery.findCommand(commandIdentifier, update));
                 } else {
 
-                    System.out.println("приходит update.getCallbackQuery() это " + update.getCallbackQuery().getData());
+                    System.out.println("приходит update.getCallbackQuery() это " + commandIdentifier);
+                    if(CommandCheckUtil.checkCommandCallBackEditBackToMainMenu(update)){
 
-                    if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)) {
-                        commandIdentifier = CheckingInputLinesUtil.whichCommand(update);
+                        System.out.println();
+                        System.out.println("внутри блока  if(CommandCheckUtil.checkCommandBackToMainMenu(update)) ");
+                       // System.out.println("update.getMessage().getText() = " + update.getMessage().getText());
+                        System.out.println();
+                        execute(botCommandSendMessage.findCommand(commandIdentifier, update));
+                        System.out.println("вшел из блока  if(CommandCheckUtil.checkCommandBackToMainMenu(update))");
+                    }
+                    /*
+                    if (CommandCheckUtil.checkCommandCallBackChangeWishStatusOwn(update)){
+                        System.out.println();
+                        System.out.println("это блок   CommandCheckUtil.checkCommandCallBackChangeWishStatusOwn(update)");
+                        System.out.println();
+
+                        System.out.println();
+                        System.out.println("commandIdentifier = " + commandIdentifier);
+                    } */
+                else if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)
+                    ) {
+                    // && !CommandCheckUtil.checkCommandCallBackChangeWishStatusOwn(update)
+                        System.out.println();
+                        System.out.println("это блок    !botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)\n" +
+                                "                     && !CommandCheckUtil.checkCommandCallBackChangeWishStatusOwn(update)");
+                        System.out.println();
+                        commandIdentifier = CommandCheckUtil.whichCommand(update);
+                        System.out.println();
+                        System.out.println("commandIdentifier = " + commandIdentifier);
                         if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)) {
+                            System.out.println();
+                            System.out.println("это блок if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
                             execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
+                            System.out.println("вышел из блока if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
                         }
                     }
                     execute(botCommandCallbackQueryEdit.findCommand(commandIdentifier, update));

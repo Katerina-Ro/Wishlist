@@ -27,6 +27,7 @@ public class BotCommandCallbackQuery {
         this.insertNameUserToDB = insertNameUserToDB;
         this.commandMapCommand = ImmutableMap.<String, Command>builder()
                 .put(COMMANDS.ADD_WISH.getCommand(), this.addCommand)
+                .put(COMMANDS.ADD_MORE_WISH.getCommand(), this.addCommand)
                 .put(COMMANDS.CHANGE_WISH.getCommand(), this.changeWishCommand)
                 .build();
     }

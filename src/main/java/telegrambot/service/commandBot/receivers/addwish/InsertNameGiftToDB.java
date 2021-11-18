@@ -43,6 +43,9 @@ public class InsertNameGiftToDB implements Command {
         SendMessage messageProductDescription = new SendMessage();
         String nameGift = update.getMessage().getText();
         long chatIdGiftOwner = update.getMessage().getChatId();
+
+        System.out.println("chatIdGiftOwner = " + chatIdGiftOwner);
+
         if(CheckingInputLinesUtil.checkEmptyString(nameGift)) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
             gift = wishService.createNameGift(nameGift, insertNameUserToDB.getStartCommand().getNewGiftOwner());

@@ -14,18 +14,17 @@ import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 @Service
 public class InsertNameUserToDB implements Command {
-    @Getter
     private static final String IMAGE_EIGHT_SPOKED_ASTERISK =
             String.valueOf(Character.toChars(0x2733));
-    @Getter
     private static final String HEAVY_EXCLAMATION_MARK_SYMBOL =
             String.valueOf(Character.toChars(0x2757));
+    @Getter
+    private static final String INPUT_NAME_ERROR_MESSAGE = "Такое имя уже есть у бота. Введите другое имя";
     @Getter
     private static final String INPUT_ERROR_MESSAGE =
             HEAVY_EXCLAMATION_MARK_SYMBOL + " Имя должно быть текстовым";
     @Getter
     private static final String NAME_WISH = "'Наименование подарка'" + IMAGE_EIGHT_SPOKED_ASTERISK;
-    @Getter
     private final TelegramUserService telegramUserService;
     @Getter
     private final StartCommand startCommand;
@@ -44,12 +43,13 @@ public class InsertNameUserToDB implements Command {
         if(CheckingInputLinesUtil.checkEmptyString(update.getMessage().getText()) &&
                 CheckingInputLinesUtil.isLetters(update.getMessage().getText())) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-            /*заносим пользователя в базу данных и отправляем ему новое поле для заполнения.
-             Если какая-либо из операций не будет выполнена корректно, то @Transactional не даст внести
-             изменения и откатит операцию назад
-             */
-            telegramUserService.createNameGiftOwner(update.getMessage().getText(),
-                    chatIdUser);
+            String inputName = update.getMessage().getText();
+            if(!telegramUserService.existNameUserInDB(inputName)) {
+                telegramUserService.createNameGiftOwner(inputName,
+                        chatIdUser);
+            } else {
+                messageInsertNameUserToDBCommand = messageErrorName(update);
+            }
             if(telegramUserService.getTelegramUserRepository().existsById(chatIdUser)) {
                 startCommand.getNewGiftOwner().setName(telegramUserService
                         .getGiftOwner(chatIdUser).getName());
@@ -72,5 +72,14 @@ public class InsertNameUserToDB implements Command {
                 .setText(INPUT_ERROR_MESSAGE);
         messageInsertNameUserToDBCommandError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
         return messageInsertNameUserToDBCommandError;
+    }
+
+    private SendMessage messageErrorName(Update update){
+        ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
+        SendMessage messageInsertNameUserToDBCommandErrorName = new SendMessage()
+                .setChatId(update.getMessage().getChatId())
+                .setText(INPUT_NAME_ERROR_MESSAGE);
+        messageInsertNameUserToDBCommandErrorName.setReplyMarkup(forceReplyKeyboard.setSelective(true));
+        return messageInsertNameUserToDBCommandErrorName;
     }
 }

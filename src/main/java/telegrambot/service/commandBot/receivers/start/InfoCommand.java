@@ -1,7 +1,6 @@
 package telegrambot.service.commandBot.receivers.start;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -22,14 +21,12 @@ public class InfoCommand implements CommandEditSendMessage {
     private final String imageMagicWand = String.valueOf(Character.toChars(0x1FA84));
 
     private final String INFO_MESSAGE = "Что значат эти кнопки? " + imageGreenBook +
-            "\nВсе, кто подключен к этому каналу, видят твия пожелания и смогут их исполнить, либо ты сам " +
-            imageWinkingFace + " можешь исполнить чью-то мечту." +
-            "\nНажимай 'Добавить пожелание'" + imageMemo + ", чтобы другие" +
-            " увидели твои желания." +
-            "\nНажимай 'Посмотреть список желаний', чтобы выбрать " + imageMagicWand
-            + " чье-то желание либо посмотреть список своих желаний." +
-            "\nНажимай 'Изменить желание', если хочешь внести в него корректировки " +
-            "либо удалить";
+            "\nВсе, кто подключен к этому каналу, видят Ваши пожелания и смогут их исполнить, либо Вы сами " +
+            imageWinkingFace + " можете исполнить чью-то мечту." +
+            "\nНажимайте 'Добавить пожелание'" + imageMemo + ", чтобы сообщить свои желания боту, " +
+            "а бот смог их показать другим." +
+            "\nНажимайте 'Посмотреть список желаний', чтобы выбрать " + imageMagicWand
+            + " чье-то желание либо просмотреть список своих желаний и изменить его.";
 
     public EditMessageText execute(Update update) {
         return new EditMessageText()
@@ -37,8 +34,7 @@ public class InfoCommand implements CommandEditSendMessage {
                 .setChatId(update.getCallbackQuery().getMessage().getChatId())
                 .setText(INFO_MESSAGE)
                 .enableHtml(true)
-                .setReplyMarkup(MakerInlineKeyboardMarkup.get2x2x3InlineKeyboardMarkup(
-                Buttons.getKeyBoardButtonAddWish(), Buttons.getKeyBoardButtonGetWishList(),
-                Buttons.getKeyBoardButtonChangeWish()));
+                .setReplyMarkup(MakerInlineKeyboardMarkup.get2x1InlineKeyboardMarkup(Buttons
+                        .getKeyBoardButtonAddWish(), Buttons.getKeyBoardButtonGetWishList()));
     }
 }

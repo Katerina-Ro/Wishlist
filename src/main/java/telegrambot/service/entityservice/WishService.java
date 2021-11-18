@@ -44,8 +44,12 @@ public class WishService {
         giftRepository.save(gift);
     }
 
-    public List<Gift> getInfoGifts(Long userId){
+    public List<Gift> getInfoGifts(long userId){
         return giftRepository.findAllByGiftOwnerChatId(userId);
+    }
+
+    public List<Gift> getInfoAnotherGifts(Long userId) {
+        return giftRepository.findAllByChatIdByStatusGift(userId);
     }
 
     public List<Gift> getListWishAnother(long iDGiftPresenter){

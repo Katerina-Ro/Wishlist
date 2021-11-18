@@ -26,6 +26,8 @@ public class ChangeStatusGiftOwn implements CommandEditSendMessage {
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
+        System.out.println("внутри ChangeStatusGiftOwn ");
+
         String incomingMessage = update.getCallbackQuery().getData();
         Gift gift = wishService.getInfoGiftById(Integer.parseInt(incomingMessage
                 .substring((incomingMessage.indexOf(" "))+1)));

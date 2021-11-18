@@ -40,8 +40,10 @@ public class BotCommandForceReply {
                 .put(InsertNameUserToDB.getNAME_WISH(), this.insertNameGiftToDB)
                 .put(InsertNameUserToDB.getINPUT_ERROR_MESSAGE(), this.insertNameUserToDB)
                 .put(InsertNameGiftToDB.getINPUT_ERROR_MESSAGE(), this.insertNameGiftToDB)
+                .put(InsertNameUserToDB.getINPUT_NAME_ERROR_MESSAGE(), this.insertNameGiftToDB)
                 .put(InsertNameGiftToDB.getPRODUCT_DESCRIPTION(), this.insertProductDescriptionToDB)
                 .put(InsertProductDescriptionToDB.getWEB_LINK(), this.insertWebLink)
+                //.put(InsertProductDescriptionToDB.)
                 .build();
 
     }

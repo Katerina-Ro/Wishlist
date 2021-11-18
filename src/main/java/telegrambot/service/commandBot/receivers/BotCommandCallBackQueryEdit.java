@@ -22,6 +22,7 @@ public class BotCommandCallBackQueryEdit {
     private final CommandEditSendMessage yesDeleteWishFromDB;
     private final CommandEditSendMessage changeStatusGiftOwn;
     private final CommandEditSendMessage anotherWishListCommand;
+    private final CommandEditSendMessage selectionWishes;
 
     @Autowired
     public BotCommandCallBackQueryEdit(@Qualifier("infoCommand") CommandEditSendMessage infoCommand,
@@ -31,7 +32,8 @@ public class BotCommandCallBackQueryEdit {
                                        @Qualifier("deleteWishCommand") CommandEditSendMessage deleteWishCommand,
                                        @Qualifier("yesDeleteWishFromDB") CommandEditSendMessage yesDeleteWishFromDB,
                                        @Qualifier("changeStatusGiftOwn") CommandEditSendMessage changeStatusGiftOwn,
-                                       @Qualifier("anotherWishListCommand") CommandEditSendMessage anotherWishListCommand) {
+                                       @Qualifier("anotherWishListCommand") CommandEditSendMessage anotherWishListCommand,
+                                       @Qualifier("selectionWishes") CommandEditSendMessage selectionWishes) {
         this.infoCommand = infoCommand;
         this.getWishList = getWishList;
         this.ownWishList = ownWishList;
@@ -40,6 +42,7 @@ public class BotCommandCallBackQueryEdit {
         this.yesDeleteWishFromDB = yesDeleteWishFromDB;
         this.changeStatusGiftOwn = changeStatusGiftOwn;
         this.anotherWishListCommand = anotherWishListCommand;
+        this.selectionWishes = selectionWishes;
 
         this.commandMapCommandEdit = ImmutableMap.<String, CommandEditSendMessage>builder()
                 .put(COMMANDS.INFO.getCommand(), this.infoCommand)
@@ -51,7 +54,9 @@ public class BotCommandCallBackQueryEdit {
                 .put(COMMANDS.YES.getCommand(), this.yesDeleteWishFromDB)
                 .put(COMMANDS.NO.getCommand(), this.ownWishList)
                 .put(COMMANDS.STATE_DB.getCommand(), this.changeStatusGiftOwn)
+                .put(COMMANDS.CHANGE_STATUS_OWN_WISH.getCommand(), this.changeStatusGiftOwn)
                 .put(COMMANDS.STATE_DB_NOT_ACTIVE.getCommand(), this.changeStatusGiftOwn)
+                .put(COMMANDS.NAME_GIFT_OWNER.getCommand(), this.selectionWishes)
                 .build();
     }
     public EditMessageText findCommand(String commandIdentifier, Update update) {

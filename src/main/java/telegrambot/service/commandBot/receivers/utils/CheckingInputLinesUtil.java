@@ -23,16 +23,4 @@ public class CheckingInputLinesUtil {
     public static boolean isLetters(String line) {
         return line.matches("[а-яА-Я]+") || line.matches("[a-zA-Z]+");
     }
-
-    /**
-     * Получаем строку с командой после обрезки строки до первого пробела
-     * @param update - сообщение, поступающее от бота
-     * @return - срока, которая соответствует COMMANDS
-     */
-    public static String whichCommand(Update update) {
-        String incomingMessage = update.getCallbackQuery().getData();
-        System.out.println("incomingMessage  = "+ incomingMessage);
-        System.out.println("это выдает обрезка строки = " + incomingMessage.substring(0, (incomingMessage.indexOf(" "))));
-        return incomingMessage.substring(0, (incomingMessage.indexOf(" ")));
-    }
 }

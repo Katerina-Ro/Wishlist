@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import telegrambot.entities.GiftOwner;
 import telegrambot.repository.TelegramUserRepository;
 
+import java.util.List;
+
 @Service
 public class TelegramUserService {
     @Getter
@@ -33,11 +35,27 @@ public class TelegramUserService {
         return telegramUserRepository.findById(chatIdUser).get();
     }
 
+    public GiftOwner getGiftOwner (String name) {
+        System.out.println("внутри метода getGiftOwner ");
+        return telegramUserRepository.getGiftOwner(name);
+    }
+
     public boolean containsNameUserInDB(long chatIdUser){
         boolean containsNameUserInDB = false;
-        if(telegramUserRepository.findById(chatIdUser).get().getName() != null){
+        if(telegramUserRepository.findById(chatIdUser).isPresent() &&
+        telegramUserRepository.findById(chatIdUser).get().getName() != null){
             containsNameUserInDB = true;
         }
         return containsNameUserInDB;
+    }
+
+    public boolean existNameUserInDB(String inputName){
+        boolean existNameUserInDB = false;
+        for(String s: telegramUserRepository.findAllName()){
+            if (s.equals(inputName)) {
+                existNameUserInDB = true;
+            }
+        }
+        return existNameUserInDB;
     }
 }

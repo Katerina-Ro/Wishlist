@@ -19,11 +19,16 @@ public class WebLinkService {
     }
 
     public void saveWebLink (String link, Gift gift){
+        System.out.println("вошел в метод saveWebLink (String link, Gift gift)");
         WebLinks webLink = new WebLinks();
-        List<Gift> gifts = new ArrayList<>();
-        gifts.add(gift);
-        webLink.setGift(gifts);
         webLink.setWebLink(link);
-        webLinksRepository.save(webLink);
+        /*
+        List<WebLinks> listLinks = new ArrayList<>();
+        listLinks.add(webLink);
+        gift.setLinksList(listLinks); */
+        System.out.println("webLink = " + webLink);
+
+        //webLinksRepository.save(webLink);
+        System.out.println("типа сохранил ссылку " + webLinksRepository.save(webLink));
     }
 }

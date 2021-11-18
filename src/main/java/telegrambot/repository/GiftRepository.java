@@ -23,4 +23,8 @@ public interface GiftRepository extends JpaRepository <Gift, Integer> {
 
     @Query("SELECT g From Gift g WHERE g.giftId = :giftId")
     Gift findByGiftId(@Param("giftId")int idGift);
+
+    @Query("SELECT g From Gift g WHERE g.giftOwner.chatId = :giftOwner AND g.statusGiftOwn = 'ACTIVE' " +
+            "AND g.statusGiftAnother = 'NOT_ACTIVE'")
+    List<Gift> findAllByChatIdByStatusGift(@Param("giftOwner")Long chatIdUser);
 }

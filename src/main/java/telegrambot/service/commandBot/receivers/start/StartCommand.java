@@ -36,7 +36,11 @@ public class StartCommand implements Command {
 
     @Override
     public SendMessage execute(Update update)  {
-        numberUser = update.getMessage().getChatId();
+        if (update.hasCallbackQuery()){
+           numberUser = update.getCallbackQuery().getMessage().getChatId();
+        } else {
+            numberUser = update.getMessage().getChatId();
+        }
         if(!telegramUserService.getTelegramUserRepository().existsById(numberUser)){
             telegramUserService.createIdUserToDB(numberUser);
         }

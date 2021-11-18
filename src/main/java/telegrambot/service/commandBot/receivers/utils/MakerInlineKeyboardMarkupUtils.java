@@ -11,11 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MakerInlineKeyboardMarkupUtils {
-    public static InlineKeyboardMarkup get2RowsInlineKeyboardMarkup(List<Gift> listGifts){
+    public static InlineKeyboardMarkup get3RowsInlineKeyboardMarkup(List<Gift> listGifts){
         InlineKeyboardMarkup inlineKeyboardMarkup4 = new InlineKeyboardMarkup();
         List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         for(Gift g: listGifts){
             List<InlineKeyboardButton> keyboardButton1List = new ArrayList<>(); // 1 строка
+            COMMANDS.NAME_GIFT_OWNER.setCommand("Имя " + g.getGiftOwner().getChatId());
+            keyboardButton1List.add(MakerInlineKeyboardMarkup.getKeyBoard(g.getGiftOwner().getName(),
+            COMMANDS.NAME_GIFT_OWNER.getCommand()));
             COMMANDS.NAME_GIFT.setCommand(g.getGiftId().toString());
             keyboardButton1List.add(MakerInlineKeyboardMarkup.getKeyBoard(g.getNameGift(),
                     COMMANDS.NAME_GIFT.getCommand()));
@@ -55,12 +58,23 @@ public class MakerInlineKeyboardMarkupUtils {
         return inlineKeyboardMarkup;
     }
 
-
-
     public static InlineKeyboardMarkup getYesNoDeleteInlineKeyboardMarkup(int iDGift){
         COMMANDS.YES.setCommand("Да,удалить " + iDGift);
-        Buttons.getKeyBoardYes();
+        //Buttons.getKeyBoardYes();
         return MakerInlineKeyboardMarkup.get2x1InlineKeyboardMarkup(Buttons.getKeyBoardYes(),
                 Buttons.getKeyBoardNO());
+    }
+
+    public static InlineKeyboardMarkup getChangeStatusGiftOwnInlineKeyboardMarkup(int iDGift){
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        COMMANDS.CHANGE_STATUS_OWN_WISH.setCommand("Поменять " + iDGift);
+        System.out.println("COMMANDS.CHANGE_STATUS_OWN_WISH.getCommand()" + COMMANDS.CHANGE_STATUS_OWN_WISH.getCommand());
+        //Buttons.getKeyBoardButtonChangeStatusOwnWish();
+        return MakerInlineKeyboardMarkup.get2x2x3InlineKeyboardMarkup(Buttons.getKeyBoardButtonChangeStatusOwnWish(),
+                Buttons.getKeyBoardButtonAddMoreWish(), Buttons.getKeyBoardBackToStart());
     }
 }

@@ -16,13 +16,14 @@ public class SendMessageUtils {
             chatIdUser = update.getMessage().getChatId();
         }
         SendMessage sendMessage = new SendMessage()
-                .setReplyToMessageId(update.getCallbackQuery().getMessage().getMessageId())
+                //.setReplyToMessageId(update.getCallbackQuery().getMessage().getMessageId())
                 .enableHtml(true)
                 .setChatId(chatIdUser)
                 .setText(sentMessage);
+        /*
         if (update.getMessage().isReply()){
             sendMessage.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        }
+        } */
         return sendMessage;
     }
 
