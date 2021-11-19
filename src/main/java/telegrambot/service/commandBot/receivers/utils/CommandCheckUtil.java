@@ -54,6 +54,10 @@ public class CommandCheckUtil {
         String command = FindingDataUtil.findLineByIncomingMessage(update.getCallbackQuery().getData());
         System.out.println("update.getCallbackQuery().getData() " + update.getCallbackQuery().getData());
         System.out.println("сейчас начнется проверка update.getCallbackQuery().getData().equalsIgnoreCase(COMMANDS.CHANGE_WISH.getCommand()");
+        System.out.println("COMMANDS.CHANGE_WISH.getCommand() "+COMMANDS.CHANGE_WISH.getCommand());
+        System.out.println("COMMANDS.STATE_DB.getCommand() "+ COMMANDS.STATE_DB.getCommand());
+        System.out.println("command = "+ command + "COMMANDS.CHANGE_WISH.getCommand()" + COMMANDS.CHANGE_WISH.getCommand());
+
         if(command.equalsIgnoreCase(COMMANDS.CHANGE_WISH.getCommand())){
             System.out.println("внутри if(update.getCallbackQuery().getData().equalsIgnoreCase(COMMANDS.CHANGE_WISH.getCommand()");
             checkCommandCallBackEditChangeWish = true;

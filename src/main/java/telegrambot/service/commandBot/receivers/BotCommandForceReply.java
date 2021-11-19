@@ -30,6 +30,7 @@ public class BotCommandForceReply {
     private final Command chooseWishCommand;
     private final Command searchNameInDB;
     private final Command changeWishCommand;
+    private final Command updateNameGiftDBCommand;
 
     @Autowired
     public BotCommandForceReply(@Qualifier("insertNameUserToDBCommand") Command insertNameUserToDB,
@@ -38,7 +39,8 @@ public class BotCommandForceReply {
                                 @Qualifier("insertWebLinkCommand") Command insertWebLink,
                                 @Qualifier("chooseWishCommand") Command chooseWishCommand,
                                 @Qualifier("searchNameInDBCommand") Command searchNameInDB,
-                                @Qualifier("changeWishCommand") Command changeWishCommand) {
+                                @Qualifier("changeWishCommand") Command changeWishCommand,
+                                @Qualifier("updateNameGiftDBCommand")Command updateNameGiftDBCommand) {
         this.insertNameUserToDB = insertNameUserToDB;
         this.insertNameGiftToDB = insertNameGiftToDB;
         this.insertProductDescriptionToDB = insertProductDescriptionToDB;
@@ -46,7 +48,7 @@ public class BotCommandForceReply {
         this.chooseWishCommand = chooseWishCommand;
         this.searchNameInDB = searchNameInDB;
         this.changeWishCommand = changeWishCommand;
-
+        this.updateNameGiftDBCommand = updateNameGiftDBCommand;
         this.commandMapForceReply = ImmutableMap.<String, Command>builder()
                 .put(AddCommand.getMESSAGE_ADD(), this.insertNameUserToDB)
                 .put(InsertNameUserToDBCommand.getNAME_WISH(), this.insertNameGiftToDB)
@@ -58,7 +60,7 @@ public class BotCommandForceReply {
                 .put(COMMANDS.CHOOSE_WISH.getCommand(), this.chooseWishCommand)
                 .put(ChooseWishCommand.getMESSAGE_CHOOSE_WISH_COMMAND(),  this.searchNameInDB)
                 .put(COMMANDS.CHANGE_WISH.getCommand(), this.changeWishCommand)
-                .put(ChangeWishCommand.getMESSAGE_CHANGE_WISH(), )
+                .put(ChangeWishCommand.getMESSAGE_CHANGE_WISH(), this.updateNameGiftDBCommand)
                 .build();
 
     }

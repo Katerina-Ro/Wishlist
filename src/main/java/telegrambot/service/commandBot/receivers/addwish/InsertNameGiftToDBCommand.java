@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import telegrambot.entities.Gift;
+import telegrambot.service.commandBot.receivers.changewishlist.ChangeWishCommand;
 import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
@@ -41,41 +42,36 @@ public class InsertNameGiftToDBCommand implements Command {
     @Override
     @Transactional
     public SendMessage execute(Update update)  {
-        /*
-        String incomingMessage = update.getCallbackQuery().getData();
-        System.out.println("incomingMessage = " + incomingMessage);
-        int idGift = FindingDataUtil.findIdByIncomingMessage(incomingMessage);
-        System.out.println("idGift = " + idGift);
-        wish = wishService.getInfoGiftById(idGift);
-        nameWishFromDB = wish.getNameGift();
-        return SendMessageUtils.sendMessage(update, nameWishFromDB, true);
-        */
-
-
-        SendMessage messageProductDescription = new SendMessage();
+        //SendMessage messageProductDescription = new SendMessage();
         String nameGift = update.getMessage().getText();
         long chatIdGiftOwner = update.getMessage().getChatId();
 
         System.out.println("chatIdGiftOwner = " + chatIdGiftOwner);
 
         if(CheckingInputLinesUtil.checkEmptyString(nameGift)) {
-            ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
+
+            //ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
             gift = wishService.createNameGift(nameGift, insertNameUserToDBCommand.getStartCommand().getNewGiftOwner());
+           return SendMessageUtils.sendMessage(update, PRODUCT_DESCRIPTION , true);
+           /*
             messageProductDescription.setChatId(chatIdGiftOwner)
                     .setText(PRODUCT_DESCRIPTION);
-            messageProductDescription.setReplyMarkup(forceReplyKeyboard.setSelective(true));
+            messageProductDescription.setReplyMarkup(forceReplyKeyboard.setSelective(true)); */
         } else {
-            messageProductDescription = messageError(update);
+            return  messageError(update);
         }
-        return messageProductDescription;
+        //return messageProductDescription;
     }
 
     private SendMessage messageError(Update update){
+        return SendMessageUtils.sendMessage(update,INPUT_ERROR_MESSAGE, true);
+
+        /*
         ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
         SendMessage messageProductDescriptionError = new SendMessage()
                 .setChatId(update.getMessage().getChatId())
-                .setText(INPUT_ERROR_MESSAGE);
+                .setText();
         messageProductDescriptionError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        return messageProductDescriptionError;
+        return messageProductDescriptionError; */
     }
 }

@@ -20,9 +20,11 @@ import telegrambot.service.entityservice.WishService;
 public class ChangeWishCommand implements Command {
     private static String nameWishFromDB;
     @Getter
-    private final static String MESSAGE_CHANGE_WISH = "Наименование пожелания " + nameWishFromDB;
+    private static Gift wish;
+    @Getter
+    private final static String MESSAGE_CHANGE_WISH = "Наименование пожелания";
     private final WishService wishService;
-    private Gift wish;
+
 
 
     @Autowired
@@ -39,6 +41,7 @@ public class ChangeWishCommand implements Command {
         System.out.println("idGift = " + idGift);
         wish = wishService.getInfoGiftById(idGift);
         nameWishFromDB = wish.getNameGift();
-        return SendMessageUtils.sendMessage(update, nameWishFromDB, true);
+        String MESSAGE_CHANGE = MESSAGE_CHANGE_WISH + "\n" + nameWishFromDB;
+        return SendMessageUtils.sendMessage(update, MESSAGE_CHANGE, true);
     }
 }

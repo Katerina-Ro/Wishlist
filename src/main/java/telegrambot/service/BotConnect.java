@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.receivers.*;
+import telegrambot.service.commandBot.receivers.changewishlist.ChangeWishCommand;
 import telegrambot.service.commandBot.receivers.utils.CommandCheckUtil;
 
 /**
@@ -51,8 +52,9 @@ public class BotConnect extends TelegramLongPollingBot {
         if (update.getMessage() != null && update.hasMessage()) {
             if (update.getMessage().isReply() && !CommandCheckUtil.checkCommandReplyBackToMainMenu(update)) {
                 System.out.println("");
+                System.out.println(ChangeWishCommand.getMESSAGE_CHANGE_WISH());
                 System.out.println("long chatId = " + update.getMessage().getChatId());
-                System.out.println("long chatId = " + update.getMessage().getText());
+                System.out.println("update.getMessage().getText() = " + update.getMessage().getText());
                 System.out.println("это Реплай ");
                 execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
                         update));
@@ -110,7 +112,7 @@ public class BotConnect extends TelegramLongPollingBot {
                             .checkCommandCallBackEditChangeWish(update)) {
                         System.out.println();
                         System.out.println("это блок if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
-                        execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
+                        execute(botCommandSendMessage.findCommand(update.getCallbackQuery().getData(), update));
                         System.out.println("вышел из блока if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
                     }
                 }
