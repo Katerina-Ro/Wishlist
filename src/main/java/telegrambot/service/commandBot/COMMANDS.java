@@ -18,6 +18,7 @@ public enum COMMANDS {
     MORE_DETAILS ("Подробнее"),
     BACK ("Назад к выбору списка желаний"),
     CHOOSE ("Выбрать"),
+    CHOOSE_WISH ("Дарить"),
     DELETE ("Удалить"),
     NAME_GIFT("/ "),
     NAME_GIFT_OWNER("Имя"),

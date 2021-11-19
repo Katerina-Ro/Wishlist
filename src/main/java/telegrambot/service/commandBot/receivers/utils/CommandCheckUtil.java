@@ -46,6 +46,25 @@ public class CommandCheckUtil {
         return checkCommandCallBackEditBackToMainMenu;
     }
 
+    public static boolean checkCommandCallBackEditChangeWish(Update update) {
+
+        System.out.println("внутри метода ChangeWish");
+
+        boolean checkCommandCallBackEditChangeWish = false;
+        String command = FindingDataUtil.findLineByIncomingMessage(update.getCallbackQuery().getData());
+        System.out.println("update.getCallbackQuery().getData() " + update.getCallbackQuery().getData());
+        System.out.println("сейчас начнется проверка update.getCallbackQuery().getData().equalsIgnoreCase(COMMANDS.CHANGE_WISH.getCommand()");
+        if(command.equalsIgnoreCase(COMMANDS.CHANGE_WISH.getCommand())){
+            System.out.println("внутри if(update.getCallbackQuery().getData().equalsIgnoreCase(COMMANDS.CHANGE_WISH.getCommand()");
+            checkCommandCallBackEditChangeWish = true;
+        }
+        System.out.println("checkCommandCallBackEditChangeWish = " + checkCommandCallBackEditChangeWish);
+        System.out.println();
+        System.out.println("вышел из метода checkCommandCallBackEditChangeWish");
+        System.out.println();
+        return checkCommandCallBackEditChangeWish;
+    }
+
     public static boolean checkCommandCallBackChangeWishStatusOwn(Update update) {
         System.out.println();
         System.out.println("внутри метода checkCommandCallBackChangeWishStatusOwn");

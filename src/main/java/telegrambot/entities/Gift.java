@@ -9,7 +9,6 @@ import telegrambot.entities.StatusGift.STATUS_GIFT;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -61,7 +60,7 @@ public class Gift {
     public String toString() {
         return "Наименование пожелания: " + nameGift + ", \n" +
                 "Описание пожелания: " + descriptionGift +  ", \n" +
-                "Статус подарка: " + statusGiftOwn.getStatusGift() + ", \n" +
+                "Пожелание видно всем? " + statusGiftOwn.getStatusGift() + ", \n" +
                 "Его кто-то выбрал, чтобы подарить? " + statusGiftAnother.getStatusGift() +  ", \n" +
                 "Web - ссылки на подарок: " + linksList;
     }

@@ -1,7 +1,5 @@
 package telegrambot.service.commandBot.receivers.utils;
 
-import org.telegram.telegrambots.meta.api.objects.Update;
-
 /**
  * Вспомогательный класс для проверки введенных пользователем строк на пустоту, null, символы
  */

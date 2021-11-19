@@ -13,13 +13,13 @@ import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 import telegrambot.service.entityservice.WishService;
 
 @Service
-public class YesDeleteWishFromDB implements CommandEditSendMessage {
+public class YesDeleteWishFromDBCommand implements CommandEditSendMessage {
     private final WishService wishService;
 
     private static final String MESSAGE_YES_DELETE_WISH_COMMAND = "Ваше пожелание удалено";
 
     @Autowired
-    public YesDeleteWishFromDB(WishService wishService) {
+    public YesDeleteWishFromDBCommand(WishService wishService) {
         this.wishService = wishService;
     }
 

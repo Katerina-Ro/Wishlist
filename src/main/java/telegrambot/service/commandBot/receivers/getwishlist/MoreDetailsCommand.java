@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
+import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 import telegrambot.service.entityservice.WishService;
 
@@ -23,10 +24,9 @@ public class MoreDetailsCommand implements CommandEditSendMessage {
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
-        String incomingMessage = update.getCallbackQuery().getData();
-        String messageMoreDetailsCommand = wishService.getInfoGiftById(Integer.parseInt(incomingMessage
-                .substring((incomingMessage.indexOf(" "))+1))).toString();
-        return SendMessageUtils.sendEditMessage(update, messageMoreDetailsCommand,
-                MakerInlineKeyboardMarkup.get1InlineKeyboardMarkup(Buttons.getKeyBoardButtonBack()));
+        return SendMessageUtils.sendEditMessage(update,
+                wishService.getInfoGiftById(FindingDataUtil.findIdByIncomingMessage(update.getCallbackQuery()
+                        .getData())).toString(), MakerInlineKeyboardMarkup
+                        .get1InlineKeyboardMarkup(Buttons.getKeyBoardButtonBack()));
     }
 }

@@ -22,8 +22,9 @@ public class GetListWishCommand implements CommandEditSendMessage {
                 .setMessageId(update.getCallbackQuery().getMessage().getMessageId())
                 .setText(MESSAGE_GET_LIST_WISH)
                 .setChatId(update.getCallbackQuery().getMessage().getChatId())
-                .setReplyMarkup(MakerInlineKeyboardMarkup.get2x1InlineKeyboardMarkup
-                (Buttons.getKeyBoardButtonForYoureself(),Buttons.getKeyBoardButtonForAnother()));
+                .setReplyMarkup(MakerInlineKeyboardMarkup.get2x2InlineKeyboardMarkup
+                (Buttons.getKeyBoardButtonForYoureself(),Buttons.getKeyBoardButtonForAnother(),
+                        Buttons.getKeyBoardChooseWish(), Buttons.getKeyBoardBackToStart()));
     }
 }
 

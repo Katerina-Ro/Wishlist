@@ -42,38 +42,43 @@ public class BotConnect extends TelegramLongPollingBot {
         this.botCommandForceReply = botCommandForceReply;
     }
     /*
-        Аннотация @SneakyThrows может быть использована для бросания проверяемых исключений без их объявления
-        в throws метода.
-         */
+      Аннотация @SneakyThrows может быть использована для бросания проверяемых исключений без их объявления
+      в throws метода.
+    */
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        try {
-            if (update.getMessage() != null && update.hasMessage()) {
-                if (update.getMessage().isReply() && !CommandCheckUtil.checkCommandReplyBackToMainMenu(update)) {
-                    System.out.println("это Реплай ");
-                    execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
-                            update));
-                } else {
-                    System.out.println("это Обычный сенд ");
-                    execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
+        if (update.getMessage() != null && update.hasMessage()) {
+            if (update.getMessage().isReply() && !CommandCheckUtil.checkCommandReplyBackToMainMenu(update)) {
+                System.out.println("");
+                System.out.println("long chatId = " + update.getMessage().getChatId());
+                System.out.println("long chatId = " + update.getMessage().getText());
+                System.out.println("это Реплай ");
+                execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
+                        update));
+            } else {
+                System.out.println("");
+                System.out.println("это Обычный сенд ");
+                execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
+            }
+        } else if (update.hasCallbackQuery()) {
+            System.out.println("");
+            System.out.println("это CallbackQuery");
+            String commandIdentifier = update.getCallbackQuery().getData();
+            if (botCommandCallbackQuery.getCommandMapCommand().containsKey(commandIdentifier)) {
+                execute(botCommandCallbackQuery.findCommand(commandIdentifier, update));
+            } else {
+                System.out.println("");
+                System.out.println("приходит update.getCallbackQuery() это " + commandIdentifier);
+                if(CommandCheckUtil.checkCommandCallBackEditBackToMainMenu(update)){
+
+                    System.out.println();
+                    System.out.println("внутри блока  if(CommandCheckUtil.checkCommandBackToMainMenu(update)) ");
+                    // System.out.println("update.getMessage().getText() = " + update.getMessage().getText());
+                    System.out.println();
+                    execute(botCommandSendMessage.findCommand(commandIdentifier, update));
+                    System.out.println("вышел из блока  if(CommandCheckUtil.checkCommandBackToMainMenu(update))");
                 }
-            } else if (update.hasCallbackQuery()) {
-                String commandIdentifier = update.getCallbackQuery().getData();
-                if (botCommandCallbackQuery.getCommandMapCommand().containsKey(commandIdentifier)) {
-                    execute(botCommandCallbackQuery.findCommand(commandIdentifier, update));
-                } else {
-
-                    System.out.println("приходит update.getCallbackQuery() это " + commandIdentifier);
-                    if(CommandCheckUtil.checkCommandCallBackEditBackToMainMenu(update)){
-
-                        System.out.println();
-                        System.out.println("внутри блока  if(CommandCheckUtil.checkCommandBackToMainMenu(update)) ");
-                       // System.out.println("update.getMessage().getText() = " + update.getMessage().getText());
-                        System.out.println();
-                        execute(botCommandSendMessage.findCommand(commandIdentifier, update));
-                        System.out.println("вшел из блока  if(CommandCheckUtil.checkCommandBackToMainMenu(update))");
-                    }
                     /*
                     if (CommandCheckUtil.checkCommandCallBackChangeWishStatusOwn(update)){
                         System.out.println();
@@ -83,30 +88,34 @@ public class BotConnect extends TelegramLongPollingBot {
                         System.out.println();
                         System.out.println("commandIdentifier = " + commandIdentifier);
                     } */
-                else if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)
-                    ) {
+                else if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit()
+                        .containsKey(commandIdentifier)) {
                     // && !CommandCheckUtil.checkCommandCallBackChangeWishStatusOwn(update)
-                        System.out.println();
-                        System.out.println("это блок    !botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)\n" +
-                                "                     && !CommandCheckUtil.checkCommandCallBackChangeWishStatusOwn(update)");
-                        System.out.println();
-                        commandIdentifier = CommandCheckUtil.whichCommand(update);
-                        System.out.println();
-                        System.out.println("commandIdentifier = " + commandIdentifier);
-                        if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)) {
-                            System.out.println();
-                            System.out.println("это блок if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
-                            execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
-                            System.out.println("вышел из блока if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
-                        }
+                    System.out.println();
+                    System.out.println("это блок    !botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)\n");
+                    System.out.println();
+                    commandIdentifier = CommandCheckUtil.whichCommand(update);
+                    System.out.println();
+                    System.out.println("commandIdentifier = " + commandIdentifier);
+                    System.out.println("");
+                    System.out.println("вышел из блока !botCommandCallbackQueryEdit.getCommandMapCommandEdit(");
+                    if(CommandCheckUtil.checkCommandCallBackEditChangeWish(update)){
+                        System.out.println("");
+                        System.out.println("");
+                        execute(botCommandForceReply.findCommand(commandIdentifier,update));
+                        System.out.println("");
                     }
-                    execute(botCommandCallbackQueryEdit.findCommand(commandIdentifier, update));
+                    if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit()
+                            .containsKey(commandIdentifier) && !CommandCheckUtil
+                            .checkCommandCallBackEditChangeWish(update)) {
+                        System.out.println();
+                        System.out.println("это блок if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
+                        execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
+                        System.out.println("вышел из блока if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
+                    }
                 }
+                execute(botCommandCallbackQueryEdit.findCommand(commandIdentifier, update));
             }
-        } catch (NullPointerException ex) {
-
-
-
         }
     }
 }

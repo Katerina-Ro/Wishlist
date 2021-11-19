@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.CommandEditSendMessage;
+import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
@@ -24,7 +25,7 @@ public class DeleteWishCommand implements CommandEditSendMessage {
     public EditMessageText execute(Update update) {
         String incomingMessage = update.getCallbackQuery().getData();
         String messageDeleteWishCommand;
-        int idGift = Integer.parseInt(incomingMessage.substring((incomingMessage.indexOf(" "))+1));
+        int idGift = FindingDataUtil.findIdByIncomingMessage(incomingMessage);
         if (wishService.checkingGiftGivingStatus(idGift)){
             messageDeleteWishCommand = "Кто-то собирается выполнить это пожелание. Вы уверены, " +
                     "что хотите его удалить?";

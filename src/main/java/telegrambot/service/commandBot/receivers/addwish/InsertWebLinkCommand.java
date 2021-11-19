@@ -6,16 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
-import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
-import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
-import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 import telegrambot.service.entityservice.WebLinkService;
 import telegrambot.service.commandBot.Command;
 
 @Service
-public class InsertWebLink implements Command {
+public class InsertWebLinkCommand implements Command {
     private static final String SPARKLES =  String.valueOf(Character.toChars(0x2728));
     // кнопка сделать неактивным
     // кнопка внести еще пожелание
@@ -30,12 +26,12 @@ public class InsertWebLink implements Command {
     @Getter
     private final WebLinkService webLinkService;
     @Getter
-    private final InsertProductDescriptionToDB insertProductDescriptionToDB;
+    private final InsertProductDescriptionToDBCommand insertProductDescriptionToDBCommand;
 
     @Autowired
-    public InsertWebLink(WebLinkService webLinkService, InsertProductDescriptionToDB insertProductDescriptionToDB) {
+    public InsertWebLinkCommand(WebLinkService webLinkService, InsertProductDescriptionToDBCommand insertProductDescriptionToDBCommand) {
         this.webLinkService = webLinkService;
-        this.insertProductDescriptionToDB = insertProductDescriptionToDB;
+        this.insertProductDescriptionToDBCommand = insertProductDescriptionToDBCommand;
     }
 
     @Override
@@ -46,12 +42,12 @@ public class InsertWebLink implements Command {
        // String webLink = ;
         //ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
 
-        System.out.println("подарок до внесения ссылки "+insertProductDescriptionToDB.getInsertNameGiftToDB().getGift());
+        System.out.println("подарок до внесения ссылки "+ insertProductDescriptionToDBCommand.getInsertNameGiftToDBCommand().getGift());
 System.out.println("webLink = " + update.getMessage().getText());
-System.out.println("insertProductDescriptionToDB.getInsertNameGiftToDB().getGift()" + insertProductDescriptionToDB.getInsertNameGiftToDB().getGift());
-        webLinkService.saveWebLink(update.getMessage().getText(), insertProductDescriptionToDB.getInsertNameGiftToDB().getGift());
+System.out.println("insertProductDescriptionToDB.getInsertNameGiftToDB().getGift()" + insertProductDescriptionToDBCommand.getInsertNameGiftToDBCommand().getGift());
+        webLinkService.saveWebLink(update.getMessage().getText(), insertProductDescriptionToDBCommand.getInsertNameGiftToDBCommand().getGift());
 
-        int idGift = insertProductDescriptionToDB.getInsertNameGiftToDB().getGift().getGiftId();
+        int idGift = insertProductDescriptionToDBCommand.getInsertNameGiftToDBCommand().getGift().getGiftId();
 
        // messageWebLink.setChatId(update.getMessage().getChatId())
          //       .setText(WEB_LINK);

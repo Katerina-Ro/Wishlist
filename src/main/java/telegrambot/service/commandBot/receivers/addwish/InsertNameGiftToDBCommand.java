@@ -8,13 +8,14 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import telegrambot.entities.Gift;
+import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
+import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 @Service
-
-public class InsertNameGiftToDB implements Command {
+public class InsertNameGiftToDBCommand implements Command {
     @Getter
     private static final String HEAVY_EXCLAMATION_MARK_SYMBOL =
             String.valueOf(Character.toChars(0x2757));
@@ -27,19 +28,30 @@ public class InsertNameGiftToDB implements Command {
     @Getter
     private final WishService wishService;
     @Getter
-    private final InsertNameUserToDB insertNameUserToDB;
+    private final InsertNameUserToDBCommand insertNameUserToDBCommand;
     @Getter
     private Gift gift;
 
     @Autowired
-    public InsertNameGiftToDB(WishService wishService, InsertNameUserToDB insertNameUserToDB) {
+    public InsertNameGiftToDBCommand(WishService wishService, InsertNameUserToDBCommand insertNameUserToDBCommand) {
         this.wishService = wishService;
-        this.insertNameUserToDB = insertNameUserToDB;
+        this.insertNameUserToDBCommand = insertNameUserToDBCommand;
     }
 
     @Override
     @Transactional
     public SendMessage execute(Update update)  {
+        /*
+        String incomingMessage = update.getCallbackQuery().getData();
+        System.out.println("incomingMessage = " + incomingMessage);
+        int idGift = FindingDataUtil.findIdByIncomingMessage(incomingMessage);
+        System.out.println("idGift = " + idGift);
+        wish = wishService.getInfoGiftById(idGift);
+        nameWishFromDB = wish.getNameGift();
+        return SendMessageUtils.sendMessage(update, nameWishFromDB, true);
+        */
+
+
         SendMessage messageProductDescription = new SendMessage();
         String nameGift = update.getMessage().getText();
         long chatIdGiftOwner = update.getMessage().getChatId();
@@ -48,7 +60,7 @@ public class InsertNameGiftToDB implements Command {
 
         if(CheckingInputLinesUtil.checkEmptyString(nameGift)) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-            gift = wishService.createNameGift(nameGift, insertNameUserToDB.getStartCommand().getNewGiftOwner());
+            gift = wishService.createNameGift(nameGift, insertNameUserToDBCommand.getStartCommand().getNewGiftOwner());
             messageProductDescription.setChatId(chatIdGiftOwner)
                     .setText(PRODUCT_DESCRIPTION);
             messageProductDescription.setReplyMarkup(forceReplyKeyboard.setSelective(true));

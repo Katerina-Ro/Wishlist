@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.COMMANDS;
+import telegrambot.service.commandBot.CommandEditSendMessage;
 
 @Service
 @Getter
@@ -17,18 +18,22 @@ public class BotCommandCallbackQuery {
     private final Command addCommand;
     private final Command changeWishCommand;
     private final Command insertNameUserToDB;//Добавить имя
+    private final Command chooseWishCommand;
 
     @Autowired
     public BotCommandCallbackQuery(@Qualifier("addCommand") Command addCommand,
                                    @Qualifier("changeWishCommand") Command changeWishCommand,
-                                   @Qualifier("insertNameUserToDB") Command insertNameUserToDB) {
+                                   @Qualifier("insertNameUserToDBCommand") Command insertNameUserToDB,
+                                   @Qualifier("chooseWishCommand") Command chooseWishCommand) {
         this.addCommand = addCommand;
         this.changeWishCommand = changeWishCommand;
         this.insertNameUserToDB = insertNameUserToDB;
+        this.chooseWishCommand = chooseWishCommand;
         this.commandMapCommand = ImmutableMap.<String, Command>builder()
                 .put(COMMANDS.ADD_WISH.getCommand(), this.addCommand)
                 .put(COMMANDS.ADD_MORE_WISH.getCommand(), this.addCommand)
                 .put(COMMANDS.CHANGE_WISH.getCommand(), this.changeWishCommand)
+                .put(COMMANDS. CHOOSE_WISH.getCommand(), this.chooseWishCommand)
                 .build();
     }
 

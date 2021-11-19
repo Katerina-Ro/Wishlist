@@ -7,23 +7,22 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 public class SendMessageUtils {
-    public static SendMessage sendMessage(Update update, String sentMessage){
+    public static SendMessage sendMessage(Update update, String sentMessage, boolean forceReply){
         long chatIdUser;
-        ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
         if (update.hasCallbackQuery()) {
             chatIdUser = update.getCallbackQuery().getMessage().getChatId();
         } else {
             chatIdUser = update.getMessage().getChatId();
         }
         SendMessage sendMessage = new SendMessage()
-                //.setReplyToMessageId(update.getCallbackQuery().getMessage().getMessageId())
                 .enableHtml(true)
                 .setChatId(chatIdUser)
                 .setText(sentMessage);
-        /*
-        if (update.getMessage().isReply()){
+        if (forceReply){
+            ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
+            sendMessage.setReplyToMessageId(update.getCallbackQuery().getMessage().getMessageId());
             sendMessage.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        } */
+        }
         return sendMessage;
     }
 

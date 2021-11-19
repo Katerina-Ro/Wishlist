@@ -38,8 +38,7 @@ public class AnotherWishListCommand implements CommandEditSendMessage {
         EditMessageText editMessageOwnWishListCommand;
         long chatIdUser = update.getCallbackQuery().getMessage().getChatId();
         listGifts = wishService.getListWishAnother(chatIdUser);
-
-        if(wishService.getListWishAnother(chatIdUser).isEmpty()) {
+        if(listGifts.isEmpty()) {
             editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update,
                     MESSAGE_ANOTHER_WISHLIST_IS_EMPTY, Buttons.getKeyBoardStartMenu());
         }  else{

@@ -12,7 +12,7 @@ import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 @Service
-public class InsertProductDescriptionToDB implements Command {
+public class InsertProductDescriptionToDBCommand implements Command {
     @Getter
     private static final String HEAVY_EXCLAMATION_MARK_SYMBOL =
             String.valueOf(Character.toChars(0x2757));
@@ -25,12 +25,12 @@ public class InsertProductDescriptionToDB implements Command {
     @Getter
     private final WishService wishService;
     @Getter
-    private final InsertNameGiftToDB insertNameGiftToDB;
+    private final InsertNameGiftToDBCommand insertNameGiftToDBCommand;
 
     @Autowired
-    public InsertProductDescriptionToDB(WishService wishService, InsertNameGiftToDB insertNameGiftToDB) {
+    public InsertProductDescriptionToDBCommand(WishService wishService, InsertNameGiftToDBCommand insertNameGiftToDBCommand) {
         this.wishService = wishService;
-        this.insertNameGiftToDB = insertNameGiftToDB;
+        this.insertNameGiftToDBCommand = insertNameGiftToDBCommand;
     }
 
     @Override
@@ -40,11 +40,11 @@ public class InsertProductDescriptionToDB implements Command {
         String giftDescription = update.getMessage().getText();
         if(CheckingInputLinesUtil.checkEmptyString(giftDescription)) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-            wishService.createDescriptionWish(giftDescription, insertNameGiftToDB.getGift());
-            insertNameGiftToDB.getGift().setDescriptionGift(giftDescription);
+            wishService.createDescriptionWish(giftDescription, insertNameGiftToDBCommand.getGift());
+            insertNameGiftToDBCommand.getGift().setDescriptionGift(giftDescription);
             messageWebLink.setChatId(update.getMessage().getChatId())
-                    .setText(WEB_LINK);
-            messageWebLink.setReplyMarkup(forceReplyKeyboard.setSelective(true));
+                    .setText(WEB_LINK)
+                    .setReplyMarkup(forceReplyKeyboard.setSelective(true));
         } else {
             messageWebLink = messageError(update);
         }

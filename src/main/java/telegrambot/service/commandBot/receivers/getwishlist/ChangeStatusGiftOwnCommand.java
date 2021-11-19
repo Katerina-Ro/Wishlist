@@ -13,12 +13,12 @@ import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
 
 @Service
-public class ChangeStatusGiftAnother implements CommandEditSendMessage {
+public class ChangeStatusGiftOwnCommand implements CommandEditSendMessage {
     private final WishService wishService;
     private final ChangeStatusGiftImpl changeStatusGift;
 
     @Autowired
-    public ChangeStatusGiftAnother(WishService wishService, ChangeStatusGiftImpl changeStatusGift1) {
+    public ChangeStatusGiftOwnCommand(WishService wishService, ChangeStatusGiftImpl changeStatusGift1) {
         this.wishService = wishService;
         this.changeStatusGift = changeStatusGift1;
     }
@@ -26,13 +26,15 @@ public class ChangeStatusGiftAnother implements CommandEditSendMessage {
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
+        System.out.println("внутри ChangeStatusGiftOwn ");
+
         String incomingMessage = update.getCallbackQuery().getData();
         Gift gift = wishService.getInfoGiftById(Integer.parseInt(incomingMessage
                 .substring((incomingMessage.indexOf(" "))+1)));
-        changeStatusGift.changeStatusGiftAnother(gift);
+        changeStatusGift.changeStatusGiftOwn(gift);
         wishService.updateStatusGift(gift);
         return SendMessageUtils.sendEditMessage(update, "Обновленный список пожеланий",
-                MakerInlineKeyboardMarkupUtils.get4RowsInlineKeyboardMarkup(wishService
-                        .getListWishAnother(update.getCallbackQuery().getMessage().getChatId())));
+                MakerInlineKeyboardMarkupUtils.get4RowsInlineKeyboardMarkup(wishService.getInfoGifts(update
+                        .getCallbackQuery().getMessage().getChatId())));
     }
 }

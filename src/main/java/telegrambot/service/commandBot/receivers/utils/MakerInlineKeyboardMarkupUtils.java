@@ -19,10 +19,10 @@ public class MakerInlineKeyboardMarkupUtils {
             COMMANDS.NAME_GIFT_OWNER.setCommand("Имя " + g.getGiftOwner().getChatId());
             keyboardButton1List.add(MakerInlineKeyboardMarkup.getKeyBoard(g.getGiftOwner().getName(),
             COMMANDS.NAME_GIFT_OWNER.getCommand()));
-            COMMANDS.NAME_GIFT.setCommand(g.getGiftId().toString());
+            COMMANDS.NAME_GIFT.setCommand("Подробнее " + g.getGiftId().toString());
             keyboardButton1List.add(MakerInlineKeyboardMarkup.getKeyBoard(g.getNameGift(),
                     COMMANDS.NAME_GIFT.getCommand()));
-            COMMANDS.CHOOSE.setCommand("Выбран " + g.getGiftId().toString());
+            COMMANDS.CHOOSE.setCommand("Выбрать " + g.getGiftId().toString());
             keyboardButton1List.add(MakerInlineKeyboardMarkup.getKeyBoard(g.getStatusGiftAnother()
                             .getStatusGift(), COMMANDS.CHOOSE.getCommand()));
             keyboardButtons.add(keyboardButton1List);

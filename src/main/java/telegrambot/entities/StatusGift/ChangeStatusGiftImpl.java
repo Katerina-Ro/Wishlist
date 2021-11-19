@@ -2,6 +2,7 @@ package telegrambot.entities.StatusGift;
 
 import telegrambot.entities.Gift;
 import org.springframework.stereotype.Component;
+import telegrambot.entities.GiftOwner;
 
 @Component
 public class ChangeStatusGiftImpl implements ChangeStatusGift {
@@ -17,12 +18,14 @@ public class ChangeStatusGiftImpl implements ChangeStatusGift {
     }
 
     @Override
-    public String changeStatusGiftAnother(Gift gift) {
+    public String changeStatusGiftAnother(Gift gift, GiftOwner presenter) {
         String statusGiftAnother = gift.getStatusGiftAnother().getStatusGift();
             if (gift.getStatusGiftAnother().equals(STATUS_GIFT.NOT_ACTIVE)) {
                 gift.setStatusGiftAnother(STATUS_GIFT.ACTIVE);
+                gift.setGiftPresenter(presenter);
             } else {
                 gift.setStatusGiftAnother(STATUS_GIFT.NOT_ACTIVE);
+                gift.setGiftPresenter(null);
             }
         return statusGiftAnother;
     }

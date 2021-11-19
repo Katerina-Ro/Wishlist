@@ -48,10 +48,31 @@ public class WishService {
         return giftRepository.findAllByGiftOwnerChatId(userId);
     }
 
-    public List<Gift> getInfoAnotherGifts(Long userId) {
-        return giftRepository.findAllByChatIdByStatusGift(userId);
+    /**
+     * Все активные, но еще никем не выбранные, пожелания одного выбранного пользователя + пожелания, которые
+     * выбраны самим презентатором
+     * @param userId - id пользователя, чей список пожеланий нужно посмотреть
+     * @param userIdPresenter - id презентатора
+     * @return список пожеланий
+     */
+    public List<Gift> getInfoAnotherGiftsInlIdPresenter(Long userId, long userIdPresenter) {
+        return giftRepository.findAllByChatIdByStatusGift(userId, userIdPresenter);
     }
 
+    /**
+     * Все активные, но еще никем не выбранные, пожелания одного выбранного пользователя
+     * @param userId - id пользователя, чей список пожеланий нужно посмотреть
+     * @return список пожеланий
+     */
+    public List<Gift> getInfoAnotherGifts(Long userId) {
+        return giftRepository.findAllByGiftOwnerChatIdByStatusGift(userId);
+    }
+
+    /**
+     * все пожелания разных людей, где iDGiftPresenter - презентатор
+     * @param iDGiftPresenter - iD презентатора
+     * @return список пожеланий
+     */
     public List<Gift> getListWishAnother(long iDGiftPresenter){
         return giftRepository.findAllByGiftAnotherChatId(iDGiftPresenter);
     }
@@ -59,8 +80,6 @@ public class WishService {
     public Gift getInfoGiftById(int idGift) {
         return giftRepository.findByGiftId(idGift);
     }
-
-
 
     public Set<Integer> getIdGift(List<Gift> listGift){
         Set<Integer> setIdGift = new HashSet<>();

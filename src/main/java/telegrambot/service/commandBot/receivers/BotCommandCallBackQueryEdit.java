@@ -23,6 +23,7 @@ public class BotCommandCallBackQueryEdit {
     private final CommandEditSendMessage changeStatusGiftOwn;
     private final CommandEditSendMessage anotherWishListCommand;
     private final CommandEditSendMessage selectionWishes;
+    private final CommandEditSendMessage changeStatusGiftAnotherCommand;
 
     @Autowired
     public BotCommandCallBackQueryEdit(@Qualifier("infoCommand") CommandEditSendMessage infoCommand,
@@ -30,10 +31,11 @@ public class BotCommandCallBackQueryEdit {
                                        @Qualifier("ownWishListCommand") CommandEditSendMessage ownWishList,
                                        @Qualifier("moreDetailsCommand") CommandEditSendMessage moreDetailsCommand,
                                        @Qualifier("deleteWishCommand") CommandEditSendMessage deleteWishCommand,
-                                       @Qualifier("yesDeleteWishFromDB") CommandEditSendMessage yesDeleteWishFromDB,
-                                       @Qualifier("changeStatusGiftOwn") CommandEditSendMessage changeStatusGiftOwn,
+                                       @Qualifier("yesDeleteWishFromDBCommand") CommandEditSendMessage yesDeleteWishFromDB,
+                                       @Qualifier("changeStatusGiftOwnCommand") CommandEditSendMessage changeStatusGiftOwn,
                                        @Qualifier("anotherWishListCommand") CommandEditSendMessage anotherWishListCommand,
-                                       @Qualifier("selectionWishes") CommandEditSendMessage selectionWishes) {
+                                       @Qualifier("selectionWishesCommand") CommandEditSendMessage selectionWishes,
+                                       @Qualifier("changeStatusGiftAnotherCommand") CommandEditSendMessage changeStatusGiftAnotherCommand) {
         this.infoCommand = infoCommand;
         this.getWishList = getWishList;
         this.ownWishList = ownWishList;
@@ -43,7 +45,7 @@ public class BotCommandCallBackQueryEdit {
         this.changeStatusGiftOwn = changeStatusGiftOwn;
         this.anotherWishListCommand = anotherWishListCommand;
         this.selectionWishes = selectionWishes;
-
+        this.changeStatusGiftAnotherCommand = changeStatusGiftAnotherCommand;
         this.commandMapCommandEdit = ImmutableMap.<String, CommandEditSendMessage>builder()
                 .put(COMMANDS.INFO.getCommand(), this.infoCommand)
                 .put(COMMANDS.WISHLIST.getCommand(), this.getWishList)
@@ -57,6 +59,8 @@ public class BotCommandCallBackQueryEdit {
                 .put(COMMANDS.CHANGE_STATUS_OWN_WISH.getCommand(), this.changeStatusGiftOwn)
                 .put(COMMANDS.STATE_DB_NOT_ACTIVE.getCommand(), this.changeStatusGiftOwn)
                 .put(COMMANDS.NAME_GIFT_OWNER.getCommand(), this.selectionWishes)
+                .put(COMMANDS.MORE_DETAILS.getCommand(), this.moreDetailsCommand)
+                .put(COMMANDS.CHOOSE.getCommand(), this.changeStatusGiftAnotherCommand)
                 .build();
     }
     public EditMessageText findCommand(String commandIdentifier, Update update) {

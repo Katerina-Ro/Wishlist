@@ -13,7 +13,7 @@ import telegrambot.service.commandBot.receivers.start.StartCommand;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 @Service
-public class InsertNameUserToDB implements Command {
+public class InsertNameUserToDBCommand implements Command {
     private static final String IMAGE_EIGHT_SPOKED_ASTERISK =
             String.valueOf(Character.toChars(0x2733));
     private static final String HEAVY_EXCLAMATION_MARK_SYMBOL =
@@ -30,7 +30,7 @@ public class InsertNameUserToDB implements Command {
     private final StartCommand startCommand;
 
     @Autowired
-    public InsertNameUserToDB(TelegramUserService telegramUserService, StartCommand startCommand) {
+    public InsertNameUserToDBCommand(TelegramUserService telegramUserService, StartCommand startCommand) {
         this.telegramUserService = telegramUserService;
         this.startCommand = startCommand;
     }

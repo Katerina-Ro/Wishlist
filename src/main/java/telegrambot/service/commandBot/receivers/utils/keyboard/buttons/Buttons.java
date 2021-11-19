@@ -27,9 +27,14 @@ public class Buttons {
     private static final String BUTTON_FOR_YOURESELF = "Свой список пожеланий";
     private static final String BUTTON_FOR_ANOTHER = "Дарю другим";
     private static final String BUTTON_BACK_TO_START = "Назад, в главное меню";
+    private static final String BUTTON_CHOOSE_WISH = "Выбрать пожелание";
 
     public static InlineKeyboardButton getKeyBoardBackToStart() {
         return MakerInlineKeyboardMarkup.getKeyBoard(BUTTON_BACK_TO_START, COMMANDS.BUTTON_BACK_TO_START.getCommand());
+    }
+
+    public static InlineKeyboardButton getKeyBoardChooseWish() {
+        return MakerInlineKeyboardMarkup.getKeyBoard(BUTTON_CHOOSE_WISH, COMMANDS.CHOOSE_WISH.getCommand());
     }
 
     public static InlineKeyboardButton getKeyBoardYes(){
