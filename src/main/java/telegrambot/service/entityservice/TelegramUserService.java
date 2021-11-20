@@ -59,7 +59,7 @@ public class TelegramUserService {
     public boolean existNameUserInDB(String inputName){
         boolean existNameUserInDB = false;
         for(String s: telegramUserRepository.findAllName()){
-            if (s.equals(inputName)) {
+            if (inputName.equals(s)) {
                 existNameUserInDB = true;
                 break;
             }

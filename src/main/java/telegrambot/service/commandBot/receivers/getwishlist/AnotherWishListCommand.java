@@ -10,6 +10,7 @@ import telegrambot.entities.Gift;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
+import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 import telegrambot.service.entityservice.WishService;
 
@@ -40,7 +41,8 @@ public class AnotherWishListCommand implements CommandEditSendMessage {
         listGifts = wishService.getListWishAnother(chatIdUser);
         if(listGifts.isEmpty()) {
             editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update,
-                    MESSAGE_ANOTHER_WISHLIST_IS_EMPTY, Buttons.getKeyBoardStartMenu());
+                    MESSAGE_ANOTHER_WISHLIST_IS_EMPTY, MakerInlineKeyboardMarkup
+                    .get1InlineKeyboardMarkup(Buttons.getKeyBoardChooseWish()));
         }  else{
             editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update,MESSAGE_ANOTHER_WISHLIST,
                     MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(listGifts));

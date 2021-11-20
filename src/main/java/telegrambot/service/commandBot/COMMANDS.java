@@ -9,7 +9,7 @@ public enum COMMANDS {
     ADD_MORE_WISH ("Добавить еще пожелание"),
     ADD_NAME_USER_TO_DB ("Добавить имя"),
     WISHLIST ("Посмотреть список желаний"),
-    GIVE_TO_OTHERS ("Дарю другим"),
+    //GIVE_TO_OTHERS ("Дарю другим"),
     CHANGE_STATUS_OWN_WISH ("Поменять"),
     CHANGE_WISH ("Изменить"),
     YES ("Да,удалить"),
@@ -26,10 +26,7 @@ public enum COMMANDS {
     STATE_DB_NOT_ACTIVE ("NOT_ACTIVE"),
     FOR_YOURESELF ("Свой список пожеланий"),
     FOR_ANOTHER ("Дарю другим"),
-    BUTTON_BACK_TO_START ("Назад, в главное меню"),
-    ACTIVE (String.valueOf(Character
-            .toChars(0x2713))),
-    NOT_ACTIVE (" не выбран");
+    BUTTON_BACK_TO_START ("Назад, в главное меню");
 
     private String command;
 

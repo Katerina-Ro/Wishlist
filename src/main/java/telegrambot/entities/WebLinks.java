@@ -24,19 +24,22 @@ public class WebLinks {
 
     @Id // обязательно
     @GeneratedValue (strategy =  GenerationType.IDENTITY)
-    @Column(name = "id_Links", unique = true, nullable = false)
+    @Column(name = "id_links", unique = true, nullable = false)
     private Integer idLinks;
 
-    @Column (name = "weblink") // необязательно
+    @Column (name = "weblink")//, unique = true) // необязательно
     @Setter
     private String webLink;
 
     @Setter
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToOne //(cascade = CascadeType.ALL)
+    @JoinColumn(name = "number_id")
+    /*
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="gift_weblinks",
             joinColumns = @JoinColumn(name="weblinks_id"),
-            inverseJoinColumns = @JoinColumn(name="gift_id"))
-    private List<Gift> gift;
+            inverseJoinColumns = @JoinColumn(name="gift_id")) */
+    private Gift gift;
 
     @Override
     public String toString() {

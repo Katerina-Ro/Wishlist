@@ -17,13 +17,13 @@ import telegrambot.service.commandBot.Command;
 public class AddCommand implements Command{
     private static final String IMAGE_EIGHT_SPOKED_ASTERISK = String.valueOf(Character
             .toChars(0x2733));
-    private static final String EMPTY_LINE = " \n";
+    //private static final String EMPTY_LINE = " \n";
     //StringBuffer???
-    private static final String NAME_USER = "'Твое имя'" + IMAGE_EIGHT_SPOKED_ASTERISK + "\n " +
+    private static final String NAME_USER = "'Твое имя'" + IMAGE_EIGHT_SPOKED_ASTERISK +
             "(нужно, чтобы тот, кто захочет сделать тебе подарок, смог идентифицировать тебя)";
     @Getter
-    private static final String MESSAGE_ADD = "Заполни поля \nПоля, отмеченные " +
-            IMAGE_EIGHT_SPOKED_ASTERISK + ", обязательны для заполнения. \n" + EMPTY_LINE + NAME_USER;
+    private static final String MESSAGE_ADD = "Поля, отмеченные " + IMAGE_EIGHT_SPOKED_ASTERISK +
+            ", обязательны для заполнения. " + NAME_USER;
     @Getter
     private static final String NAME_WISH = "'Наименование подарка'" + IMAGE_EIGHT_SPOKED_ASTERISK;
     @Getter

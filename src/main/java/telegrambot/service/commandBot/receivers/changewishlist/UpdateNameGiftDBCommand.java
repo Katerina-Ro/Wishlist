@@ -13,7 +13,7 @@ import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.entityservice.WishService;
-
+/*
 @Service
 public class UpdateNameGiftDBCommand implements Command {
     @Getter
@@ -63,6 +63,6 @@ public class UpdateNameGiftDBCommand implements Command {
                 .setChatId(update.getMessage().getChatId())
                 .setText(INPUT_ERROR_MESSAGE);
         messageProductDescriptionError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        return messageProductDescriptionError; */
+        return messageProductDescriptionError;
     }
-}
+} */

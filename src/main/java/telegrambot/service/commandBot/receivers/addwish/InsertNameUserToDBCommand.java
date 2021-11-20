@@ -1,16 +1,21 @@
 package telegrambot.service.commandBot.receivers.addwish;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
+import telegrambot.entities.Gift;
+import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
+import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.start.StartCommand;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
+import telegrambot.service.entityservice.WishService;
 
 @Service
 public class InsertNameUserToDBCommand implements Command {
@@ -22,64 +27,90 @@ public class InsertNameUserToDBCommand implements Command {
     private static final String INPUT_NAME_ERROR_MESSAGE = "Такое имя уже есть у бота. Введите другое имя";
     @Getter
     private static final String INPUT_ERROR_MESSAGE =
-            HEAVY_EXCLAMATION_MARK_SYMBOL + " Имя должно быть текстовым";
-    @Getter
-    private static final String NAME_WISH = "'Наименование подарка'" + IMAGE_EIGHT_SPOKED_ASTERISK;
+            HEAVY_EXCLAMATION_MARK_SYMBOL + " Имя/ Наименование должно быть текстовым";
     private final TelegramUserService telegramUserService;
     @Getter
     private final StartCommand startCommand;
+    private final WishService wishService;
+    @Getter
+    @Setter
+    private static Gift giftFromDB;
+    @Getter
+    private static String nameWish = "'Наименование подарка'" + IMAGE_EIGHT_SPOKED_ASTERISK;
 
     @Autowired
-    public InsertNameUserToDBCommand(TelegramUserService telegramUserService, StartCommand startCommand) {
+    public InsertNameUserToDBCommand(TelegramUserService telegramUserService, StartCommand startCommand, WishService wishService) {
         this.telegramUserService = telegramUserService;
         this.startCommand = startCommand;
+        this.wishService = wishService;
     }
 
     @Override
     @Transactional
-    public SendMessage execute(Update update)  {
+    public SendMessage execute(Update update) {
         SendMessage messageInsertNameUserToDBCommand = new SendMessage();
-        long chatIdUser = update.getMessage().getChatId();
-        if(CheckingInputLinesUtil.checkEmptyString(update.getMessage().getText()) &&
-                CheckingInputLinesUtil.isLetters(update.getMessage().getText())) {
-            ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-            String inputName = update.getMessage().getText();
-            if(!telegramUserService.existNameUserInDB(inputName)) {
-                telegramUserService.createNameGiftOwner(inputName,
-                        chatIdUser);
+        if (!update.hasCallbackQuery()) {
+            System.out.println();
+            System.out.println("в методе InsertNameUserToDBCommand ");
+            long chatIdUser = update.getMessage().getChatId();
+            // Проверяем строку на пустоту
+            if (CheckingInputLinesUtil.checkEmptyString(update.getMessage().getText()) &&
+                    CheckingInputLinesUtil.isLetters(update.getMessage().getText())) {
+                String inputName = update.getMessage().getText();
+                System.out.println("внутри блока if (CheckingInputLinesUtil.checkEmptyString(update.getMessage().getText()) &&\n" +
+                        "                    CheckingInputLinesUtil.isLetters(update.getMessage().getText()))");
+                System.out.println();
+                // Если строка введена корректно, то проверяем, нет ли такого же имени в БД
+                if (!telegramUserService.existNameUserInDB(inputName)) {
+                    // Если такого имени в БД нет, то заносим введенное имя пользователя в БД
+                    System.out.println();
+                    System.out.println("внутри блока if (!telegramUserService.existNameUserInDB(inputName)) {");
+                    telegramUserService.createNameGiftOwner(inputName,
+                            chatIdUser);
+                } else {
+                    // Если такое имя есть, то просим подобрать другое имя
+                    return messageErrorName(update);
+                }
+                // Если пользователь с таким именеем уже есть в БД, то получаем его имя из БД и
+                // заносим в GiftOwner
+                System.out.println();
+                System.out.println();
+                if (telegramUserService.getTelegramUserRepository().existsById(chatIdUser)) {
+                    startCommand.getNewGiftOwner().setName(telegramUserService
+                            .getGiftOwner(chatIdUser).getName());
+                } else {
+                    // Если пользователя нет в БД, то заносим его имя в GiftOwner
+                    startCommand.getNewGiftOwner().setName(update.getMessage().getText());
+                }
+                return SendMessageUtils.sendMessage(update,nameWish, true);
             } else {
-                messageInsertNameUserToDBCommand = messageErrorName(update);
+                // Если поле имени пустое, то сообщаем об ошибке и просим внести корректно
+                return messageError(update);
             }
-            if(telegramUserService.getTelegramUserRepository().existsById(chatIdUser)) {
-                startCommand.getNewGiftOwner().setName(telegramUserService
-                        .getGiftOwner(chatIdUser).getName());
+        } else{
+            if (CheckingInputLinesUtil.checkEmptyString(update.getCallbackQuery().getData())) {
+                System.out.println();
+                String incomingMessage = update.getCallbackQuery().getData();
+                System.out.println("incomingMessage = " + incomingMessage);
+                int idGift = FindingDataUtil.findIdByIncomingMessage(incomingMessage);
+                System.out.println("idGift = " + idGift);
+                wishService.getInfoGiftById(idGift);
+                giftFromDB = wishService.getInfoGiftById(idGift);
+                String nameWishFromDB = giftFromDB.getNameGift();
+                nameWish = nameWish + "\n"+ nameWishFromDB;
+                return SendMessageUtils.sendMessage(update,nameWish, true);
             } else {
-                startCommand.getNewGiftOwner().setName(update.getMessage().getText());
+                return messageError(update);
             }
-            messageInsertNameUserToDBCommand.setChatId(update.getMessage().getChatId())
-                             .setText(NAME_WISH);
-            messageInsertNameUserToDBCommand.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        } else {
-            messageInsertNameUserToDBCommand = messageError(update);
+            //return messageInsertNameUserToDBCommand;
         }
-        return messageInsertNameUserToDBCommand;
     }
 
     private SendMessage messageError(Update update){
-        ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-        SendMessage messageInsertNameUserToDBCommandError = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText(INPUT_ERROR_MESSAGE);
-        messageInsertNameUserToDBCommandError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        return messageInsertNameUserToDBCommandError;
+        return SendMessageUtils.sendMessage(update,INPUT_ERROR_MESSAGE, true);
     }
 
     private SendMessage messageErrorName(Update update){
-        ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-        SendMessage messageInsertNameUserToDBCommandErrorName = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText(INPUT_NAME_ERROR_MESSAGE);
-        messageInsertNameUserToDBCommandErrorName.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        return messageInsertNameUserToDBCommandErrorName;
+        return SendMessageUtils.sendMessage(update,INPUT_NAME_ERROR_MESSAGE, true);
     }
 }

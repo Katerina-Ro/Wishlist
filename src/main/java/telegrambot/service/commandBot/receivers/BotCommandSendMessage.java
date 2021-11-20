@@ -33,6 +33,6 @@ public class BotCommandSendMessage {
 
         System.out.println(" зашел в метод BotCommandSendMessage findCommand ");
         System.out.println(" зашел в метод BotCommandSendMessage findCommand " + commandMapSendMessage.getOrDefault(commandIdentifier, startCommand));
-        return (commandMapSendMessage.getOrDefault(commandIdentifier, startCommand).execute(update));
+        return (commandMapSendMessage.get(commandIdentifier).execute(update));
     }
 }

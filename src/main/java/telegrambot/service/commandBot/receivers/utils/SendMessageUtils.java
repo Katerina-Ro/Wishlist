@@ -18,9 +18,15 @@ public class SendMessageUtils {
                 .enableHtml(true)
                 .setChatId(chatIdUser)
                 .setText(sentMessage);
-        if (forceReply){
+        if (forceReply) {
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-            sendMessage.setReplyToMessageId(update.getCallbackQuery().getMessage().getMessageId());
+            int messageId;
+            if (update.hasCallbackQuery()) {
+                messageId = update.getCallbackQuery().getMessage().getMessageId();
+            } else {
+                messageId = update.getMessage().getMessageId();
+            }
+            sendMessage.setReplyToMessageId(messageId);
             sendMessage.setReplyMarkup(forceReplyKeyboard.setSelective(true));
         }
         return sendMessage;

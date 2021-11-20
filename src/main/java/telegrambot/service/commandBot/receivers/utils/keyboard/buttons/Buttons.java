@@ -17,7 +17,7 @@ public class Buttons {
     private static final String BUTTON_CHOOSE_THIS = "Выбрать";
     private static final String BUTTON_DELETE = "Удалить";
     private static final String BUTTON_GET_WISHLIST = "Посмотреть список желаний";
-    private static final String BUTTON_GIVE_TO_OTHERS = "Дарю другим";
+    //private static final String BUTTON_GIVE_TO_OTHERS = "Дарю другим";
     private static final String BUTTON_INFO = "О чем канал?";
     private static final String BUTTON_MORE_DETAILS = "Подробнее";
     private static final String BUTTON_NAME_GIFT_OWNER = "Чье пожелание";
@@ -65,9 +65,10 @@ public class Buttons {
         return MakerInlineKeyboardMarkup.getKeyBoard(BUTTON_GET_WISHLIST, COMMANDS.WISHLIST.getCommand());
     }
 
+    /*
     public static InlineKeyboardButton getKeyBoardButtonGiveToOthers (){
         return MakerInlineKeyboardMarkup.getKeyBoard(BUTTON_GIVE_TO_OTHERS, COMMANDS.GIVE_TO_OTHERS.getCommand());
-    }
+    } */
 
     public static InlineKeyboardButton getKeyBoardDeleteWish(){
         InlineKeyboardButton inlineKeyboardButtonDeleteWish = new InlineKeyboardButton();

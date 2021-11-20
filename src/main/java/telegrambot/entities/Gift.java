@@ -41,7 +41,7 @@ public class Gift {
     private String descriptionGift;
 
     @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "chat_id")//, referencedColumnName="chat_id")//, insertable=false, updatable=false)
+    //@JoinColumn(name = "chat_id")//, referencedColumnName="chat_id")//, insertable=false, updatable=false)
     private GiftOwner giftOwner;
 
 
@@ -50,11 +50,14 @@ public class Gift {
     @JoinColumn(name = "gift_presenter_id")//, referencedColumnName="chat_id", insertable=false, updatable=false)
     private GiftOwner giftPresenter;
 
-    @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable(name="gift_weblinks",
+    @OneToOne //(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_links")
+    //ToMany (fetch = FetchType.EAGER)
+    //@JoinColumn(name ="id_links")
+    /*@JoinTable(name="gift_weblinks",
             joinColumns = @JoinColumn(name="gift_id"),
-            inverseJoinColumns = @JoinColumn(name="weblinks_id"))
-    private List<WebLinks> linksList;
+            inverseJoinColumns = @JoinColumn(name="weblinks_id")) */
+    private WebLinks link;
 
     @Override
     public String toString() {
@@ -62,6 +65,6 @@ public class Gift {
                 "Описание пожелания: " + descriptionGift +  ", \n" +
                 "Пожелание видно всем? " + statusGiftOwn.getStatusGift() + ", \n" +
                 "Его кто-то выбрал, чтобы подарить? " + statusGiftAnother.getStatusGift() +  ", \n" +
-                "Web - ссылки на подарок: " + linksList;
+                "Web - ссылка на подарок: " + link;
     }
 }

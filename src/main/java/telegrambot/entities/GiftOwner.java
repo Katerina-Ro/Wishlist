@@ -29,7 +29,7 @@ public class GiftOwner{
     @NotBlank
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "giftOwner")
    /*
     @JoinTable(name="gift_owner_gifts",
             joinColumns = @JoinColumn(name="gift_owner_id"),

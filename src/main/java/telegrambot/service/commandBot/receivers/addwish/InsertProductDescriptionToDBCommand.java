@@ -7,9 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
+import telegrambot.entities.WebLinks;
 import telegrambot.service.entityservice.WishService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
+
+import java.util.List;
 
 @Service
 public class InsertProductDescriptionToDBCommand implements Command {
@@ -20,8 +23,8 @@ public class InsertProductDescriptionToDBCommand implements Command {
     private static final String INPUT_ERROR_MESSAGE =
             HEAVY_EXCLAMATION_MARK_SYMBOL + " Наименование подарка должно быть текстовым";
     @Getter
-    private static final String WEB_LINK = "'Ссылка на сайт' \n" +
-            "(поле может быть пустым, можете поставить любой символ)";
+    private static String webLink = "'Ссылка на сайт' (поле может быть пустым, можете поставить любой " +
+            "символ)";
     @Getter
     private final WishService wishService;
     @Getter
@@ -39,11 +42,22 @@ public class InsertProductDescriptionToDBCommand implements Command {
         SendMessage messageWebLink = new SendMessage();
         String giftDescription = update.getMessage().getText();
         if(CheckingInputLinesUtil.checkEmptyString(giftDescription)) {
+
             ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-            wishService.createDescriptionWish(giftDescription, insertNameGiftToDBCommand.getGift());
-            insertNameGiftToDBCommand.getGift().setDescriptionGift(giftDescription);
+            // вписываем описание в БД
+            System.out.println();
+            System.out.println("InsertNameGiftToDBCommand.getGift(), который вписываем в БД, но пока без " +
+                    "дескрипшина, = "+InsertNameGiftToDBCommand.getGift());
+            System.out.println();
+            wishService.createDescriptionWish(giftDescription, InsertNameGiftToDBCommand.getGift());
+            InsertNameGiftToDBCommand.getGift().setDescriptionGift(giftDescription);
+
+            if (InsertNameUserToDBCommand.getGiftFromDB() != null) {
+                WebLinks webLinkFromDB = InsertNameUserToDBCommand.getGiftFromDB().getLink();
+                webLink = webLink + "\n" + webLinkFromDB;
+            }
             messageWebLink.setChatId(update.getMessage().getChatId())
-                    .setText(WEB_LINK)
+                    .setText(webLink)
                     .setReplyMarkup(forceReplyKeyboard.setSelective(true));
         } else {
             messageWebLink = messageError(update);

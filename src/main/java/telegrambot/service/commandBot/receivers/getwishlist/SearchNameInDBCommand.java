@@ -1,5 +1,6 @@
 package telegrambot.service.commandBot.receivers.getwishlist;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +22,13 @@ import java.util.List;
 
 @Service
 public class SearchNameInDBCommand implements Command {
+    @Getter
     private static final String NOT_EXIST_ERROR_MESSAGE = "У такого пользователя нет бота WishList." +
             "Выберите другого пользователя";
+    @Getter
     private static final String NOT_EXIST_WISH_ERROR_MESSAGE = "У выбранного пользователя нет " +
             "добавленных пожеланий либо все пожелания разобраны";
+    @Getter
     private static final String INCORRECT_NAME_ENTERED_ERROR_MESSAGE = "Некорректно введено имя";
     private static final String CHOSE_MYSELF_ERROR_MESSAGE = "Чтобы просмотреть свой список пожеланий," +
             "перейдите 'Посмотреть список желаний' - 'Свой список пожеланий'";
@@ -45,7 +49,7 @@ public class SearchNameInDBCommand implements Command {
         String nameSearchUser = update.getMessage().getText();
         long chatIdPresenter = update.getMessage().getChatId();
 
-        if(CheckingInputLinesUtil.checkEmptyString(nameSearchUser)){
+        if(CheckingInputLinesUtil.checkEmptyString(nameSearchUser) && CheckingInputLinesUtil.isLetters(nameSearchUser)){
             if(telegramUserService.existNameUserInDB(nameSearchUser) && !nameSearchUser
                     .equals(telegramUserService.getNameUser(chatIdPresenter))) {
                 System.out.println("");

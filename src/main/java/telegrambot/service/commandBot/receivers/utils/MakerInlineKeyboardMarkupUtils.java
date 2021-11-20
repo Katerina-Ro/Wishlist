@@ -80,8 +80,9 @@ public class MakerInlineKeyboardMarkupUtils {
         COMMANDS.CHANGE_STATUS_OWN_WISH.setCommand("Поменять " + iDGift);
         System.out.println("COMMANDS.CHANGE_STATUS_OWN_WISH.getCommand()" + COMMANDS.CHANGE_STATUS_OWN_WISH.getCommand());
         //Buttons.getKeyBoardButtonChangeStatusOwnWish();
-        return MakerInlineKeyboardMarkup.get2x2x3InlineKeyboardMarkup(Buttons.getKeyBoardButtonChangeStatusOwnWish(),
-                Buttons.getKeyBoardButtonAddMoreWish(), Buttons.getKeyBoardBackToStart());
+        return MakerInlineKeyboardMarkup.get2x2InlineKeyboardMarkup(Buttons.getKeyBoardButtonChangeStatusOwnWish(),
+                Buttons.getKeyBoardButtonAddMoreWish(), Buttons.getKeyBoardButtonForYoureself(),
+                Buttons.getKeyBoardBackToStart());
     }
 
     private static void returnValue(){

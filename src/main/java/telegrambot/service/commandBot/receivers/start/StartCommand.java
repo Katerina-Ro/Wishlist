@@ -21,11 +21,8 @@ public class StartCommand implements Command {
     private final String imageWavingHand = String.valueOf(Character.toChars(0x1F44B));
     private final String START_MESSAGE = "Привет " + imageWavingHand + " \nЭто бот для составления списка " +
             "желаний " + imageGiftBox;
-
-    private long numberUser;
     @Getter
     private final GiftOwner newGiftOwner;
-
     private final TelegramUserService telegramUserService;
 
     @Autowired
@@ -36,6 +33,7 @@ public class StartCommand implements Command {
 
     @Override
     public SendMessage execute(Update update)  {
+        long numberUser;
         if (update.hasCallbackQuery()){
            numberUser = update.getCallbackQuery().getMessage().getChatId();
         } else {

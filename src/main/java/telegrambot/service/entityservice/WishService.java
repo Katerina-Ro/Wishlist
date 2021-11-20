@@ -27,6 +27,18 @@ public class WishService {
             return giftRepository.save(gift);
     }
 
+    public Gift createNameGift(String nameGift, int iDGift, GiftOwner giftOwner){
+        Gift gift = new Gift();
+        gift.setNameGift(nameGift);
+        gift.setGiftOwner(giftOwner);
+        gift.setGiftId(iDGift);
+        return giftRepository.save(gift);
+    }
+
+    public Gift save(Gift gift){
+        return giftRepository.save(gift);
+    }
+
     public void createDescriptionWish(String giftDescription, Gift gift){
         gift.setDescriptionGift(giftDescription);
         giftRepository.save(gift);
@@ -98,10 +110,14 @@ public class WishService {
                 gift.setDescriptionGift(g.getDescriptionGift());
                 gift.setStatusGiftOwn(g.getStatusGiftOwn());
                 gift.setStatusGiftAnother(g.getStatusGiftAnother());
-                gift.setLinksList(g.getLinksList());
+                gift.setLink(g.getLink());
             }
         }
         return gift;
+    }
+
+    public boolean existWish(int idGift){
+        return giftRepository.existsById(idGift);
     }
 
     public boolean checkingGiftGivingStatus(int idGift) {

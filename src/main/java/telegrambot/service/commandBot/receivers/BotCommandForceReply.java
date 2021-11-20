@@ -13,8 +13,8 @@ import telegrambot.service.commandBot.receivers.addwish.AddCommand;
 import telegrambot.service.commandBot.receivers.addwish.InsertNameGiftToDBCommand;
 import telegrambot.service.commandBot.receivers.addwish.InsertNameUserToDBCommand;
 import telegrambot.service.commandBot.receivers.addwish.InsertProductDescriptionToDBCommand;
-import telegrambot.service.commandBot.receivers.changewishlist.ChangeWishCommand;
 import telegrambot.service.commandBot.receivers.getwishlist.ChooseWishCommand;
+import telegrambot.service.commandBot.receivers.getwishlist.SearchNameInDBCommand;
 
 /**
  * Класс для обработки ForceReplyMessage, возвращает ответ типа SendMessage
@@ -27,44 +27,51 @@ public class BotCommandForceReply {
     private final Command insertNameGiftToDB;
     private final Command insertProductDescriptionToDB;
     private final Command insertWebLink;
-    private final Command chooseWishCommand;
+    //private final Command chooseWishCommand;
     private final Command searchNameInDB;
-    private final Command changeWishCommand;
-    private final Command updateNameGiftDBCommand;
+    //private final Command changeWishCommand;
+   // private final Command updateNameGiftDBCommand;
 
     @Autowired
     public BotCommandForceReply(@Qualifier("insertNameUserToDBCommand") Command insertNameUserToDB,
                                 @Qualifier("insertNameGiftToDBCommand") Command insertNameGiftToDB,
                                 @Qualifier("insertProductDescriptionToDBCommand") Command insertProductDescriptionToDB,
                                 @Qualifier("insertWebLinkCommand") Command insertWebLink,
-                                @Qualifier("chooseWishCommand") Command chooseWishCommand,
-                                @Qualifier("searchNameInDBCommand") Command searchNameInDB,
-                                @Qualifier("changeWishCommand") Command changeWishCommand,
-                                @Qualifier("updateNameGiftDBCommand")Command updateNameGiftDBCommand) {
+                                //@Qualifier("chooseWishCommand") Command chooseWishCommand,
+                                @Qualifier("searchNameInDBCommand") Command searchNameInDB
+                               // @Qualifier("changeWishCommand") Command changeWishCommand,
+                                //@Qualifier("updateNameGiftDBCommand")Command updateNameGiftDBCommand)
+    ){
         this.insertNameUserToDB = insertNameUserToDB;
         this.insertNameGiftToDB = insertNameGiftToDB;
         this.insertProductDescriptionToDB = insertProductDescriptionToDB;
         this.insertWebLink = insertWebLink;
-        this.chooseWishCommand = chooseWishCommand;
+        //this.chooseWishCommand = chooseWishCommand;
         this.searchNameInDB = searchNameInDB;
-        this.changeWishCommand = changeWishCommand;
-        this.updateNameGiftDBCommand = updateNameGiftDBCommand;
+       // this.changeWishCommand = changeWishCommand;
+        //this.updateNameGiftDBCommand = updateNameGiftDBCommand;
         this.commandMapForceReply = ImmutableMap.<String, Command>builder()
                 .put(AddCommand.getMESSAGE_ADD(), this.insertNameUserToDB)
-                .put(InsertNameUserToDBCommand.getNAME_WISH(), this.insertNameGiftToDB)
+                .put(InsertNameUserToDBCommand.getNameWish(), this.insertNameGiftToDB)
                 .put(InsertNameUserToDBCommand.getINPUT_ERROR_MESSAGE(), this.insertNameUserToDB)
-                .put(InsertNameGiftToDBCommand.getINPUT_ERROR_MESSAGE(), this.insertNameGiftToDB)
                 .put(InsertNameUserToDBCommand.getINPUT_NAME_ERROR_MESSAGE(), this.insertNameGiftToDB)
-                .put(InsertNameGiftToDBCommand.getPRODUCT_DESCRIPTION(), this.insertProductDescriptionToDB)
-                .put(InsertProductDescriptionToDBCommand.getWEB_LINK(), this.insertWebLink)
-                .put(COMMANDS.CHOOSE_WISH.getCommand(), this.chooseWishCommand)
+
+                .put(InsertNameGiftToDBCommand.getINPUT_ERROR_MESSAGE(), this.insertNameUserToDB)
+                .put(InsertNameGiftToDBCommand.getProductDescription(), this.insertProductDescriptionToDB)
+
+                .put(InsertProductDescriptionToDBCommand.getWebLink(), this.insertWebLink)
+                //.put(COMMANDS.CHOOSE_WISH.getCommand(), this.chooseWishCommand)
                 .put(ChooseWishCommand.getMESSAGE_CHOOSE_WISH_COMMAND(),  this.searchNameInDB)
-                .put(COMMANDS.CHANGE_WISH.getCommand(), this.changeWishCommand)
-                .put(ChangeWishCommand.getMESSAGE_CHANGE_WISH(), this.updateNameGiftDBCommand)
+                .put(COMMANDS.CHANGE_WISH.getCommand(), this.insertNameUserToDB)
+                .put(SearchNameInDBCommand.getNOT_EXIST_ERROR_MESSAGE(), this.searchNameInDB)
+                .put(SearchNameInDBCommand.getNOT_EXIST_WISH_ERROR_MESSAGE(), this.searchNameInDB)
+                .put(SearchNameInDBCommand.getINCORRECT_NAME_ENTERED_ERROR_MESSAGE(), this.searchNameInDB)
+
                 .build();
 
     }
     public SendMessage findCommand(String commandIdentifier, Update update) {
+
         return (commandMapForceReply.get(commandIdentifier).execute(update));
     }
 }

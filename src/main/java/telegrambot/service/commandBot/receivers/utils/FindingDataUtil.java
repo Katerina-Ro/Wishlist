@@ -11,7 +11,25 @@ public class FindingDataUtil {
      * @return подстрока типа String
      */
     public static String findLineByIncomingMessage(String incomingMessage){
-        return incomingMessage.substring(0,(incomingMessage.indexOf(" ")));
+        int indexSpace = incomingMessage.indexOf(" ");
+        if (indexSpace == -1){
+            System.out.println("нет команды");
+            return "нет команды";
+        }
+        return incomingMessage.substring(0,(indexSpace));
+    }
+
+    public static boolean containLineBreak(String incomingMessage){
+        boolean containLineBreak = false;
+        if (incomingMessage.contains("\n")){
+            containLineBreak = true;
+        }
+        System.out.println("containLineBreak = " + containLineBreak);
+        return containLineBreak;
+    }
+
+    public static String findLineByIncomingMessageByN(String incomingMessage){
+        return incomingMessage.substring(0,(incomingMessage.indexOf("\n")));
     }
 
     /**

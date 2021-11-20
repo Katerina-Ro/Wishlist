@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.Gift;
 import telegrambot.service.commandBot.Command;
+import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
@@ -16,8 +18,9 @@ import telegrambot.service.entityservice.WishService;
 /**
  * Класс-Receiver команды "/changeWish" {@link Command}
  */
+/*
 @Service
-public class ChangeWishCommand implements Command {
+public class ChangeWishCommand implements CommandEditSendMessage {
     private static String nameWishFromDB;
     @Getter
     private static Gift wish;
@@ -34,7 +37,7 @@ public class ChangeWishCommand implements Command {
 
     @Override
     @Transactional
-    public SendMessage execute(Update update)  {
+    public EditMessageText execute(Update update)  {
         String incomingMessage = update.getCallbackQuery().getData();
         System.out.println("incomingMessage = " + incomingMessage);
         int idGift = FindingDataUtil.findIdByIncomingMessage(incomingMessage);
@@ -44,4 +47,4 @@ public class ChangeWishCommand implements Command {
         String MESSAGE_CHANGE = MESSAGE_CHANGE_WISH + "\n" + nameWishFromDB;
         return SendMessageUtils.sendMessage(update, MESSAGE_CHANGE, true);
     }
-}
+} */

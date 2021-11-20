@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.receivers.*;
-import telegrambot.service.commandBot.receivers.changewishlist.ChangeWishCommand;
+import telegrambot.service.commandBot.receivers.addwish.AddCommand;
+import telegrambot.service.commandBot.receivers.addwish.InsertNameUserToDBCommand;
 import telegrambot.service.commandBot.receivers.utils.CommandCheckUtil;
+import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 
 /**
  * Класс для соединения с ботом
@@ -49,16 +51,47 @@ public class BotConnect extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.getMessage() != null && update.hasMessage()) {
-            if (update.getMessage().isReply() && !CommandCheckUtil.checkCommandReplyBackToMainMenu(update)) {
-                System.out.println("");
-                System.out.println(ChangeWishCommand.getMESSAGE_CHANGE_WISH());
-                System.out.println("long chatId = " + update.getMessage().getChatId());
-                System.out.println("update.getMessage().getText() = " + update.getMessage().getText());
+        if (update.getMessage() != null && update.hasMessage() || CommandCheckUtil
+                .checkCommandCallBackEditChangeWish(update)) {
+            System.out.println("сейчас начнется проверка   if (update.getMessage().isReply() && !CommandCheckU");
+            System.out.println();
+            if (CommandCheckUtil.checkCommandCallBackEditChangeWish(update)){
+                String commandIdentifier = FindingDataUtil.findLineByIncomingMessage(update.getCallbackQuery().getData());
+                System.out.println("commandIdentifier = " + commandIdentifier);
+
+                execute(botCommandForceReply.findCommand(commandIdentifier, update));
+            } else if (update.getMessage().isReply() && !CommandCheckUtil.checkCommandReplyBackToMainMenu(update))
+                     {
+               // System.out.println(" update.getMessage().getReplyToMessage().getText() " +  update.getMessage().getReplyToMessage().getText());
+
+                System.out.println();
+               // System.out.println("long chatId = " + update.getMessage().getChatId());
+                System.out.println();
+                //System.out.println("update.getMessage().getText() = " + update.getMessage().getText());
                 System.out.println("это Реплай ");
-                execute(botCommandForceReply.findCommand(update.getMessage().getReplyToMessage().getText(),
-                        update));
-            } else {
+               // System.out.println("InsertNameUserToDBCommand.getNameWish() " + InsertNameUserToDBCommand.getNameWish());
+               // System.out.println("update.getMessage().getMessageId() " + update.getMessage().getMessageId());
+                System.out.println("update.getMessage().isReply() " + update.getMessage().isReply());
+
+                String commandIdentifier = update.getMessage().getReplyToMessage().getText();
+                System.out.println("commandIdentifier до обрезки" + commandIdentifier);
+                System.out.println();
+                if(FindingDataUtil.containLineBreak(update.getMessage().getReplyToMessage().getText())) {
+                    commandIdentifier = FindingDataUtil.findLineByIncomingMessageByN(
+                            update.getMessage().getReplyToMessage().getText());
+                    System.out.println("commandIdentifier обрезан" );
+                } else {
+                commandIdentifier = update.getMessage().getReplyToMessage().getText();
+                    System.out.println();
+                }
+                System.out.println("commandIdentifier =" + commandIdentifier);
+                System.out.println();
+                System.out.println("AddCommand.getMESSAGE_ADD() = "+ AddCommand.getMESSAGE_ADD());
+                //System.out.println("InsertNameUserToDBCommand.getNameWish() " +  InsertNameUserToDBCommand.getNameWish());
+                //System.out.println("равны " + commandIdentifier.equals(InsertNameUserToDBCommand.getNameWish()));
+                execute(botCommandForceReply.findCommand(commandIdentifier, update));
+            }
+            else {
                 System.out.println("");
                 System.out.println("это Обычный сенд ");
                 execute(botCommandSendMessage.findCommand(update.getMessage().getText(), update));
@@ -101,15 +134,8 @@ public class BotConnect extends TelegramLongPollingBot {
                     System.out.println("commandIdentifier = " + commandIdentifier);
                     System.out.println("");
                     System.out.println("вышел из блока !botCommandCallbackQueryEdit.getCommandMapCommandEdit(");
-                    if(CommandCheckUtil.checkCommandCallBackEditChangeWish(update)){
-                        System.out.println("");
-                        System.out.println("");
-                        execute(botCommandForceReply.findCommand(commandIdentifier,update));
-                        System.out.println("");
-                    }
                     if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit()
-                            .containsKey(commandIdentifier) && !CommandCheckUtil
-                            .checkCommandCallBackEditChangeWish(update)) {
+                            .containsKey(commandIdentifier)) {
                         System.out.println();
                         System.out.println("это блок if (!botCommandCallbackQueryEdit.getCommandMapCommandEdit().containsKey(commandIdentifier)");
                         execute(botCommandSendMessage.findCommand(update.getCallbackQuery().getData(), update));
