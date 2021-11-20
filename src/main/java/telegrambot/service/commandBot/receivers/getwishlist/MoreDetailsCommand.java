@@ -12,6 +12,9 @@ import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 import telegrambot.service.entityservice.WishService;
 
+/**
+ * Класс-Receiver команды "Подробнее" {@link CommandEditSendMessage}
+ */
 @Service
 public class MoreDetailsCommand implements CommandEditSendMessage {
     private final WishService wishService;

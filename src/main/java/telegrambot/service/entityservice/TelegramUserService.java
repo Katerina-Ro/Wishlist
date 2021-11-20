@@ -34,12 +34,10 @@ public class TelegramUserService {
         if(telegramUserRepository.findById(chatIdUser).isPresent()){
             go = telegramUserRepository.findById(chatIdUser).get();
         }
-        System.out.println("Так сработал метод getGiftOwner (long chatIdUser)" + go);
         return go;
     }
 
     public GiftOwner getGiftOwner (String name) {
-        System.out.println("внутри метода getGiftOwner (String name)" + telegramUserRepository.getGiftOwner(name));
         return telegramUserRepository.getGiftOwner(name);
     }
 

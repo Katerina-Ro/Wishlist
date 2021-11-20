@@ -35,29 +35,11 @@ public class WishService {
         return giftRepository.save(gift);
     }
 
-    public Gift save(Gift gift){
-        return giftRepository.save(gift);
-    }
+    public Gift save(Gift gift){ return giftRepository.save(gift); }
 
     public void createDescriptionWish(String giftDescription, Gift gift){
         gift.setDescriptionGift(giftDescription);
         giftRepository.save(gift);
-    }
-
-    /*
-    public void updateStatusGiftOwn(int idGift, STATUS_GIFT statusGiftOwn){
-        Gift gift = new Gift();
-        gift.setGiftId(idGift);
-        gift.setStatusGiftOwn(statusGiftOwn);
-        giftRepository.save(gift);
-    } */
-
-    public void updateStatusGift(Gift gift){
-        giftRepository.save(gift);
-    }
-
-    public List<Gift> getInfoGifts(long userId){
-        return giftRepository.findAllByGiftOwnerChatId(userId);
     }
 
     /**
@@ -89,36 +71,19 @@ public class WishService {
         return giftRepository.findAllByGiftAnotherChatId(iDGiftPresenter);
     }
 
+    public List<Gift> getInfoGifts(long userId){
+        return giftRepository.findAllByGiftOwnerChatId(userId);
+    }
+
     public Gift getInfoGiftById(int idGift) {
         return giftRepository.findByGiftId(idGift);
     }
 
-    public Set<Integer> getIdGift(List<Gift> listGift){
-        Set<Integer> setIdGift = new HashSet<>();
-        for (Gift g: listGift){
-            setIdGift.add(g.getGiftId());
-        }
-        return setIdGift;
+    public void updateStatusGift(Gift gift){
+        giftRepository.save(gift);
     }
 
-    public Gift getGift (String name, List<Gift> listGifts){
-        Gift gift = new Gift();
-        for (Gift g: listGifts){
-            if(g.getNameGift().equalsIgnoreCase(name)) {
-                gift.setGiftId(g.getGiftId());
-                gift.setNameGift(g.getNameGift());
-                gift.setDescriptionGift(g.getDescriptionGift());
-                gift.setStatusGiftOwn(g.getStatusGiftOwn());
-                gift.setStatusGiftAnother(g.getStatusGiftAnother());
-                gift.setLink(g.getLink());
-            }
-        }
-        return gift;
-    }
-
-    public boolean existWish(int idGift){
-        return giftRepository.existsById(idGift);
-    }
+    public void deleteWishById(int idGift){ giftRepository.deleteById(idGift); }
 
     public boolean checkingGiftGivingStatus(int idGift) {
         boolean checkingGiftGivingStatus = false;
@@ -127,9 +92,5 @@ public class WishService {
             checkingGiftGivingStatus = true;
         }
         return checkingGiftGivingStatus;
-    }
-
-    public void deleteWishById(int idGift){
-        giftRepository.deleteById(idGift);
     }
 }

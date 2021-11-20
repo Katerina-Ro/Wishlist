@@ -9,7 +9,6 @@ import telegrambot.entities.StatusGift.STATUS_GIFT;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 @MappedEnum(enumClass =  STATUS_GIFT.class)
@@ -41,22 +40,14 @@ public class Gift {
     private String descriptionGift;
 
     @ManyToOne (fetch = FetchType.EAGER)
-    //@JoinColumn(name = "chat_id")//, referencedColumnName="chat_id")//, insertable=false, updatable=false)
     private GiftOwner giftOwner;
 
-
     @ManyToOne (fetch = FetchType.EAGER)
-    //Если будет падать ошибка, связанная с этим полем, то во владельце нужно создать еще одно поле без колонки, аналогичное владельцу подарка только для дарящего. Связи те же
-    @JoinColumn(name = "gift_presenter_id")//, referencedColumnName="chat_id", insertable=false, updatable=false)
+    @JoinColumn(name = "gift_presenter_id")
     private GiftOwner giftPresenter;
 
-    @OneToOne //(cascade = CascadeType.ALL)
+    @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "id_links")
-    //ToMany (fetch = FetchType.EAGER)
-    //@JoinColumn(name ="id_links")
-    /*@JoinTable(name="gift_weblinks",
-            joinColumns = @JoinColumn(name="gift_id"),
-            inverseJoinColumns = @JoinColumn(name="weblinks_id")) */
     private WebLinks link;
 
     @Override

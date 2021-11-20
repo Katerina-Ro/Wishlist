@@ -17,6 +17,9 @@ import telegrambot.service.entityservice.WishService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс-Receiver команды "Дарю другим" {@link CommandEditSendMessage}
+ */
 @Service
 @Getter
 public class AnotherWishListCommand implements CommandEditSendMessage {
@@ -36,17 +39,14 @@ public class AnotherWishListCommand implements CommandEditSendMessage {
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
-        EditMessageText editMessageOwnWishListCommand;
-        long chatIdUser = update.getCallbackQuery().getMessage().getChatId();
-        listGifts = wishService.getListWishAnother(chatIdUser);
+        listGifts = wishService.getListWishAnother(update.getCallbackQuery().getMessage().getChatId());
         if(listGifts.isEmpty()) {
-            editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update,
+            return SendMessageUtils.sendEditMessage(update,
                     MESSAGE_ANOTHER_WISHLIST_IS_EMPTY, MakerInlineKeyboardMarkup
                     .get1InlineKeyboardMarkup(Buttons.getKeyBoardChooseWish()));
         }  else{
-            editMessageOwnWishListCommand = SendMessageUtils.sendEditMessage(update,MESSAGE_ANOTHER_WISHLIST,
+            return SendMessageUtils.sendEditMessage(update,MESSAGE_ANOTHER_WISHLIST,
                     MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(listGifts));
         }
-        return editMessageOwnWishListCommand;
     }
 }

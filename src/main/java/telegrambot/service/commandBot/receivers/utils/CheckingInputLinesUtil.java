@@ -19,6 +19,7 @@ public class CheckingInputLinesUtil {
      * @return возвращаеся true, если строка состоит из букв английского или русского алфавита
      */
     public static boolean isLetters(String line) {
-        return line.matches("[а-яА-Я]+") || line.matches("[a-zA-Z]+");
+        return line.matches("[а-яА-Я]+") ||
+                line.matches("[a-zA-Z]+");
     }
 }

@@ -4,12 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import telegrambot.entities.Gift;
 
 import java.util.List;
 
 /**
- *  для работы с сущностью {@link telegrambot.entities.Gift}
+ *  {@link Repository} для работы с сущностью {@link telegrambot.entities.Gift}
  */
 public interface GiftRepository extends JpaRepository <Gift, Integer> {
 
@@ -26,7 +27,7 @@ public interface GiftRepository extends JpaRepository <Gift, Integer> {
     @Query("SELECT g From Gift g WHERE g.giftId = :giftId")
     Gift findByGiftId(@Param("giftId")int idGift);
 
-    @Query(value = "SELECT * From gift WHERE chat_id = :giftOwner AND COALESCE (gift_presenter_id," +
+    @Query(value = "SELECT * From gift WHERE gift_owner_chat_id = :giftOwner AND COALESCE (gift_presenter_id," +
             " :giftPresenter) AND gift_status_gift_owner = 'ACTIVE'", nativeQuery = true)
     List<Gift> findAllByChatIdByStatusGift(@Param("giftOwner")long chatIdUser,
                                            @Param("giftPresenter")long chatIdPresenter);

@@ -4,7 +4,6 @@ package telegrambot.service.commandBot.receivers.utils;
  * Вспомогательный класс для получения данных из сообщения типа String
  */
 public class FindingDataUtil {
-
     /**
      * Получаем подстроку из сообщения от начала доп первого пробела
      * @param incomingMessage - пришедшее от бота сообщение
@@ -19,15 +18,24 @@ public class FindingDataUtil {
         return incomingMessage.substring(0,(indexSpace));
     }
 
+    /**
+     * Проверяем, содержит ли сообщение "\n"
+     * @param incomingMessage - пришедшее от бота сообщение
+     * @return true, если содержит
+     */
     public static boolean containLineBreak(String incomingMessage){
         boolean containLineBreak = false;
         if (incomingMessage.contains("\n")){
             containLineBreak = true;
         }
-        System.out.println("containLineBreak = " + containLineBreak);
         return containLineBreak;
     }
 
+    /**
+     * Получаем значение строку без знаков "\n"
+     * @param incomingMessage - пришедшее от бота сообщение
+     * @return подстрока от начала до "\n"
+     */
     public static String findLineByIncomingMessageByN(String incomingMessage){
         return incomingMessage.substring(0,(incomingMessage.indexOf("\n")));
     }

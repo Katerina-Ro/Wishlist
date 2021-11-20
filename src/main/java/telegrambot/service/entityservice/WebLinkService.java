@@ -7,9 +7,6 @@ import telegrambot.entities.Gift;
 import telegrambot.entities.WebLinks;
 import telegrambot.repository.WebLinksRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class WebLinkService {
     @Getter
@@ -20,21 +17,11 @@ public class WebLinkService {
         this.webLinksRepository = webLinksRepository;
     }
 
-    public void saveWebLink (String link, Gift gift){
-        System.out.println("вошел в метод saveWebLink (String link, Gift gift)");
+    public WebLinks saveWebLink (String link, Gift gift){
         WebLinks webLink = new WebLinks();
         webLink.setWebLink(link);
         webLink.setGift(gift);
-        //gift.setLink(webLink);
-        System.out.println("webLink = " + webLink);
-
-        //webLinksRepository.save(webLink);
-        System.out.println("типа сохранил ссылку " + webLinksRepository.save(webLink));
+        webLinksRepository.save(webLink);
+        return webLink;
     }
-
-    public WebLinks getWebLink(Gift gift){
-        return webLinksRepository.findByGift(gift);
-    }
-
-
 }

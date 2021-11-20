@@ -20,6 +20,9 @@ import telegrambot.service.entityservice.WishService;
 
 import java.util.List;
 
+/**
+ * Класс-Receiver команды ChooseWishCommand.getMESSAGE_CHOOSE_WISH_COMMAND() {@link Command}
+ */
 @Service
 public class SearchNameInDBCommand implements Command {
     @Getter
@@ -49,75 +52,41 @@ public class SearchNameInDBCommand implements Command {
         String nameSearchUser = update.getMessage().getText();
         long chatIdPresenter = update.getMessage().getChatId();
 
-        if(CheckingInputLinesUtil.checkEmptyString(nameSearchUser) && CheckingInputLinesUtil.isLetters(nameSearchUser)){
+        if(CheckingInputLinesUtil.checkEmptyString(nameSearchUser) && CheckingInputLinesUtil
+                .isLetters(nameSearchUser)){
             if(telegramUserService.existNameUserInDB(nameSearchUser) && !nameSearchUser
                     .equals(telegramUserService.getNameUser(chatIdPresenter))) {
-                System.out.println("");
-                System.out.println("внутри проверки if(telegramUserService.existNameUserInDB(nameSearchUser) && !nameSearchUser\n" +
-                        "                    .equals(telegramUserService.getNameUser(chatIdPresenter))) ");
-                System.out.println("");
-                GiftOwner go = telegramUserService.getGiftOwner(nameSearchUser);
-                long idUser = go.getChatId();
-                System.out.println("long idUser = go.getChatId() = " + go.getChatId());
-                List<Gift> list = wishService.getInfoAnotherGifts(idUser);
-                System.out.println("");
-
-                System.out.println("list" + list);
-                System.out.println("");
-
-                long chatIdUser = update.getMessage().getChatId();
-
+                // Получаем список пожеланий по введенному пользователем имени
+                List<Gift> list = wishService.getInfoAnotherGifts(telegramUserService
+                        .getGiftOwner(nameSearchUser).getChatId());
                 if(list.isEmpty()){
-                    sendMessageSearchNameInDB = new SendMessage()
-                            .enableHtml(true)
-                            .setChatId(chatIdUser)
-                            .setText(NOT_EXIST_WISH_ERROR_MESSAGE)
+                    // Если у запрошенного человека список пожеланий пуст, то отправляем
+                    // соответствующее сообщение
+                    return SendMessageUtils.sendMessage(update, NOT_EXIST_WISH_ERROR_MESSAGE,false)
                             .setReplyMarkup(Buttons.getKeyBoardStartMenu());
                 } else {
-                        System.out.println();
-                        System.out.println(chatIdUser);
-                    sendMessageSearchNameInDB = new SendMessage()
-                            .enableHtml(true)
-                            .setChatId(chatIdUser)
-                            .setText(ANOTHER_WISHLIST)
-                            .setReplyMarkup(MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(list));
-
-
-                /*
-                SendMessageUtils.sendMessage(update, ANOTHER_WISHLIST, false).setReplyMarkup(
-                        MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(list)); */
+                    // В противном случае отправляем список пожеланий выбранного человека
+                   return SendMessageUtils.sendMessage(update, ANOTHER_WISHLIST, false)
+                           .setReplyMarkup(MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(list));
                 }
             } else if (nameSearchUser.equals(telegramUserService.getNameUser(chatIdPresenter))){
-                long chatIdUser = update.getMessage().getChatId();
-                    System.out.println();
-                    System.out.println("chatIdUser в ФорсРеплай = "+chatIdUser);
-                sendMessageSearchNameInDB = new SendMessage()
-                        .enableHtml(true)
-                        .setChatId(chatIdUser)
-                        .setText(CHOSE_MYSELF_ERROR_MESSAGE);
-                System.out.println(CHOSE_MYSELF_ERROR_MESSAGE);
-                ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-                //sendMessage.setReplyToMessageId(update.getMessage().getMessageId());
-                forceReplyKeyboard.setSelective(true);
-                sendMessageSearchNameInDB.setReplyMarkup(MakerInlineKeyboardMarkup.get1InlineKeyboardMarkup(Buttons
-                .getKeyBoardButtonForYoureself()));
-               /*
-                SendMessageUtils.sendMessage(update, CHOSE_MYSELF_ERROR_MESSAGE, false)
-                .setReplyMarkup(MakerInlineKeyboardMarkup.get1InlineKeyboardMarkup(
-                        Buttons.getKeyBoardButtonForYoureself())); */
+               // Если пользователь ввел свое имя, то направляем его на OwnWishListCommand через кнопку
+               // Buttons.getKeyBoardButtonForYoureself()
+                return SendMessageUtils.sendMessage(update, CHOSE_MYSELF_ERROR_MESSAGE,true)
+                        .setReplyMarkup(MakerInlineKeyboardMarkup.get1InlineKeyboardMarkup(Buttons
+                        .getKeyBoardButtonForYoureself()));
             } else {
-                sendMessageSearchNameInDB = messageErrorNotExist(update);
+                return messageErrorNotExist(update);
             }
         } else {
-            sendMessageSearchNameInDB = messageErrorIncorrectName(update);
+            return messageErrorIncorrectName(update);
         }
-        return sendMessageSearchNameInDB;
     }
 
     private SendMessage messageErrorIncorrectName(Update update){
         return SendMessageUtils.sendMessage(update, INCORRECT_NAME_ENTERED_ERROR_MESSAGE,true);
     }
-    
+
     private SendMessage messageErrorNotExist(Update update){
         return SendMessageUtils.sendMessage(update, NOT_EXIST_ERROR_MESSAGE, true);
     }

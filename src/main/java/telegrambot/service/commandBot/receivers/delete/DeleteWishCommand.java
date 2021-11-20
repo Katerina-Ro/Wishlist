@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.receivers.getwishlist;
+package telegrambot.service.commandBot.receivers.delete;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,9 @@ import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupU
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
 
+/**
+ * Класс-Receiver команды "Удалить" {@link CommandEditSendMessage}
+ */
 @Service
 public class DeleteWishCommand implements CommandEditSendMessage {
     private final WishService wishService;
@@ -23,9 +26,8 @@ public class DeleteWishCommand implements CommandEditSendMessage {
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
-        String incomingMessage = update.getCallbackQuery().getData();
         String messageDeleteWishCommand;
-        int idGift = FindingDataUtil.findIdByIncomingMessage(incomingMessage);
+        int idGift = FindingDataUtil.findIdByIncomingMessage(update.getCallbackQuery().getData());
         if (wishService.checkingGiftGivingStatus(idGift)){
             messageDeleteWishCommand = "Кто-то собирается выполнить это пожелание. Вы уверены, " +
                     "что хотите его удалить?";

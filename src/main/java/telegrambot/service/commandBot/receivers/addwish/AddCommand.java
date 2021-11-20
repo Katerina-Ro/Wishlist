@@ -6,19 +6,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
+import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
 
 /**
- * Класс-Receiver команды "/addWish" {@link Command}
+ * Класс-Receiver команды "Добавить пожелание" {@link Command}
  */
 @Service
 public class AddCommand implements Command{
     private static final String IMAGE_EIGHT_SPOKED_ASTERISK = String.valueOf(Character
             .toChars(0x2733));
-    //private static final String EMPTY_LINE = " \n";
-    //StringBuffer???
     private static final String NAME_USER = "'Твое имя'" + IMAGE_EIGHT_SPOKED_ASTERISK +
             "(нужно, чтобы тот, кто захочет сделать тебе подарок, смог идентифицировать тебя)";
     @Getter
@@ -37,18 +35,10 @@ public class AddCommand implements Command{
     @Override
     @Transactional
     public SendMessage execute(Update update) {
-        ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-        long chatIdUser = update.getCallbackQuery().getMessage().getChatId();
-        SendMessage messageAddCommand = new SendMessage()
-                .setReplyToMessageId(update.getCallbackQuery().getMessage().getMessageId())
-                .enableHtml(true)
-                .setChatId(chatIdUser);
-        if(telegramUserService.containsNameUserInDB(chatIdUser)){
-            messageAddCommand.setText(NAME_WISH);
+        if (telegramUserService.containsNameUserInDB(update.getCallbackQuery().getMessage().getChatId())) {
+            return SendMessageUtils.sendMessage(update, NAME_WISH, true);
         } else {
-            messageAddCommand.setText(MESSAGE_ADD);
+            return SendMessageUtils.sendMessage(update, MESSAGE_ADD, true);
         }
-        messageAddCommand.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        return messageAddCommand;
     }
 }

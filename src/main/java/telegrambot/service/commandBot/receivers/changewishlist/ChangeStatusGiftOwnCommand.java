@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.receivers.getwishlist;
+package telegrambot.service.commandBot.receivers.changewishlist;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +8,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.Gift;
 import telegrambot.entities.StatusGift.ChangeStatusGiftImpl;
 import telegrambot.service.commandBot.CommandEditSendMessage;
+import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
 
+/**
+ * Класс-Receiver команд "ACTIVE", "Поменять" и "NOT_ACTIVE" {@link CommandEditSendMessage}
+ */
 @Service
 public class ChangeStatusGiftOwnCommand implements CommandEditSendMessage {
     private final WishService wishService;
@@ -26,11 +30,8 @@ public class ChangeStatusGiftOwnCommand implements CommandEditSendMessage {
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
-        System.out.println("внутри ChangeStatusGiftOwn ");
-
-        String incomingMessage = update.getCallbackQuery().getData();
-        Gift gift = wishService.getInfoGiftById(Integer.parseInt(incomingMessage
-                .substring((incomingMessage.indexOf(" "))+1)));
+        Gift gift = wishService.getInfoGiftById(FindingDataUtil.findIdByIncomingMessage(update
+                .getCallbackQuery().getData()));
         changeStatusGift.changeStatusGiftOwn(gift);
         wishService.updateStatusGift(gift);
         return SendMessageUtils.sendEditMessage(update, "Обновленный список пожеланий",

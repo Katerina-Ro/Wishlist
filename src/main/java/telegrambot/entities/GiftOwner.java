@@ -10,8 +10,6 @@ import java.util.List;
 
 @Component
 @Entity
-//Примечание: если вы не используете @Table, тогда hibernate считает, что @Entity является вашим именем таблицы
-// по умолчанию
 @Table(name = "gift_owner")
 @Getter
 @Setter
@@ -30,12 +28,6 @@ public class GiftOwner{
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "giftOwner")
-   /*
-    @JoinTable(name="gift_owner_gifts",
-            joinColumns = @JoinColumn(name="gift_owner_id"),
-            inverseJoinColumns = @JoinColumn(name="gifts_id")
-    ) */
-    //@JoinColumn(name = "number_id") // referencedColumnName="id_customer", insertable=false, updatable=false)
     private List<Gift> listGifts;
 
     @Column(name = "active")

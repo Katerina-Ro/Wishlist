@@ -22,56 +22,40 @@ import telegrambot.service.commandBot.receivers.getwishlist.SearchNameInDBComman
 @Service
 @Getter
 public class BotCommandForceReply {
-    private final ImmutableMap<String, Command> commandMapForceReply;
+    private final ImmutableMap<StringBuffer, Command> commandMapForceReply;
     private final Command insertNameUserToDB;
     private final Command insertNameGiftToDB;
     private final Command insertProductDescriptionToDB;
     private final Command insertWebLink;
-    //private final Command chooseWishCommand;
     private final Command searchNameInDB;
-    //private final Command changeWishCommand;
-   // private final Command updateNameGiftDBCommand;
 
     @Autowired
     public BotCommandForceReply(@Qualifier("insertNameUserToDBCommand") Command insertNameUserToDB,
                                 @Qualifier("insertNameGiftToDBCommand") Command insertNameGiftToDB,
                                 @Qualifier("insertProductDescriptionToDBCommand") Command insertProductDescriptionToDB,
                                 @Qualifier("insertWebLinkCommand") Command insertWebLink,
-                                //@Qualifier("chooseWishCommand") Command chooseWishCommand,
-                                @Qualifier("searchNameInDBCommand") Command searchNameInDB
-                               // @Qualifier("changeWishCommand") Command changeWishCommand,
-                                //@Qualifier("updateNameGiftDBCommand")Command updateNameGiftDBCommand)
-    ){
+                                @Qualifier("searchNameInDBCommand") Command searchNameInDB){
         this.insertNameUserToDB = insertNameUserToDB;
         this.insertNameGiftToDB = insertNameGiftToDB;
         this.insertProductDescriptionToDB = insertProductDescriptionToDB;
         this.insertWebLink = insertWebLink;
-        //this.chooseWishCommand = chooseWishCommand;
         this.searchNameInDB = searchNameInDB;
-       // this.changeWishCommand = changeWishCommand;
-        //this.updateNameGiftDBCommand = updateNameGiftDBCommand;
-        this.commandMapForceReply = ImmutableMap.<String, Command>builder()
-                .put(AddCommand.getMESSAGE_ADD(), this.insertNameUserToDB)
-                .put(InsertNameUserToDBCommand.getNameWish(), this.insertNameGiftToDB)
-                .put(InsertNameUserToDBCommand.getINPUT_ERROR_MESSAGE(), this.insertNameUserToDB)
-                .put(InsertNameUserToDBCommand.getINPUT_NAME_ERROR_MESSAGE(), this.insertNameGiftToDB)
-
-                .put(InsertNameGiftToDBCommand.getINPUT_ERROR_MESSAGE(), this.insertNameUserToDB)
-                .put(InsertNameGiftToDBCommand.getProductDescription(), this.insertProductDescriptionToDB)
-
-                .put(InsertProductDescriptionToDBCommand.getWebLink(), this.insertWebLink)
-                //.put(COMMANDS.CHOOSE_WISH.getCommand(), this.chooseWishCommand)
-                .put(ChooseWishCommand.getMESSAGE_CHOOSE_WISH_COMMAND(),  this.searchNameInDB)
+        this.commandMapForceReply = ImmutableMap.<StringBuffer, Command>builder()
+                .put(new StringBuffer(AddCommand.getMESSAGE_ADD()), this.insertNameUserToDB)
+                .put(new StringBuffer(InsertNameUserToDBCommand.getNameWish()), this.insertNameGiftToDB)
+                .put(new StringBuffer(InsertNameUserToDBCommand.getINPUT_ERROR_MESSAGE()), this.insertNameUserToDB)
+                .put(new StringBuffer(InsertNameUserToDBCommand.getINPUT_NAME_ERROR_MESSAGE()), this.insertNameGiftToDB)
+                .put(new StringBuffer(InsertNameGiftToDBCommand.getINPUT_ERROR_MESSAGE()), this.insertNameUserToDB)
+                .put(new StringBuffer(InsertNameGiftToDBCommand.getProductDescription()), this.insertProductDescriptionToDB)
+                .put(new StringBuffer(InsertProductDescriptionToDBCommand.getWebLink()), this.insertWebLink)
+                .put(new StringBuffer(ChooseWishCommand.getMESSAGE_CHOOSE_WISH_COMMAND()),  this.searchNameInDB)
                 .put(COMMANDS.CHANGE_WISH.getCommand(), this.insertNameUserToDB)
-                .put(SearchNameInDBCommand.getNOT_EXIST_ERROR_MESSAGE(), this.searchNameInDB)
-                .put(SearchNameInDBCommand.getNOT_EXIST_WISH_ERROR_MESSAGE(), this.searchNameInDB)
-                .put(SearchNameInDBCommand.getINCORRECT_NAME_ENTERED_ERROR_MESSAGE(), this.searchNameInDB)
-
+                .put(new StringBuffer(SearchNameInDBCommand.getNOT_EXIST_ERROR_MESSAGE()), this.searchNameInDB)
+                .put(new StringBuffer(SearchNameInDBCommand.getNOT_EXIST_WISH_ERROR_MESSAGE()), this.searchNameInDB)
+                .put(new StringBuffer(SearchNameInDBCommand.getINCORRECT_NAME_ENTERED_ERROR_MESSAGE()), this.searchNameInDB)
                 .build();
-
     }
     public SendMessage findCommand(String commandIdentifier, Update update) {
-
-        return (commandMapForceReply.get(commandIdentifier).execute(update));
+        return (commandMapForceReply.get(new StringBuffer(commandIdentifier)).execute(update));
     }
 }

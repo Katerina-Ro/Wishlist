@@ -22,17 +22,13 @@ public class BotCommandSendMessage {
     @Autowired
     public BotCommandSendMessage(@Qualifier("startCommand") Command startCommand) {
         this.startCommand = startCommand;
-        // https://www-baeldung-com.translate.goog/java-immutable-maps?_x_tr_sl=en&_x_tr_tl=ru&_x_tr_hl=ru&_x_tr_pto=nui,sc
         this.commandMapSendMessage = ImmutableMap.<String, Command>builder()
-                .put(COMMANDS.START.getCommand(), startCommand)
-                .put(COMMANDS.BUTTON_BACK_TO_START.getCommand(), startCommand)
+                .put(COMMANDS.START.getCommand().toString(), startCommand)
+                .put(COMMANDS.BUTTON_BACK_TO_START.getCommand().toString(), startCommand)
                 .build();
     }
 
     public SendMessage findCommand(String commandIdentifier, Update update) {
-
-        System.out.println(" зашел в метод BotCommandSendMessage findCommand ");
-        System.out.println(" зашел в метод BotCommandSendMessage findCommand " + commandMapSendMessage.getOrDefault(commandIdentifier, startCommand));
         return (commandMapSendMessage.get(commandIdentifier).execute(update));
     }
 }

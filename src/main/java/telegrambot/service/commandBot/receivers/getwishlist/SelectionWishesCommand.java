@@ -15,6 +15,9 @@ import telegrambot.service.entityservice.WishService;
 
 import java.util.List;
 
+/**
+ * Класс-Receiver команды "Имя" {@link CommandEditSendMessage}
+ */
 @Service
 public class SelectionWishesCommand implements CommandEditSendMessage {
     private final WishService wishService;
@@ -30,17 +33,11 @@ public class SelectionWishesCommand implements CommandEditSendMessage {
     @Transactional
     public EditMessageText execute(Update update) {
         String messageSelectionWishes = "Пожелания выбранного пользователя ";
-        System.out.println("Внутри метода this.selectionWishes ");
-        String incommingNameGO = update.getCallbackQuery().getData();
-        long idPresenter = update.getCallbackQuery().getMessage().getChatId();
-        System.out.println("incommingNameGO = "+ incommingNameGO);
-        int id = FindingDataUtil.findIdByIncomingMessage(incommingNameGO);
-        System.out.println("весь список пожеланий Вовы (должно быть 2 желания, они оба активны ");
-        System.out.println("telegramUserService.getGiftOwner(incommingNameGO).getChatId() = " + telegramUserService.getGiftOwner(id).getChatId());
-        System.out.println("");
-        System.out.println("wishService.getInfoAnotherGiftsInlIdPresenter(telegramUserService.getGiftOwner(id).getChatId(), idPresenter)" + wishService.getInfoAnotherGiftsInlIdPresenter(telegramUserService.getGiftOwner(id).getChatId(), idPresenter));
-        List<Gift> list = wishService.getInfoAnotherGiftsInlIdPresenter(telegramUserService.getGiftOwner(id).getChatId(), idPresenter);
-
+        // получаем id из пришедшего от бота сообщения
+        int id = FindingDataUtil.findIdByIncomingMessage(update.getCallbackQuery().getData());
+        // получаем список подарков по id
+        List<Gift> list = wishService.getInfoAnotherGiftsInlIdPresenter(telegramUserService
+                .getGiftOwner(id).getChatId(), update.getCallbackQuery().getMessage().getChatId());
         return SendMessageUtils.sendEditMessage(update, messageSelectionWishes,
                 MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(list));
     }

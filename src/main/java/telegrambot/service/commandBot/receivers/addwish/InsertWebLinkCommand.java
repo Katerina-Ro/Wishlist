@@ -7,11 +7,14 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.WebLinks;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
-import telegrambot.service.entityservice.TelegramUserService;
+import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WebLinkService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.entityservice.WishService;
 
+/**
+ * Класс-Receiver команды InsertProductDescriptionToDBCommand.getWebLink() {@link Command}
+ */
 @Service
 public class InsertWebLinkCommand implements Command {
     private static final String SPARKLES =  String.valueOf(Character.toChars(0x2728));
@@ -20,65 +23,29 @@ public class InsertWebLinkCommand implements Command {
             "чтобы они увидели список Ваших пожеланий либо сделать пожелание неактивным на какое-то время " +
             "(если пожелание неактивно, то его никто, кроме Вас не видит";
     private final WebLinkService webLinkService;
-    private final InsertProductDescriptionToDBCommand insertProductDescriptionToDBCommand;
     private final WishService wishService;
 
     @Autowired
-    public InsertWebLinkCommand(WebLinkService webLinkService, InsertProductDescriptionToDBCommand
-            insertProductDescriptionToDBCommand, WishService wishService) {
+    public InsertWebLinkCommand(WebLinkService webLinkService, WishService wishService) {
         this.webLinkService = webLinkService;
-        this.insertProductDescriptionToDBCommand = insertProductDescriptionToDBCommand;
         this.wishService = wishService;
     }
 
     @Override
     @Transactional
     public SendMessage execute(Update update)  {
-
-        //SendMessage messageWebLink = new SendMessage();
-       // String webLink = ;
-        //ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-
-        System.out.println("подарок до внесения ссылки "+ InsertNameGiftToDBCommand.getGift());
-        System.out.println("webLink = " + update.getMessage().getText());
-        System.out.println("insertProductDescriptionToDB.getInsertNameGiftToDB().getGift()" + InsertNameGiftToDBCommand.getGift());
-        webLinkService.saveWebLink(update.getMessage().getText(), InsertNameGiftToDBCommand.getGift());
-        WebLinks link = webLinkService.getWebLink(InsertNameGiftToDBCommand.getGift());
+        WebLinks link = webLinkService.saveWebLink(update.getMessage().getText(),
+                InsertNameGiftToDBCommand.getGift());
         InsertNameGiftToDBCommand.getGift().setLink(link);
-        System.out.println();
-        System.out.println("InsertNameGiftToDBCommand.getGift() после обновления ссылки " +InsertNameGiftToDBCommand.getGift());
         wishService.save(InsertNameGiftToDBCommand.getGift());
         int idGift = InsertNameGiftToDBCommand.getGift().getGiftId();
 
-
+        // ??
         InsertNameGiftToDBCommand.setGift(null);
 
-       // messageWebLink.setChatId(update.getMessage().getChatId())
-         //       .setText(WEB_LINK);
         System.out.println("вышел из метода webLinkService.saveWebLink(update.getMessage().getText(");
-        //messageWebLink.setReplyMarkup(forceReplyKeyboard.setSelective(true));
 
-        long chatIdUser;
-        if (update.hasCallbackQuery()) {
-            System.out.println("это " + update.hasCallbackQuery());
-            chatIdUser = update.getCallbackQuery().getMessage().getChatId();
-            System.out.println("chatIdUser " + chatIdUser);
-        } else {
-            System.out.println("это else {");
-            chatIdUser = update.getMessage().getChatId();
-            System.out.println("chatIdUser " + chatIdUser);
-        }
-
-        SendMessage sendMessage = new SendMessage()
-               // .setReplyToMessageId((int) chatIdUser)
-                .enableHtml(true)
-                .setChatId(chatIdUser)
-                .setText(STATUS_WISH_GIFT_OWNER)
+        return SendMessageUtils.sendMessage(update, STATUS_WISH_GIFT_OWNER, false)
                 .setReplyMarkup(MakerInlineKeyboardMarkupUtils.getChangeStatusGiftOwnInlineKeyboardMarkup(idGift));
-        /*
-        if (update.getMessage().isReply()){
-            sendMessage.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        } */
-        return sendMessage;
     }
 }

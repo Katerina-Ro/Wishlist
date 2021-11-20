@@ -108,8 +108,8 @@ public class MakerInlineKeyboardMarkup {
         List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         for(Object g: listObjects){
             List<InlineKeyboardButton> keyboardButtonList = new ArrayList<>(); // 1 строка
-            keyboardButtonList.add(getKeyBoard(g.toString(),g.toString()));
-            keyboardButtonList.add(getKeyBoard(g.toString(),g.toString()));
+            keyboardButtonList.add(getKeyBoard(g.toString(),new StringBuffer(g.toString())));
+            keyboardButtonList.add(getKeyBoard(g.toString(),new StringBuffer(g.toString())));
             keyboardButtons.add(keyboardButtonList);
         }
         inlineKeyboardMarkup.setKeyboard(keyboardButtons);
@@ -134,8 +134,8 @@ public class MakerInlineKeyboardMarkup {
         List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonList = new ArrayList<>(); // 1 строка
         for(Object g: listObjects){
-            keyboardButtonList.add(getKeyBoard(g.toString(),g.toString()));
-            keyboardButtonList.add(getKeyBoard(g.toString(),g.toString()));
+            keyboardButtonList.add(getKeyBoard(g.toString(),new StringBuffer(g.toString())));
+            keyboardButtonList.add(getKeyBoard(g.toString(),new StringBuffer(g.toString())));
             keyboardButtons.add(keyboardButtonList);
         }
         keyboardButtons.add(inlineKeyboardButtonList);
@@ -208,10 +208,10 @@ public class MakerInlineKeyboardMarkup {
      * @param callbackData - callback (например, команда в строковом значении из перечисления)
      * @return - кнопку типа InlineKeyboardButton
      */
-    public static InlineKeyboardButton getKeyBoard(String text, String callbackData){
+    public static InlineKeyboardButton getKeyBoard(String text, StringBuffer callbackData){
         InlineKeyboardButton inlineKeyboardButtonDeleteWish = new InlineKeyboardButton();
         inlineKeyboardButtonDeleteWish.setText(text);
-        inlineKeyboardButtonDeleteWish.setCallbackData(callbackData);
+        inlineKeyboardButtonDeleteWish.setCallbackData(callbackData.toString());
         return inlineKeyboardButtonDeleteWish;
     }
 
@@ -240,14 +240,16 @@ public class MakerInlineKeyboardMarkup {
         return  inlineKeyboardButtons;
     }
 
-    /** Получаем клавиатуру
-     * @param keyboardButtonRow1 -
-     * @param keyboardButtonRow2 -
-     * @return - клавиатуру
+    /** Получаем клавиатуру типа InlineKeyboardMarkup из кнопок разного типа: InlineKeyboardButton и
+     * List<InlineKeyboardButton>
+     * @param keyboardButtonRow1 - InlineKeyboardButton кнопка 1
+     * @param keyboardButtonRow2 - InlineKeyboardButton кнопка 2
+     * @return - клавиатуру InlineKeyboardMarkup
      */
     private static InlineKeyboardMarkup getInlineKeyboardMarkup(InlineKeyboardButton keyboardButtonRow1,
                                                                 InlineKeyboardButton keyboardButtonRow2,
-                                                                List<InlineKeyboardButton> inlineKeyboardButtons) {
+                                                                List<InlineKeyboardButton>
+                                                                        inlineKeyboardButtons) {
         InlineKeyboardMarkup inlineKeyboardMarkup1 = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         keyboardButtons.add(makeListInlineKeyboardButton(keyboardButtonRow1, keyboardButtonRow2));

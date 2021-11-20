@@ -1,4 +1,4 @@
-package telegrambot.service.commandBot.receivers.getwishlist;
+package telegrambot.service.commandBot.receivers.changewishlist;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,9 @@ import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.entityservice.WishService;
 
+/**
+ * Класс-Receiver команды "Выбрать" {@link CommandEditSendMessage}
+ */
 @Service
 public class ChangeStatusGiftAnotherCommand implements CommandEditSendMessage {
     private final WishService wishService;
@@ -31,23 +34,12 @@ public class ChangeStatusGiftAnotherCommand implements CommandEditSendMessage {
     @Override
     @Transactional
     public EditMessageText execute(Update update) {
-        long idPresenter = update.getCallbackQuery().getMessage().getChatId();
-        System.out.println("idPresenter = " + idPresenter);
-        System.out.println("");
-        GiftOwner giftOwner = telegramUserService.getGiftOwner(idPresenter);
-        System.out.println("presenter = " + giftOwner);
-        System.out.println("");
-        Gift gift = wishService.getInfoGiftById(FindingDataUtil.findIdByIncomingMessage(update.getCallbackQuery().getData()));
-        System.out.println("gift " + gift);
-        System.out.println("сейчас начнется changeStatusGift.changeStatusGiftAnother(gift)");
-        System.out.println("статус до смены "+ gift.getStatusGiftAnother());
+        GiftOwner giftOwner = telegramUserService.getGiftOwner(update.getCallbackQuery()
+                .getMessage().getChatId());
+        Gift gift = wishService.getInfoGiftById(FindingDataUtil.findIdByIncomingMessage(update
+                .getCallbackQuery().getData()));
         changeStatusGift.changeStatusGiftAnother(gift, giftOwner);
-        System.out.println("статус после смены " + gift.getStatusGiftAnother());
-        System.out.println("");
-        System.out.println("сейчас подргуизт статус из бд");
         wishService.updateStatusGift(gift);
-        System.out.println("статус из бд "+ wishService.getInfoGiftById(gift.getGiftId()));
-        System.out.println("");
         return SendMessageUtils.sendEditMessage(update, "Обновленный список 'Дарю другим'",
                 MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(wishService
                         .getListWishAnother(update.getCallbackQuery().getMessage().getChatId())));

@@ -7,14 +7,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.COMMANDS;
 
 @Service
 @Getter
 public class BotCommandCallBackQueryEdit {
-    private final ImmutableMap<String, CommandEditSendMessage> commandMapCommandEdit;
+    private final ImmutableMap<StringBuffer, CommandEditSendMessage> commandMapCommandEdit;
     private final CommandEditSendMessage infoCommand;
     private final CommandEditSendMessage getWishList;
     private final CommandEditSendMessage ownWishList;
@@ -25,7 +24,6 @@ public class BotCommandCallBackQueryEdit {
     private final CommandEditSendMessage anotherWishListCommand;
     private final CommandEditSendMessage selectionWishes;
     private final CommandEditSendMessage changeStatusGiftAnotherCommand;
-    //private final CommandEditSendMessage changeWishCommand;
     private final CommandEditSendMessage unknownCommand;
 
     @Autowired
@@ -39,7 +37,6 @@ public class BotCommandCallBackQueryEdit {
                                        @Qualifier("anotherWishListCommand") CommandEditSendMessage anotherWishListCommand,
                                        @Qualifier("selectionWishesCommand") CommandEditSendMessage selectionWishes,
                                        @Qualifier("changeStatusGiftAnotherCommand") CommandEditSendMessage changeStatusGiftAnotherCommand,
-                                       //@Qualifier("changeWishCommand") Command changeWishCommand,
                                        @Qualifier("unknownCommand")CommandEditSendMessage unknownCommand) {
         this.infoCommand = infoCommand;
         this.getWishList = getWishList;
@@ -51,9 +48,8 @@ public class BotCommandCallBackQueryEdit {
         this.anotherWishListCommand = anotherWishListCommand;
         this.selectionWishes = selectionWishes;
         this.changeStatusGiftAnotherCommand = changeStatusGiftAnotherCommand;
-       // this.changeWishCommand = changeWishCommand;
         this.unknownCommand = unknownCommand;
-        this.commandMapCommandEdit = ImmutableMap.<String, CommandEditSendMessage>builder()
+        this.commandMapCommandEdit = ImmutableMap.<StringBuffer, CommandEditSendMessage>builder()
                 .put(COMMANDS.INFO.getCommand(), this.infoCommand)
                 .put(COMMANDS.WISHLIST.getCommand(), this.getWishList)
                 .put(COMMANDS.FOR_YOURESELF.getCommand(), this.ownWishList)
@@ -68,10 +64,10 @@ public class BotCommandCallBackQueryEdit {
                 .put(COMMANDS.NAME_GIFT_OWNER.getCommand(), this.selectionWishes)
                 .put(COMMANDS.MORE_DETAILS.getCommand(), this.moreDetailsCommand)
                 .put(COMMANDS.CHOOSE.getCommand(), this.changeStatusGiftAnotherCommand)
-                //.put(COMMANDS.CHANGE_WISH.getCommand(), )
                 .build();
     }
     public EditMessageText findCommand(String commandIdentifier, Update update) {
-        return (commandMapCommandEdit.getOrDefault(commandIdentifier, this.unknownCommand).execute(update));
+        return (commandMapCommandEdit.getOrDefault(new StringBuffer(commandIdentifier), this.unknownCommand)
+                .execute(update));
     }
 }

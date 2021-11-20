@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.GiftOwner;
+import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
-
 /**
- * Стартовый класс
+ * Стартовый класс для обработки сообщения "/start"
  */
 @Service
 @Getter
@@ -43,10 +43,7 @@ public class StartCommand implements Command {
             telegramUserService.createIdUserToDB(numberUser);
         }
         newGiftOwner.setChatId(numberUser);
-        return new SendMessage()
-                .setChatId(numberUser)
-                .enableHtml(true)
-                .setText(START_MESSAGE)
+        return SendMessageUtils.sendMessage(update,START_MESSAGE, false)
                 .setReplyMarkup(Buttons.getKeyBoardStartMenu());
     }
 }

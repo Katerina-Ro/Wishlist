@@ -8,15 +8,16 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import telegrambot.entities.WebLinks;
+import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
-import java.util.List;
-
+/**
+ * Класс-Receiver команды InsertNameGiftToDBCommand.getProductDescription() {@link Command}
+ */
 @Service
 public class InsertProductDescriptionToDBCommand implements Command {
-    @Getter
     private static final String HEAVY_EXCLAMATION_MARK_SYMBOL =
             String.valueOf(Character.toChars(0x2757));
     @Getter
@@ -25,21 +26,16 @@ public class InsertProductDescriptionToDBCommand implements Command {
     @Getter
     private static String webLink = "'Ссылка на сайт' (поле может быть пустым, можете поставить любой " +
             "символ)";
-    @Getter
     private final WishService wishService;
-    @Getter
-    private final InsertNameGiftToDBCommand insertNameGiftToDBCommand;
 
     @Autowired
     public InsertProductDescriptionToDBCommand(WishService wishService, InsertNameGiftToDBCommand insertNameGiftToDBCommand) {
         this.wishService = wishService;
-        this.insertNameGiftToDBCommand = insertNameGiftToDBCommand;
     }
 
     @Override
     @Transactional
     public SendMessage execute(Update update)  {
-        SendMessage messageWebLink = new SendMessage();
         String giftDescription = update.getMessage().getText();
         if(CheckingInputLinesUtil.checkEmptyString(giftDescription)) {
 
@@ -50,27 +46,21 @@ public class InsertProductDescriptionToDBCommand implements Command {
                     "дескрипшина, = "+InsertNameGiftToDBCommand.getGift());
             System.out.println();
             wishService.createDescriptionWish(giftDescription, InsertNameGiftToDBCommand.getGift());
-            InsertNameGiftToDBCommand.getGift().setDescriptionGift(giftDescription);
+
+            System.out.println("если сейчас InsertNameGiftToDBCommand.getGift() нулевой, то все должно работать, есл  нет, то нужно его занулить");
 
             if (InsertNameUserToDBCommand.getGiftFromDB() != null) {
+                System.out.println("InsertNameUserToDBCommand.getGiftFromDB(), который не из базы" + InsertNameUserToDBCommand.getGiftFromDB());
                 WebLinks webLinkFromDB = InsertNameUserToDBCommand.getGiftFromDB().getLink();
                 webLink = webLink + "\n" + webLinkFromDB;
             }
-            messageWebLink.setChatId(update.getMessage().getChatId())
-                    .setText(webLink)
-                    .setReplyMarkup(forceReplyKeyboard.setSelective(true));
+            return SendMessageUtils.sendMessage(update, webLink, true);
         } else {
-            messageWebLink = messageError(update);
+            return messageError(update);
         }
-        return messageWebLink;
     }
 
     private SendMessage messageError(Update update){
-        ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
-        SendMessage messageWebLinkError = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText(INPUT_ERROR_MESSAGE);
-        messageWebLinkError.setReplyMarkup(forceReplyKeyboard.setSelective(true));
-        return messageWebLinkError;
+        return SendMessageUtils.sendMessage(update, INPUT_ERROR_MESSAGE, true);
     }
 }

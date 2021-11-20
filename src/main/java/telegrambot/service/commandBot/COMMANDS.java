@@ -1,45 +1,35 @@
 package telegrambot.service.commandBot;
 
-import telegrambot.entities.Gift;
-
 public enum COMMANDS {
-    INFO("О чем канал?"),
-    START("/start"),
-    ADD_WISH ("Добавить пожелание"),
-    ADD_MORE_WISH ("Добавить еще пожелание"),
-    ADD_NAME_USER_TO_DB ("Добавить имя"),
-    WISHLIST ("Посмотреть список желаний"),
-    //GIVE_TO_OTHERS ("Дарю другим"),
-    CHANGE_STATUS_OWN_WISH ("Поменять"),
-    CHANGE_WISH ("Изменить"),
-    YES ("Да,удалить"),
-    NO ("Нет, не удалять"),
-    SEND ("Отправить"),
-    MORE_DETAILS ("Подробнее"),
-    BACK ("Назад к выбору списка желаний"),
-    CHOOSE ("Выбрать"),
-    CHOOSE_WISH ("Дарить"),
-    DELETE ("Удалить"),
-    NAME_GIFT("/ "),
-    NAME_GIFT_OWNER("Имя"),
-    STATE_DB ("ACTIVE"),
-    STATE_DB_NOT_ACTIVE ("NOT_ACTIVE"),
-    FOR_YOURESELF ("Свой список пожеланий"),
-    FOR_ANOTHER ("Дарю другим"),
-    BUTTON_BACK_TO_START ("Назад, в главное меню");
+    ADD_WISH (new StringBuffer("Добавить пожелание")),
+    BUTTON_BACK_TO_START (new StringBuffer("Назад, в главное меню")),
+    BACK (new StringBuffer("Назад к выбору списка желаний")),
+    CHANGE_STATUS_OWN_WISH (new StringBuffer("Поменять")),
+    CHANGE_WISH (new StringBuffer("Изменить")),
+    CHOOSE (new StringBuffer("Выбрать")),
+    CHOOSE_WISH (new StringBuffer("Дарить")),
+    DELETE (new StringBuffer("Удалить")),
+    FOR_YOURESELF (new StringBuffer("Свой список пожеланий")),
+    FOR_ANOTHER (new StringBuffer("Дарю другим")),
+    INFO(new StringBuffer("О чем канал?")),
+    MORE_DETAILS (new StringBuffer("Подробнее")),
+    NAME_GIFT(new StringBuffer("/ ")),
+    NAME_GIFT_OWNER(new StringBuffer("Имя")),
+    NO (new StringBuffer("Нет, не удалять")),
+    START(new StringBuffer("/start")),
+    STATE_DB (new StringBuffer("ACTIVE")),
+    STATE_DB_NOT_ACTIVE (new StringBuffer("NOT_ACTIVE")),
+    WISHLIST (new StringBuffer("Посмотреть список желаний")),
+    YES (new StringBuffer("Да,удалить"));
 
-    private String command;
+    private final StringBuffer command;
 
-    COMMANDS (String command) {
+    COMMANDS (StringBuffer command) {
         this.command = command;
     }
 
-    public String getCommand() {
+    public StringBuffer getCommand() {
         return command;
-    }
-
-    public void setCommand(String command) {
-        this.command = command;
     }
 }
 

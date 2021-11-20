@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import telegrambot.entities.Gift;
 import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
@@ -16,7 +15,10 @@ import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.start.StartCommand;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 import telegrambot.service.entityservice.WishService;
-
+/**
+ * Класс-Receiver команд AddCommand.getMESSAGE_ADD(), InsertNameUserToDBCommand.getINPUT_ERROR_MESSAGE(),
+ * InsertNameGiftToDBCommand.getINPUT_ERROR_MESSAGE() и COMMANDS.CHANGE_WISH.getCommand() {@link Command}
+ */
 @Service
 public class InsertNameUserToDBCommand implements Command {
     private static final String IMAGE_EIGHT_SPOKED_ASTERISK =
@@ -48,8 +50,8 @@ public class InsertNameUserToDBCommand implements Command {
     @Override
     @Transactional
     public SendMessage execute(Update update) {
-        SendMessage messageInsertNameUserToDBCommand = new SendMessage();
         if (!update.hasCallbackQuery()) {
+            System.out.println("это НЕ колбэк");
             System.out.println();
             System.out.println("в методе InsertNameUserToDBCommand ");
             long chatIdUser = update.getMessage().getChatId();
@@ -88,6 +90,7 @@ public class InsertNameUserToDBCommand implements Command {
                 return messageError(update);
             }
         } else{
+            System.out.println("это колбэк");
             if (CheckingInputLinesUtil.checkEmptyString(update.getCallbackQuery().getData())) {
                 System.out.println();
                 String incomingMessage = update.getCallbackQuery().getData();
@@ -102,7 +105,6 @@ public class InsertNameUserToDBCommand implements Command {
             } else {
                 return messageError(update);
             }
-            //return messageInsertNameUserToDBCommand;
         }
     }
 
