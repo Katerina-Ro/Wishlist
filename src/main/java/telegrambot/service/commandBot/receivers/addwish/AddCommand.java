@@ -23,8 +23,7 @@ public class AddCommand implements Command{
     private static final String MESSAGE_ADD = "Поля, отмеченные " + IMAGE_EIGHT_SPOKED_ASTERISK +
             ", обязательны для заполнения. " + NAME_USER;
     @Getter
-    private static final String NAME_WISH = "'Наименование подарка'" + IMAGE_EIGHT_SPOKED_ASTERISK;
-    @Getter
+    private static final String NAME_WISH = "'Наименование подарка' " + IMAGE_EIGHT_SPOKED_ASTERISK;
     private final TelegramUserService telegramUserService;
 
     @Autowired
@@ -36,6 +35,7 @@ public class AddCommand implements Command{
     @Transactional
     public SendMessage execute(Update update) {
         if (telegramUserService.containsNameUserInDB(update.getCallbackQuery().getMessage().getChatId())) {
+            System.out.println("такое имя есть в БД = " + telegramUserService.containsNameUserInDB(update.getCallbackQuery().getMessage().getChatId()));
             return SendMessageUtils.sendMessage(update, NAME_WISH, true);
         } else {
             return SendMessageUtils.sendMessage(update, MESSAGE_ADD, true);

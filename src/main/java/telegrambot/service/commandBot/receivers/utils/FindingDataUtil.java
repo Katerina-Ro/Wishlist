@@ -12,7 +12,6 @@ public class FindingDataUtil {
     public static String findLineByIncomingMessage(String incomingMessage){
         int indexSpace = incomingMessage.indexOf(" ");
         if (indexSpace == -1){
-            System.out.println("нет команды");
             return "нет команды";
         }
         return incomingMessage.substring(0,(indexSpace));

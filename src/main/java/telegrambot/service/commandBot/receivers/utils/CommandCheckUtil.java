@@ -14,9 +14,6 @@ public class CommandCheckUtil {
      */
     public static String whichCommand(Update update) {
         String incomingMessage = update.getCallbackQuery().getData();
-
-        System.out.println("whichCommand, String incomingMessage = " + incomingMessage);
-        System.out.println("результат = " +incomingMessage.substring(0, (incomingMessage.indexOf(" "))));
         return incomingMessage.substring(0, (incomingMessage.indexOf(" ")));
     }
 
@@ -28,8 +25,7 @@ public class CommandCheckUtil {
      */
     public static boolean checkCommandCallBackEditBackToMainMenu(Update update) {
         boolean checkCommandCallBackEditBackToMainMenu = false;
-        if(update.getCallbackQuery().getData().equalsIgnoreCase(COMMANDS.BUTTON_BACK_TO_START.getCommand()
-                .toString())){
+        if(update.getCallbackQuery().getData().equalsIgnoreCase(COMMANDS.BUTTON_BACK_TO_START.getCommand())){
             checkCommandCallBackEditBackToMainMenu = true;
         }
         return checkCommandCallBackEditBackToMainMenu;
@@ -44,7 +40,7 @@ public class CommandCheckUtil {
     public static boolean checkCommandReplyBackToMainMenu(Update update) {
         boolean checkCommandReplyBackToMainMenu = false;
         if (update.getMessage().getReplyToMessage().getText().equalsIgnoreCase(COMMANDS.BUTTON_BACK_TO_START
-                .getCommand().toString())) {
+                .getCommand())) {
             checkCommandReplyBackToMainMenu = true;
         }
         return checkCommandReplyBackToMainMenu;
@@ -60,7 +56,7 @@ public class CommandCheckUtil {
         boolean checkCommandCallBackEditChangeWish = false;
         if(update.hasCallbackQuery()) {
             String command = FindingDataUtil.findLineByIncomingMessage(update.getCallbackQuery().getData());
-            if (command.equalsIgnoreCase(COMMANDS.CHANGE_WISH.getCommand().toString())) {
+            if (command.equalsIgnoreCase(COMMANDS.CHANGE_WISH.getCommand())) {
                 checkCommandCallBackEditChangeWish = true;
             }
         }

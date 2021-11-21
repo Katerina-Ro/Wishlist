@@ -17,8 +17,8 @@ public interface GiftRepository extends JpaRepository <Gift, Integer> {
     @Query("SELECT g From Gift g WHERE g.giftOwner.chatId = :giftOwner")
     List<Gift> findAllByGiftOwnerChatId(@Param("giftOwner")Long chatIdUser);
 
-    @Query("SELECT g From Gift g WHERE g.giftOwner.chatId = :giftOwner AND g.statusGiftOwn = 'ACTIVE'" +
-            "AND g.statusGiftAnother = 'NOT_ACTIVE'")
+    @Query(value = "SELECT * From gift WHERE gift_owner_chat_id = :giftOwner AND gift_status_gift_owner = 'ACTIVE'" +
+            "AND gift_status_giving = 'NOT_ACTIVE'", nativeQuery = true)
     List<Gift> findAllByGiftOwnerChatIdByStatusGift(@Param("giftOwner")Long chatIdUser);
 
     @Query("SELECT g From Gift g WHERE g.giftPresenter.chatId = :giftPresenter")

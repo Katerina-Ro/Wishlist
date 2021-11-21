@@ -24,28 +24,36 @@ public class InsertWebLinkCommand implements Command {
             "(если пожелание неактивно, то его никто, кроме Вас не видит";
     private final WebLinkService webLinkService;
     private final WishService wishService;
+    private final InsertNameGiftToDBCommand insertNameGiftToDBCommand;
+    private final InsertNameUserToDBCommand insertNameUserToDBCommand;
 
     @Autowired
-    public InsertWebLinkCommand(WebLinkService webLinkService, WishService wishService) {
+    public InsertWebLinkCommand(WebLinkService webLinkService, WishService wishService,
+                                InsertNameGiftToDBCommand insertNameGiftToDBCommand, InsertNameUserToDBCommand insertNameUserToDBCommand) {
         this.webLinkService = webLinkService;
         this.wishService = wishService;
+        this.insertNameGiftToDBCommand = insertNameGiftToDBCommand;
+        this.insertNameUserToDBCommand = insertNameUserToDBCommand;
     }
 
     @Override
     @Transactional
     public SendMessage execute(Update update)  {
-        WebLinks link = webLinkService.saveWebLink(update.getMessage().getText(),
-                InsertNameGiftToDBCommand.getGift());
-        InsertNameGiftToDBCommand.getGift().setLink(link);
-        wishService.save(InsertNameGiftToDBCommand.getGift());
-        int idGift = InsertNameGiftToDBCommand.getGift().getGiftId();
+        System.out.println("insertNameGiftToDBCommand\n" +
+                "                .getGift()" + insertNameGiftToDBCommand
+                .getGift());
+        WebLinks link = webLinkService.saveWebLink(update.getMessage().getText(), insertNameGiftToDBCommand
+                .getGift());
+        insertNameGiftToDBCommand.getGift().setLink(link);
+        wishService.save(insertNameGiftToDBCommand.getGift());
 
-        // ??
-        InsertNameGiftToDBCommand.setGift(null);
-
-        System.out.println("вышел из метода webLinkService.saveWebLink(update.getMessage().getText(");
+        System.out.println("До изменений");
+        System.out.println("insertNameUserToDBCommand.getGiftFromDB() = "+ insertNameUserToDBCommand.getGiftFromDB());
+        System.out.println("insertNameUserToDBCommand.getStartCommand().getNewGiftOwner() "+ insertNameUserToDBCommand.getStartCommand().getNewGiftOwner());
+        System.out.println("InsertNameGiftToDBCommand.getGift() = " + insertNameGiftToDBCommand.getGift());
 
         return SendMessageUtils.sendMessage(update, STATUS_WISH_GIFT_OWNER, false)
-                .setReplyMarkup(MakerInlineKeyboardMarkupUtils.getChangeStatusGiftOwnInlineKeyboardMarkup(idGift));
+                .setReplyMarkup(MakerInlineKeyboardMarkupUtils.getChangeStatusGiftOwnInlineKeyboardMarkup(
+                        insertNameGiftToDBCommand.getGift().getGiftId()));
     }
 }

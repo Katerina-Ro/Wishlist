@@ -58,8 +58,9 @@ public class WishService {
      * @param userId - id пользователя, чей список пожеланий нужно посмотреть
      * @return список пожеланий
      */
-    public List<Gift> getInfoAnotherGifts(Long userId) {
-        return giftRepository.findAllByGiftOwnerChatIdByStatusGift(userId);
+    public List<Gift> getInfoAnotherGifts(long userId, long idPresenter) {
+        System.out.println("получаем список только моих выбранных и чужих желаний = "+giftRepository.findAllByChatIdByStatusGift(userId, idPresenter));
+        return giftRepository.findAllByChatIdByStatusGift(userId, idPresenter);
     }
 
     /**

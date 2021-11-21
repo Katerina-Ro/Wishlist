@@ -1,6 +1,7 @@
 package telegrambot.service.commandBot.receivers.start;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,23 +13,23 @@ import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
 /**
- * Стартовый класс для обработки сообщения "/start"
+ * Стартовый класс для обработки сообщения "/start" {@link Command}
  */
 @Service
 @Getter
 public class StartCommand implements Command {
-    private final String imageGiftBox = String.valueOf(Character.toChars(0x1F381));
-    private final String imageWavingHand = String.valueOf(Character.toChars(0x1F44B));
-    private final String START_MESSAGE = "Привет " + imageWavingHand + " \nЭто бот для составления списка " +
-            "желаний " + imageGiftBox;
-    @Getter
-    private final GiftOwner newGiftOwner;
+    private static final String IMAGE_GIFT_BOX = String.valueOf(Character.toChars(0x1F381));
+    private static final String IMAGE_WAVING_HAND = String.valueOf(Character.toChars(0x1F44B));
+    private static final String START_MESSAGE = "Привет " + IMAGE_WAVING_HAND + " \nЭто бот для составления списка " +
+            "желаний " + IMAGE_GIFT_BOX;
     private final TelegramUserService telegramUserService;
+    @Getter
+    @Setter
+    private GiftOwner newGiftOwner = new GiftOwner();
 
     @Autowired
     public StartCommand(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
-        this.newGiftOwner = new GiftOwner();
     }
 
     @Override

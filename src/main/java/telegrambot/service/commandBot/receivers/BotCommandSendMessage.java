@@ -23,12 +23,12 @@ public class BotCommandSendMessage {
     public BotCommandSendMessage(@Qualifier("startCommand") Command startCommand) {
         this.startCommand = startCommand;
         this.commandMapSendMessage = ImmutableMap.<String, Command>builder()
-                .put(COMMANDS.START.getCommand().toString(), startCommand)
-                .put(COMMANDS.BUTTON_BACK_TO_START.getCommand().toString(), startCommand)
+                .put(COMMANDS.START.getCommand(), startCommand)
+                .put(COMMANDS.BUTTON_BACK_TO_START.getCommand(), startCommand)
                 .build();
     }
 
     public SendMessage findCommand(String commandIdentifier, Update update) {
-        return (commandMapSendMessage.get(commandIdentifier).execute(update));
+        return (commandMapSendMessage.getOrDefault(commandIdentifier, startCommand).execute(update));
     }
 }

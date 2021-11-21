@@ -13,7 +13,7 @@ import telegrambot.service.commandBot.COMMANDS;
 @Service
 @Getter
 public class BotCommandCallBackQueryEdit {
-    private final ImmutableMap<StringBuffer, CommandEditSendMessage> commandMapCommandEdit;
+    private final ImmutableMap<String, CommandEditSendMessage> commandMapCommandEdit;
     private final CommandEditSendMessage infoCommand;
     private final CommandEditSendMessage getWishList;
     private final CommandEditSendMessage ownWishList;
@@ -49,7 +49,7 @@ public class BotCommandCallBackQueryEdit {
         this.selectionWishes = selectionWishes;
         this.changeStatusGiftAnotherCommand = changeStatusGiftAnotherCommand;
         this.unknownCommand = unknownCommand;
-        this.commandMapCommandEdit = ImmutableMap.<StringBuffer, CommandEditSendMessage>builder()
+        this.commandMapCommandEdit = ImmutableMap.<String, CommandEditSendMessage>builder()
                 .put(COMMANDS.INFO.getCommand(), this.infoCommand)
                 .put(COMMANDS.WISHLIST.getCommand(), this.getWishList)
                 .put(COMMANDS.FOR_YOURESELF.getCommand(), this.ownWishList)
@@ -67,7 +67,6 @@ public class BotCommandCallBackQueryEdit {
                 .build();
     }
     public EditMessageText findCommand(String commandIdentifier, Update update) {
-        return (commandMapCommandEdit.getOrDefault(new StringBuffer(commandIdentifier), this.unknownCommand)
-                .execute(update));
+        return (commandMapCommandEdit.getOrDefault(commandIdentifier, this.unknownCommand).execute(update));
     }
 }

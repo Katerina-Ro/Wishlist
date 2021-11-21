@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import telegrambot.entities.Gift;
-import telegrambot.entities.GiftOwner;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
@@ -48,17 +46,23 @@ public class SearchNameInDBCommand implements Command {
     @Override
     @Transactional
     public SendMessage execute(Update update) {
-        SendMessage sendMessageSearchNameInDB;
+        System.out.println("Внутри метода Чей список подарков хочет посмотреть");
         String nameSearchUser = update.getMessage().getText();
+        System.out.println("имя, чей список смотрю" + nameSearchUser);
         long chatIdPresenter = update.getMessage().getChatId();
-
         if(CheckingInputLinesUtil.checkEmptyString(nameSearchUser) && CheckingInputLinesUtil
                 .isLetters(nameSearchUser)){
+            System.out.println("Внутри  блока if(CheckingInputLinesUtil.checkEmptyString(nameSearchUser) && CheckingInputLinesUtil\n" +
+                    "                .isLetters(nameSearchUser))");
             if(telegramUserService.existNameUserInDB(nameSearchUser) && !nameSearchUser
                     .equals(telegramUserService.getNameUser(chatIdPresenter))) {
+                System.out.println("Внутри блока  if(telegramUserService.existNameUserInDB(nameSearchUser) && !nameSearchUser\n" +
+                        "                    .equals(telegramUserService.getNameUser(chatIdPresenter)))");
                 // Получаем список пожеланий по введенному пользователем имени
+                System.out.println();
                 List<Gift> list = wishService.getInfoAnotherGifts(telegramUserService
-                        .getGiftOwner(nameSearchUser).getChatId());
+                        .getGiftOwner(nameSearchUser).getChatId(), chatIdPresenter);
+                System.out.println("list = "+list);
                 if(list.isEmpty()){
                     // Если у запрошенного человека список пожеланий пуст, то отправляем
                     // соответствующее сообщение

@@ -1,35 +1,39 @@
 package telegrambot.service.commandBot;
 
 public enum COMMANDS {
-    ADD_WISH (new StringBuffer("Добавить пожелание")),
-    BUTTON_BACK_TO_START (new StringBuffer("Назад, в главное меню")),
-    BACK (new StringBuffer("Назад к выбору списка желаний")),
-    CHANGE_STATUS_OWN_WISH (new StringBuffer("Поменять")),
-    CHANGE_WISH (new StringBuffer("Изменить")),
-    CHOOSE (new StringBuffer("Выбрать")),
-    CHOOSE_WISH (new StringBuffer("Дарить")),
-    DELETE (new StringBuffer("Удалить")),
-    FOR_YOURESELF (new StringBuffer("Свой список пожеланий")),
-    FOR_ANOTHER (new StringBuffer("Дарю другим")),
-    INFO(new StringBuffer("О чем канал?")),
-    MORE_DETAILS (new StringBuffer("Подробнее")),
-    NAME_GIFT(new StringBuffer("/ ")),
-    NAME_GIFT_OWNER(new StringBuffer("Имя")),
-    NO (new StringBuffer("Нет, не удалять")),
-    START(new StringBuffer("/start")),
-    STATE_DB (new StringBuffer("ACTIVE")),
-    STATE_DB_NOT_ACTIVE (new StringBuffer("NOT_ACTIVE")),
-    WISHLIST (new StringBuffer("Посмотреть список желаний")),
-    YES (new StringBuffer("Да,удалить"));
+    ADD_WISH ("Добавить пожелание"),
+    BUTTON_BACK_TO_START ("Назад, в главное меню"),
+    BACK ("Назад к выбору списка желаний"),
+    CHANGE_STATUS_OWN_WISH ("Поменять"),
+    CHANGE_WISH ("Изменить"),
+    CHOOSE ("Выбрать"),
+    CHOOSE_WISH ("Дарить"),
+    DELETE ("Удалить"),
+    FOR_YOURESELF ("Свой список пожеланий"),
+    FOR_ANOTHER ("Дарю другим"),
+    INFO("О чем канал?"),
+    MORE_DETAILS ("Подробнее"),
+    NAME_GIFT("/ "),
+    NAME_GIFT_OWNER("Имя"),
+    NO ("Нет, не удалять"),
+    START("/start"),
+    STATE_DB ("ACTIVE"),
+    STATE_DB_NOT_ACTIVE ("NOT_ACTIVE"),
+    WISHLIST ("Посмотреть список желаний"),
+    YES ("Да,удалить");
 
-    private final StringBuffer command;
+    private String command;
 
-    COMMANDS (StringBuffer command) {
+    COMMANDS (String command) {
         this.command = command;
     }
 
-    public StringBuffer getCommand() {
+    public String getCommand() {
         return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
     }
 }
 

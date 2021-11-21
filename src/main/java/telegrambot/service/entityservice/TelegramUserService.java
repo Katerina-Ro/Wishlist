@@ -38,6 +38,7 @@ public class TelegramUserService {
     }
 
     public GiftOwner getGiftOwner (String name) {
+        System.out.println("Получаем пользователя из БД = " + telegramUserRepository.getGiftOwner(name));
         return telegramUserRepository.getGiftOwner(name);
     }
 
@@ -56,12 +57,12 @@ public class TelegramUserService {
 
     public boolean existNameUserInDB(String inputName){
         boolean existNameUserInDB = false;
-        for(String s: telegramUserRepository.findAllName()){
-            if (inputName.equals(s)) {
-                existNameUserInDB = true;
-                break;
+            for (String s : telegramUserRepository.findAllName()) {
+                if (inputName.equals(s)) {
+                    existNameUserInDB = true;
+                    break;
+                }
             }
-        }
         return existNameUserInDB;
     }
 }
