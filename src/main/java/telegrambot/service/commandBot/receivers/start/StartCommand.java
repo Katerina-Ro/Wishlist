@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.GiftOwner;
+import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
 /**
- * Стартовый класс для обработки сообщения "/start" {@link Command}
+ * Стартовый класс для обработки сообщения {@link COMMANDS.START} - "/start" {@link Command}
  */
 @Service
 @Getter

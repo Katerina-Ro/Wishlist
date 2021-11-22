@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.Gift;
 import telegrambot.entities.StatusGift.ChangeStatusGiftImpl;
+import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
@@ -14,7 +15,8 @@ import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.WishService;
 
 /**
- * Класс-Receiver команд "ACTIVE", "Поменять" и "NOT_ACTIVE" {@link CommandEditSendMessage}
+ * Класс-Receiver команд {@link COMMANDS.STATE_DB} , {@link COMMANDS.CHANGE_STATUS_OWN_WISH}
+ * и {@link COMMANDS.STATE_DB_NOT_ACTIVE} {@link CommandEditSendMessage}
  */
 @Service
 public class ChangeStatusGiftOwnCommand implements CommandEditSendMessage {

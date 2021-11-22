@@ -1,5 +1,8 @@
 package telegrambot.service.commandBot;
 
+/**
+ * Перечисление кнопок и команд
+ */
 public enum COMMANDS {
     ADD_WISH ("Добавить пожелание"),
     BUTTON_BACK_TO_START ("Назад, в главное меню"),

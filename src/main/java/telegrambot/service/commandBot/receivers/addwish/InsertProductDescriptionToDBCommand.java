@@ -13,7 +13,7 @@ import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 
 /**
- * Класс-Receiver команды InsertNameGiftToDBCommand.getProductDescription() {@link Command}
+ * Класс-Receiver команды {@link InsertNameGiftToDBCommand.getProductDescription()} {@link Command}
  */
 @Service
 public class InsertProductDescriptionToDBCommand implements Command {
@@ -43,9 +43,7 @@ public class InsertProductDescriptionToDBCommand implements Command {
             // вписываем описание в БД
             wishService.createDescriptionWish(giftDescription, insertNameGiftToDBCommand.getGift());
             String webLink = PREV_WEB_LINK;
-            System.out.println("InsertNameUserToDBCommand.getGiftFromDB() =" + insertNameUserToDBCommand.getGiftFromDB());
             if (insertNameUserToDBCommand.getGiftFromDB() != null) {
-                System.out.println("InsertNameUserToDBCommand.getGiftFromDB(), который не из базы" + insertNameUserToDBCommand.getGiftFromDB());
                 WebLinks webLinkFromDB = insertNameUserToDBCommand.getGiftFromDB().getLink();
                 webLink = PREV_WEB_LINK + "\n" + webLinkFromDB;
             }

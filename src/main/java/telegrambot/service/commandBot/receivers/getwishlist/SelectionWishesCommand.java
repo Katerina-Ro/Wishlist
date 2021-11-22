@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.Gift;
+import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
@@ -16,7 +17,7 @@ import telegrambot.service.entityservice.WishService;
 import java.util.List;
 
 /**
- * Класс-Receiver команды "Имя" {@link CommandEditSendMessage}
+ * Класс-Receiver команды {@link COMMANDS.NAME_GIFT_OWNER} {@link CommandEditSendMessage}
  */
 @Service
 public class SelectionWishesCommand implements CommandEditSendMessage {

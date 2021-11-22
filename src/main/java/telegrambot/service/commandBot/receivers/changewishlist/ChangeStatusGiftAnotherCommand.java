@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.Gift;
 import telegrambot.entities.GiftOwner;
 import telegrambot.entities.StatusGift.ChangeStatusGiftImpl;
+import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
@@ -16,7 +17,7 @@ import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.entityservice.WishService;
 
 /**
- * Класс-Receiver команды "Выбрать" {@link CommandEditSendMessage}
+ * Класс-Receiver команды {@link COMMANDS.CHOOSE} {@link CommandEditSendMessage}
  */
 @Service
 public class ChangeStatusGiftAnotherCommand implements CommandEditSendMessage {

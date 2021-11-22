@@ -19,7 +19,7 @@ import telegrambot.service.entityservice.WishService;
 import java.util.List;
 
 /**
- * Класс-Receiver команды ChooseWishCommand.getMESSAGE_CHOOSE_WISH_COMMAND() {@link Command}
+ * Класс-Receiver команды {@link ChooseWishCommand}.getMESSAGE_CHOOSE_WISH_COMMAND() {@link Command}
  */
 @Service
 public class SearchNameInDBCommand implements Command {
@@ -46,23 +46,15 @@ public class SearchNameInDBCommand implements Command {
     @Override
     @Transactional
     public SendMessage execute(Update update) {
-        System.out.println("Внутри метода Чей список подарков хочет посмотреть");
         String nameSearchUser = update.getMessage().getText();
-        System.out.println("имя, чей список смотрю" + nameSearchUser);
         long chatIdPresenter = update.getMessage().getChatId();
         if(CheckingInputLinesUtil.checkEmptyString(nameSearchUser) && CheckingInputLinesUtil
                 .isLetters(nameSearchUser)){
-            System.out.println("Внутри  блока if(CheckingInputLinesUtil.checkEmptyString(nameSearchUser) && CheckingInputLinesUtil\n" +
-                    "                .isLetters(nameSearchUser))");
             if(telegramUserService.existNameUserInDB(nameSearchUser) && !nameSearchUser
                     .equals(telegramUserService.getNameUser(chatIdPresenter))) {
-                System.out.println("Внутри блока  if(telegramUserService.existNameUserInDB(nameSearchUser) && !nameSearchUser\n" +
-                        "                    .equals(telegramUserService.getNameUser(chatIdPresenter)))");
                 // Получаем список пожеланий по введенному пользователем имени
-                System.out.println();
                 List<Gift> list = wishService.getInfoAnotherGifts(telegramUserService
                         .getGiftOwner(nameSearchUser).getChatId(), chatIdPresenter);
-                System.out.println("list = "+list);
                 if(list.isEmpty()){
                     // Если у запрошенного человека список пожеланий пуст, то отправляем
                     // соответствующее сообщение

@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
 
 /**
- * Класс-Receiver команды "Добавить пожелание" {@link Command}
+ * Класс-Receiver команды {@link COMMANDS.ADD_WISH} {@link Command}
  */
 @Service
 public class AddCommand implements Command{

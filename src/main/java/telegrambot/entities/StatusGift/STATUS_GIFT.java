@@ -1,7 +1,7 @@
 package telegrambot.entities.StatusGift;
 
 public enum STATUS_GIFT {
-    NOT_ACTIVE (" не выбран"), ACTIVE (String.valueOf(Character
+    NOT_ACTIVE ("не выбран"), ACTIVE (String.valueOf(Character
             .toChars(0x2713)));
 
     private final String statusGift;

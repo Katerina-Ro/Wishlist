@@ -16,8 +16,8 @@ import telegrambot.service.commandBot.receivers.start.StartCommand;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 import telegrambot.service.entityservice.WishService;
 /**
- * Класс-Receiver команд AddCommand.getMESSAGE_ADD(), InsertNameUserToDBCommand.getINPUT_ERROR_MESSAGE(),
- * InsertNameGiftToDBCommand.getINPUT_ERROR_MESSAGE() и COMMANDS.CHANGE_WISH.getCommand() {@link Command}
+ * Класс-Receiver команд {@link AddCommand.getMESSAGE_ADD()}, {@link InsertNameUserToDBCommand.getINPUT_ERROR_MESSAGE()},
+ * {@link InsertNameGiftToDBCommand.getINPUT_ERROR_MESSAGE()} и {@link COMMANDS.CHANGE_WISH.getCommand()} {@link Command}
  */
 @Service
 public class InsertNameUserToDBCommand implements Command {

@@ -4,13 +4,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
 /**
- * Класс-Receiver команды "Посмотреть список желаний" {@link CommandEditSendMessage}
+ * Класс-Receiver команды {@link COMMANDS.WISHLIST} {@link CommandEditSendMessage}
  */
 @Service
 public class GetListWishCommand implements CommandEditSendMessage {
@@ -24,6 +25,3 @@ public class GetListWishCommand implements CommandEditSendMessage {
                         Buttons.getKeyBoardChooseWish(), Buttons.getKeyBoardBackToStart()));
     }
 }
-
-
-

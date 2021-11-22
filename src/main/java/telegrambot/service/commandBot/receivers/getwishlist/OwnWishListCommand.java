@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.entities.Gift;
+import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
@@ -15,7 +16,7 @@ import telegrambot.service.entityservice.WishService;
 import java.util.List;
 
 /**
- * Класс-Receiver команды "Свой список пожеланий" и "Нет, не удалять" {@link CommandEditSendMessage}
+ * Класс-Receiver команд {@link COMMANDS.FOR_YOURESELF} и {@link COMMANDS.NO} {@link CommandEditSendMessage}
  */
 @Service
 public class OwnWishListCommand implements CommandEditSendMessage {

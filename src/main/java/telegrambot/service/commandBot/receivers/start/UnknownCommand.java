@@ -4,11 +4,12 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.CommandEditSendMessage;
+import telegrambot.service.commandBot.receivers.BotCommandCallBackQueryEdit;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
 /**
- * Класс-Receiver неизвестной команды {@link CommandEditSendMessage}
+ * Класс-Receiver неизвестной команды {@link BotCommandCallBackQueryEdit} {@link CommandEditSendMessage}
  */
 @Service
 public class UnknownCommand implements CommandEditSendMessage {

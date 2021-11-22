@@ -6,6 +6,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
+/**
+ * Вспомогательный класс для формирования ответов боту типа SendMessage и EditMessageText
+ */
 public class SendMessageUtils {
     public static SendMessage sendMessage(Update update, String sentMessage, boolean forceReply){
         long chatIdUser;

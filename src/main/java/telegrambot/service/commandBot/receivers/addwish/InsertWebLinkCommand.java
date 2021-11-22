@@ -13,7 +13,7 @@ import telegrambot.service.commandBot.Command;
 import telegrambot.service.entityservice.WishService;
 
 /**
- * Класс-Receiver команды InsertProductDescriptionToDBCommand.getWebLink() {@link Command}
+ * Класс-Receiver команды {@link InsertProductDescriptionToDBCommand}.getWebLink() {@link Command}
  */
 @Service
 public class InsertWebLinkCommand implements Command {
@@ -25,33 +25,22 @@ public class InsertWebLinkCommand implements Command {
     private final WebLinkService webLinkService;
     private final WishService wishService;
     private final InsertNameGiftToDBCommand insertNameGiftToDBCommand;
-    private final InsertNameUserToDBCommand insertNameUserToDBCommand;
 
     @Autowired
     public InsertWebLinkCommand(WebLinkService webLinkService, WishService wishService,
-                                InsertNameGiftToDBCommand insertNameGiftToDBCommand, InsertNameUserToDBCommand insertNameUserToDBCommand) {
+                                InsertNameGiftToDBCommand insertNameGiftToDBCommand) {
         this.webLinkService = webLinkService;
         this.wishService = wishService;
         this.insertNameGiftToDBCommand = insertNameGiftToDBCommand;
-        this.insertNameUserToDBCommand = insertNameUserToDBCommand;
     }
 
     @Override
     @Transactional
     public SendMessage execute(Update update)  {
-        System.out.println("insertNameGiftToDBCommand\n" +
-                "                .getGift()" + insertNameGiftToDBCommand
-                .getGift());
         WebLinks link = webLinkService.saveWebLink(update.getMessage().getText(), insertNameGiftToDBCommand
                 .getGift());
         insertNameGiftToDBCommand.getGift().setLink(link);
         wishService.save(insertNameGiftToDBCommand.getGift());
-
-        System.out.println("До изменений");
-        System.out.println("insertNameUserToDBCommand.getGiftFromDB() = "+ insertNameUserToDBCommand.getGiftFromDB());
-        System.out.println("insertNameUserToDBCommand.getStartCommand().getNewGiftOwner() "+ insertNameUserToDBCommand.getStartCommand().getNewGiftOwner());
-        System.out.println("InsertNameGiftToDBCommand.getGift() = " + insertNameGiftToDBCommand.getGift());
-
         return SendMessageUtils.sendMessage(update, STATUS_WISH_GIFT_OWNER, false)
                 .setReplyMarkup(MakerInlineKeyboardMarkupUtils.getChangeStatusGiftOwnInlineKeyboardMarkup(
                         insertNameGiftToDBCommand.getGift().getGiftId()));

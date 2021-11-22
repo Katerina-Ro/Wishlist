@@ -38,7 +38,6 @@ public class TelegramUserService {
     }
 
     public GiftOwner getGiftOwner (String name) {
-        System.out.println("Получаем пользователя из БД = " + telegramUserRepository.getGiftOwner(name));
         return telegramUserRepository.getGiftOwner(name);
     }
 
