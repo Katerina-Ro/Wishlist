@@ -31,7 +31,7 @@ public class MakerInlineKeyboardMarkup {
      * @return - клавиатуру типа: |кнопка| - |кнопка|
      */
     public static InlineKeyboardMarkup get2x1InlineKeyboardMarkup(InlineKeyboardButton keyboardButtonRow1,
-                                                           InlineKeyboardButton keyboardButtonRow2) {
+                                                                  InlineKeyboardButton keyboardButtonRow2) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> list = new ArrayList<>();
         list.add(makeListInlineKeyboardButton(keyboardButtonRow1, keyboardButtonRow2));
@@ -47,9 +47,9 @@ public class MakerInlineKeyboardMarkup {
      *                            |кнопка| - |кнопка|
      */
     public static InlineKeyboardMarkup get2x2InlineKeyboardMarkup(InlineKeyboardButton keyboardButtonRow1,
-                                                           InlineKeyboardButton keyboardButtonRow2,
-                                                           InlineKeyboardButton keyboardButtonRow3,
-                                                           InlineKeyboardButton keyboardButtonRow4) {
+                                                                  InlineKeyboardButton keyboardButtonRow2,
+                                                                  InlineKeyboardButton keyboardButtonRow3,
+                                                                  InlineKeyboardButton keyboardButtonRow4) {
         return getInlineKeyboardMarkup(keyboardButtonRow1, keyboardButtonRow2,
                 makeListInlineKeyboardButton(keyboardButtonRow3, keyboardButtonRow4));
     }
@@ -63,8 +63,8 @@ public class MakerInlineKeyboardMarkup {
      *                            |кнопка|
      */
     public static InlineKeyboardMarkup get2x2x3InlineKeyboardMarkup(InlineKeyboardButton keyboardButtonRow1,
-                                                           InlineKeyboardButton keyboardButtonRow2,
-                                                           InlineKeyboardButton keyboardButtonRow3){
+                                                                    InlineKeyboardButton keyboardButtonRow2,
+                                                                    InlineKeyboardButton keyboardButtonRow3){
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         keyboardButtons.add(makeListInlineKeyboardButton(keyboardButtonRow1, keyboardButtonRow2));
@@ -152,8 +152,8 @@ public class MakerInlineKeyboardMarkup {
      */
     public static InlineKeyboardMarkup get2x2x3InlineKeyboardMarkup(Collection<InlineKeyboardButton>
                                                                             keyboardButtonRow1,
-                                                           Collection<InlineKeyboardButton> keyboardButtonRow2,
-                                                             InlineKeyboardButton keyboardButtonRow3) {
+                                                                    Collection<InlineKeyboardButton> keyboardButtonRow2,
+                                                                    InlineKeyboardButton keyboardButtonRow3) {
         InlineKeyboardMarkup inlineKeyboardMarkup5 = new InlineKeyboardMarkup();
         List <List<InlineKeyboardButton>> keyboardButtons = new ArrayList<>();
         for(InlineKeyboardButton buttonRow1: keyboardButtonRow1){
@@ -184,22 +184,22 @@ public class MakerInlineKeyboardMarkup {
      */
     public static ReplyKeyboardMarkup makeListReplyKeyboardButton() {
         return new ReplyKeyboardMarkup()
-        /* selective Этот параметр нужен, чтобы показывать клавиатуру только определённым пользователям.
-        Цели: 1) пользователи, которые были @упомянуты в поле text объекта Message; 2) если сообщения бота
-        является ответом (содержит поле reply_to_message_id), авторы этого сообщения.
-        Пример: Пользователь отправляет запрос на смену языка бота. Бот отправляет клавиатуру со списком
-        языков, видимую только этому пользователю.
-         */
-        .setSelective(true)
-          /* one_time_keyboard Указывает клиенту скрыть клавиатуру после использования (после нажатия на кнопку).
-         Её по-прежнему можно будет открыть через иконку в поле ввода сообщения. По умолчанию False.
-         */
-        .setOneTimeKeyboard(true)
-         /* resize_keyboard Указывает клиенту подогнать высоту клавиатуры под количество кнопок (сделать её
-        меньше, если кнопок мало). По умолчанию False, то есть клавиатура всегда такого же размера, как и
-        стандартная клавиатура устройства.
-        */
-        .setResizeKeyboard(true);
+                /* selective Этот параметр нужен, чтобы показывать клавиатуру только определённым пользователям.
+                Цели: 1) пользователи, которые были @упомянуты в поле text объекта Message; 2) если сообщения бота
+                является ответом (содержит поле reply_to_message_id), авторы этого сообщения.
+                Пример: Пользователь отправляет запрос на смену языка бота. Бот отправляет клавиатуру со списком
+                языков, видимую только этому пользователю.
+                 */
+                .setSelective(true)
+                /* one_time_keyboard Указывает клиенту скрыть клавиатуру после использования (после нажатия на кнопку).
+               Её по-прежнему можно будет открыть через иконку в поле ввода сообщения. По умолчанию False.
+               */
+                .setOneTimeKeyboard(true)
+                /* resize_keyboard Указывает клиенту подогнать высоту клавиатуры под количество кнопок (сделать её
+               меньше, если кнопок мало). По умолчанию False, то есть клавиатура всегда такого же размера, как и
+               стандартная клавиатура устройства.
+               */
+                .setResizeKeyboard(true);
     }
 
     /**
@@ -233,7 +233,7 @@ public class MakerInlineKeyboardMarkup {
      * @return список кнопок с 2 элементами
      */
     private static List<InlineKeyboardButton> makeListInlineKeyboardButton (InlineKeyboardButton keyboardButton1,
-                                                                     InlineKeyboardButton keyboardButton2){
+                                                                            InlineKeyboardButton keyboardButton2){
         List<InlineKeyboardButton> inlineKeyboardButtons = new ArrayList<>();
         inlineKeyboardButtons.add(keyboardButton1);
         inlineKeyboardButtons.add(keyboardButton2);

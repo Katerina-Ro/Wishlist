@@ -11,8 +11,8 @@ import telegrambot.service.commandBot.Command;
 import telegrambot.service.commandBot.receivers.utils.CheckingInputLinesUtil;
 import telegrambot.service.commandBot.receivers.utils.MakerInlineKeyboardMarkupUtils;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
+import telegrambot.service.commandBot.receivers.utils.keyboard.Buttons;
 import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
-import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.entityservice.WishService;
 
@@ -52,22 +52,16 @@ public class SearchNameInDBCommand implements Command {
                 .isLetters(nameSearchUser)){
             if(telegramUserService.existNameUserInDB(nameSearchUser) && !nameSearchUser
                     .equals(telegramUserService.getNameUser(chatIdPresenter))) {
-                // Получаем список пожеланий по введенному пользователем имени
                 List<Gift> list = wishService.getInfoAnotherGifts(telegramUserService
                         .getGiftOwner(nameSearchUser).getChatId(), chatIdPresenter);
                 if(list.isEmpty()){
-                    // Если у запрошенного человека список пожеланий пуст, то отправляем
-                    // соответствующее сообщение
                     return SendMessageUtils.sendMessage(update, NOT_EXIST_WISH_ERROR_MESSAGE,false)
                             .setReplyMarkup(Buttons.getKeyBoardStartMenu());
                 } else {
-                    // В противном случае отправляем список пожеланий выбранного человека
                    return SendMessageUtils.sendMessage(update, ANOTHER_WISHLIST, false)
                            .setReplyMarkup(MakerInlineKeyboardMarkupUtils.get3RowsInlineKeyboardMarkup(list));
                 }
             } else if (nameSearchUser.equals(telegramUserService.getNameUser(chatIdPresenter))){
-               // Если пользователь ввел свое имя, то направляем его на OwnWishListCommand через кнопку
-               // Buttons.getKeyBoardButtonForYoureself()
                 return SendMessageUtils.sendMessage(update, CHOSE_MYSELF_ERROR_MESSAGE,true)
                         .setReplyMarkup(MakerInlineKeyboardMarkup.get1InlineKeyboardMarkup(Buttons
                         .getKeyBoardButtonForYoureself()));

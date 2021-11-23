@@ -34,9 +34,7 @@ public class SelectionWishesCommand implements CommandEditSendMessage {
     @Transactional
     public EditMessageText execute(Update update) {
         String messageSelectionWishes = "Пожелания выбранного пользователя ";
-        // получаем id из пришедшего от бота сообщения
         int id = FindingDataUtil.findIdByIncomingMessage(update.getCallbackQuery().getData());
-        // получаем список подарков по id
         List<Gift> list = wishService.getInfoAnotherGiftsInlIdPresenter(telegramUserService
                 .getGiftOwner(id).getChatId(), update.getCallbackQuery().getMessage().getChatId());
         return SendMessageUtils.sendEditMessage(update, messageSelectionWishes,

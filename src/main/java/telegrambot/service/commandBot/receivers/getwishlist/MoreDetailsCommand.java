@@ -8,9 +8,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
-import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
 import telegrambot.service.commandBot.receivers.utils.FindingDataUtil;
-import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
+import telegrambot.service.commandBot.receivers.utils.keyboard.Buttons;
+import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
 import telegrambot.service.entityservice.WishService;
 
 /**

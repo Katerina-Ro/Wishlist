@@ -4,8 +4,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import telegrambot.entities.Gift;
 import telegrambot.service.commandBot.COMMANDS;
+import telegrambot.service.commandBot.receivers.utils.keyboard.Buttons;
 import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
-import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
 import java.util.ArrayList;
 import java.util.List;

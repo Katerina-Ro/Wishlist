@@ -56,22 +56,17 @@ public class InsertNameUserToDBCommand implements Command {
                 startCommand.getNewGiftOwner().setName(telegramUserService.getGiftOwner(chatIdUser)
                         .getName());
             }
-            // Проверяем строку на пустоту
             if (CheckingInputLinesUtil.checkEmptyString(update.getMessage().getText()) &&
                     CheckingInputLinesUtil.isLetters(update.getMessage().getText())) {
-                // Если строка введена корректно, то проверяем, нет ли такого же имени в БД
                 if (!telegramUserService.existNameUserInDB(inputName)) {
-                    // Если такого имени в БД нет, то заносим введенное имя пользователя в БД
                     telegramUserService.createNameGiftOwner(inputName, chatIdUser);
                     startCommand.getNewGiftOwner().setName(telegramUserService.getGiftOwner(chatIdUser)
                             .getName());
                     return SendMessageUtils.sendMessage(update,PREV_NAME_WISH, true);
                 } else {
-                    // Если такое имя есть, то просим подобрать другое имя
                     return messageErrorName(update);
                 }
             } else {
-                // Если поле имени пустое, то сообщаем об ошибке и просим внести корректно
                 return messageError(update);
             }
         } else {

@@ -40,7 +40,6 @@ public class InsertProductDescriptionToDBCommand implements Command {
     public SendMessage execute(Update update)  {
         String giftDescription = update.getMessage().getText();
         if(CheckingInputLinesUtil.checkEmptyString(giftDescription)) {
-            // вписываем описание в БД
             wishService.createDescriptionWish(giftDescription, insertNameGiftToDBCommand.getGift());
             String webLink = PREV_WEB_LINK;
             if (insertNameUserToDBCommand.getGiftFromDB() != null) {

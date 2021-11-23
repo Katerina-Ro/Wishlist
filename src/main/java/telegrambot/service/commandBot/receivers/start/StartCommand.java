@@ -11,7 +11,7 @@ import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
 import telegrambot.service.entityservice.TelegramUserService;
 import telegrambot.service.commandBot.Command;
-import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
+import telegrambot.service.commandBot.receivers.utils.keyboard.Buttons;
 
 /**
  * Стартовый класс для обработки сообщения {@link COMMANDS.START} - "/start" {@link Command}

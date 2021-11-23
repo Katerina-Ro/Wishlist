@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.BotCommandCallBackQueryEdit;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
-import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
+import telegrambot.service.commandBot.receivers.utils.keyboard.Buttons;
 
 /**
  * Класс-Receiver неизвестной команды {@link BotCommandCallBackQueryEdit} {@link CommandEditSendMessage}

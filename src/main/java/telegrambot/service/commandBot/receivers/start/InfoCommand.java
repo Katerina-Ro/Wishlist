@@ -6,8 +6,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import telegrambot.service.commandBot.COMMANDS;
 import telegrambot.service.commandBot.CommandEditSendMessage;
 import telegrambot.service.commandBot.receivers.utils.SendMessageUtils;
+import telegrambot.service.commandBot.receivers.utils.keyboard.Buttons;
 import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
-import telegrambot.service.commandBot.receivers.utils.keyboard.buttons.Buttons;
 
 /**
  * Класс-Receiver команды {@link COMMANDS.INFO} {@link CommandEditSendMessage}
@@ -33,7 +33,7 @@ public class InfoCommand implements CommandEditSendMessage {
 
     @Override
     public EditMessageText execute(Update update) {
-        return SendMessageUtils.sendEditMessage(update, INFO_MESSAGE,MakerInlineKeyboardMarkup.get2x1InlineKeyboardMarkup(Buttons
+        return SendMessageUtils.sendEditMessage(update, INFO_MESSAGE, MakerInlineKeyboardMarkup.get2x1InlineKeyboardMarkup(Buttons
                 .getKeyBoardButtonAddWish(), Buttons.getKeyBoardButtonGetWishList()));
     }
 }

@@ -1,9 +1,8 @@
-package telegrambot.service.commandBot.receivers.utils.keyboard.buttons;
+package telegrambot.service.commandBot.receivers.utils.keyboard;
 
 import lombok.Getter;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import telegrambot.service.commandBot.receivers.utils.keyboard.MakerInlineKeyboardMarkup;
 import telegrambot.service.commandBot.COMMANDS;
 
 @Getter

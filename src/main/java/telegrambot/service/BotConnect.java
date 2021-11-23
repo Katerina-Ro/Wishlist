@@ -42,10 +42,7 @@ public class BotConnect extends TelegramLongPollingBot {
         this.botCommandCallbackQueryEdit = botCommandCallbackQueryEdit;
         this.botCommandForceReply = botCommandForceReply;
     }
-    /*
-      Аннотация @SneakyThrows может быть использована для бросания проверяемых исключений без их объявления
-      в throws метода.
-    */
+
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
@@ -56,8 +53,7 @@ public class BotConnect extends TelegramLongPollingBot {
             } else if (update.getMessage().isReply() && !CommandCheckUtil.checkCommandReplyBackToMainMenu(update)) {
                 String commandIdentifier = update.getMessage().getReplyToMessage().getText();
                 if(FindingDataUtil.containLineBreak(commandIdentifier)) {
-                    commandIdentifier = FindingDataUtil.findLineByIncomingMessageByN(update.getMessage()
-                            .getReplyToMessage().getText());
+                    commandIdentifier = FindingDataUtil.findLineByIncomingMessageByN(update.getMessage().getReplyToMessage().getText());
                 } else {
                     commandIdentifier = update.getMessage().getReplyToMessage().getText();
                 }
